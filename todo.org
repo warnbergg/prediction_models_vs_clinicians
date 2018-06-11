@@ -1,0 +1,20 @@
+* Todos
+** TODO Add files for functions [0/1]                                 :todo1:
+   - [-] Functions for modelllng [80%]
+     - [X] RTS 
+     - [X] GAP
+     - [X] Gerdin et al.
+     - [X] KTS
+     - [ ] 
+** TODO Modify gcs paramter in functions for modelling [0%]           :todo2:
+   - [ ] model.rts function
+   - [ ] model.gap function
+   - [ ] model.gerdin function
+** TODO Modify cut points in binning process to account for 0:os [0%] :todo3:
+   - [ ] model.rts function
+** TODO Update function descriptions [0%]                             :todo4:
+   - [ ] Model functions
+** TODO Change levels of NSI and AVPU of model.KTS once appropriate   :todo5:
+** TODO Modify to numeric process to account for non-testable         :todo6:
+    - [ ] In playground
+* Issues
