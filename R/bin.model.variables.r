@@ -17,9 +17,12 @@ bin.model.variables <- function(
     ## Bin variables according to cut points
     binned_variables <- sapply(model_variables,
                                function (var){
-                                   cut(model_df[,var],
-                                       cut_points[[var]],
-                                       labels = levels[[var]])
+                                   cut_var <- cut(model_df[,var],
+                                                  cut_points[[var]],
+                                                  labels = levels[[var]],
+                                                  include.lowest = TRUE)
+                                   num_var <- as.numeric(cut_var)
+                                   return (num_var)
                                }
                                )
     return (binned_variables)

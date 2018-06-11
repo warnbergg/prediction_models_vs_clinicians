@@ -13,13 +13,19 @@ model.GAP <- function(
     ## Define cut points for binning
     cut_points <- list(age = c(0,60,Inf),
                        sbp = c(0,60,120, Inf))
+    ## Define scores of variables
+    scores <- list(age = c("3", "0"),
+                   sbp = c("0", "4", "6"))
     ## Bin model variables with bin.model.variables
     binned_variables <- bin.model.variables(study_data,
                                             model_variables,
-                                            cut_points)
+                                            cut_points,
+                                            scores)
     ## Sum binned_variables to generate gap score
     gap_predictions <- rowSums(cbind(binned_variables,
                                      study_data$gcs))
+    ## Add the predictions of GAP to results in mother function
+    results$GAP_predictions <<- gap_predictions
 
-    return (gap_predictions)
+    return(gap_predictions)
 }

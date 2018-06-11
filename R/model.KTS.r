@@ -7,23 +7,41 @@ model.KTS <- function(
                       study_data
                       )
 {
-    ## Define variables to be included in model. Bind avpu, and change values
-    ## to 1,2,3,4 later. Same with nsi, change value to 3,2,1
-    model_variables <- c("age",
-                         "sbp",
+    ## Define variables to be included in model. Same with
+    ## nsi, change value to 3,2,1. Age is excluded, due to
+    ## and binded later with duplicate factor labels.
+    model_variables <- c("sbp",
                          "rr")
     ## Define cut points for variables; bind avpu, and change values
     ## to 1,2,3,4 later. Same with nsi, change value to 3,2,1
-    cut_points <- list(age = c(0,5,55,Inf),
-                       sbp = c(0, 1, 49, 89, Inf),
+    cut_points <- list(sbp = c(0, 1, 49, 89, Inf),
                        rr = c(0,10, 29, Inf))
+    ## Define scores from bins
+    scores <- list(sbp = c(1,2,3,4),
+                   rr = c(1,3,2))
+    ## Get age from study_data
+    age <- study_data$age
+    ## Bin age
+    binned_age <- as.numeric(cut(age,
+                                 breaks = c(0,5,55,Inf)))
+    ## Asign labels to binned variables
+    age_var <- c(1,2,1)[binned_age]
+    ## Change levels of nsi to 3,2,1 to correspond to score
+    ## and coerce to numeric vector
+    levels(study_data$nsi) <- c("3", "2", "1")
+    study_data$nsi <- as.numeric(as.character(study_data$nsi))
+    ## Bin model variables
     binned_variables <- bin.model.variables(study_data,
                                             model_variables,
-                                            cut_points)
+                                            cut_points,
+                                            scores)
     ## Sum binned variables to generate score
     kts_predictions <- rowSums(cbind(binned_variables,
+                                     binned_age,
                                      study_data$avpu,
                                      study_data$nsi))
+    ## Add predictions to results in mother function
+    results$KTS_predictions <<- kts_predictions
 
     return(kts_predictions)
 }

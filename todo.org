@@ -1,20 +1,26 @@
 * Todos
-** TODO Add files for functions [0/1]                                 :todo1:
-   - [-] Functions for modelllng [80%]
+** TODO [#A] Add files for functions [2/3]                            :todo1:
+   - [X] Functions for modelllng [100%]
      - [X] RTS 
      - [X] GAP
      - [X] Gerdin et al.
      - [X] KTS
-     - [ ] 
-** TODO Modify gcs paramter in functions for modelling [0%]           :todo2:
+   - [X] Binning function
+   - [ ] Table1 function
+** DONE Modify gcs paramter in functions for modelling [100%]         :todo2:
+   - [X] model.rts function
+   - [X] model.gap function
+   - [X] model.gerdin function
+** TODO [#A] Modify cut points in binning process to account for 0:os [0%] :todo3:
    - [ ] model.rts function
-   - [ ] model.gap function
-   - [ ] model.gerdin function
-** TODO Modify cut points in binning process to account for 0:os [0%] :todo3:
-   - [ ] model.rts function
-** TODO Update function descriptions [0%]                             :todo4:
+** TODO [#C] Update function descriptions [0%]                        :todo4:
    - [ ] Model functions
-** TODO Change levels of NSI and AVPU of model.KTS once appropriate   :todo5:
-** TODO Modify to numeric process to account for non-testable         :todo6:
-    - [ ] In playground
+** TODO [#B] Change levels of NSI and AVPU of model.KTS once appropriate :todo5:
+** TODO [#B] Modify to numeric process to account for non-testable    :todo6:
+    - [ ] In playground in lapply around line 29
+** DONE Modify hard-code on line 32 regarding basis funcs             :todo7:
+** DONE Add NSI to data_dictionary;remove nsi-bind in playground      :todo8:
+** DONE Think about modelling structure :) (end-prod: preds and outcome) :todo9:
+** TODO [#A] Modify AUROCC and reclassification functions in SupaLarna :todo10:
 * Issues
+

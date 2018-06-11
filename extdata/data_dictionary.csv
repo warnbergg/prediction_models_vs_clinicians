@@ -23,3 +23,4 @@ s30d,All cause 30-day mortality,,qual,"0,1,2","""0 = No"", ""1 = Yes"", ""2 = Ye
 s24h,,,,,,,,,No
 ic,Informed consent,,qual,"0,1","""0 = No"", ""1 = Yes""",,,No,No
 hd,,,,,,,,,No
+nsi,Number of serious injuries,NSI,qual,"0,1,2","""0 = No serious injury"", ""1 = Single serious injury"", ""2 = Multiple serious injuries""",,,Yes,No

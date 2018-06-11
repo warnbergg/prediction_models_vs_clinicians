@@ -24,14 +24,19 @@ model.RTS <- function(
                           0.7326,
                           0.2908)
     ## Use bin.model.variables to group model variables into scores
-    binned_variables <- bin.model.variables(study_data,
-                                            model_variables,
-                                            cut_points,
-                                            scores)
+    binned_variables <- lapply(1:length(model_variables),
+                               function(col){
+                                   bin.model.variables(study_data,
+                                                       model_variables,
+                                                       cut_points,
+                                                       scores)[, col]
+                               }
+                               )
     ## Apply RTS coefficients to variables and sum rows to generate predictions
-    predictions <- rowSums(data.frame(mapply(`*`,
-                                             binned_variables,
-                                             RTS_coefficients)))
-
+    predictions <- rowSums(mapply('*',
+                                  binned_variables,
+                                  RTS_coefficients))
+    ## Add RTS predictions to mother function
+    results$RTS_predictions <<- predictions
     return (predictions)
 }
