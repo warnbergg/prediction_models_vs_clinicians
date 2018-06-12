@@ -17,11 +17,10 @@ model.KTS <- function(
     cut_points <- list(sbp = c(0, 1, 49, 89, Inf),
                        rr = c(0,10, 29, Inf))
     ## Define scores from bins
-    scores <- list(sbp = c(1,2,3,4),
-                   rr = c(1,3,2))
+    scores <- list(sbp = c("1","2","3","4"),
+                   rr = c("1","3","2"))
     ## Get age from study_data
     age <- study_data$age
-
     ## Bin age
     binned_age <- as.numeric(cut(age,
                                  breaks = c(0,5,55,Inf),
