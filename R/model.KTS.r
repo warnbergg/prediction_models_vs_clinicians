@@ -21,9 +21,11 @@ model.KTS <- function(
                    rr = c(1,3,2))
     ## Get age from study_data
     age <- study_data$age
+
     ## Bin age
     binned_age <- as.numeric(cut(age,
-                                 breaks = c(0,5,55,Inf)))
+                                 breaks = c(0,5,55,Inf),
+                                 include.lowest = TRUE))
     ## Asign labels to binned variables
     age_var <- c(1,2,1)[binned_age]
     ## Change levels of nsi to 3,2,1 to correspond to score
