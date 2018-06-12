@@ -21,7 +21,7 @@ bin.model.variables <- function(
                                                   cut_points[[var]],
                                                   labels = levels[[var]],
                                                   include.lowest = TRUE)
-                                   num_var <- as.numeric(cut_var)
+                                   num_var <- as.numeric(as.character(cut_var))
                                    return (num_var)
                                }
                                )
