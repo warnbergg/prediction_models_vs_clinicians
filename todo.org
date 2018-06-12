@@ -1,13 +1,15 @@
 * Todos
-** TODO [#A] Add files for functions [2/3]                            :todo1:
+** TODO [#A] Add files for functions [4/5]                            :todo1:
    - [X] Functions for modelllng [100%]
      - [X] RTS 
      - [X] GAP
      - [X] Gerdin et al.
      - [X] KTS
-   - [X] Binning function
+   - [X] Binning variables function
    - [ ] Table1 function
-** DONE Modify gcs paramter in functions for modelling [100%]         :todo2:
+   - [X] cc.and.omitted function
+   - [X] Binning models function (using cuts from gridsearch)
+** DONE Modify gcs parameter in functions for modelling [100%]        :todo2:
    - [X] model.rts function
    - [X] model.gap function
    - [X] model.gerdin function
@@ -22,5 +24,5 @@
 ** DONE Add NSI to data_dictionary;remove nsi-bind in playground      :todo8:
 ** DONE Think about modelling structure :) (end-prod: preds and outcome) :todo9:
 ** TODO [#A] Modify AUROCC and reclassification functions in SupaLarna :todo10:
+** TODO complete.dataset before collapsed moi?                       :todo11:
 * Issues
-
