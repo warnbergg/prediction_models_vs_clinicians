@@ -11,9 +11,6 @@ bin.models <- function(
                        by_seq = 1
                        )
 {
-    predictions
-    ## If predictions are non-integers, assign by_seq to 0.01. RTS?
-    #if (!isTRUE(all(predictions == floor(predictions)))) by_seq <- 0.01
     ## Grid search cutpoints for model predictions.
     ## Use max and min of predictions in as starting and
     ## end point in grid search.

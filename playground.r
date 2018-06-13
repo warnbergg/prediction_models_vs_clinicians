@@ -40,51 +40,15 @@ study_data <- SupaLarna::set.to.outcome(study_data)
 study_data <- SupaLarna::apply.exclusion.criteria(study_data)
 ## Collapse mechanism of injury
 study_data <- SupaLarna::collapse.moi(study_data)
-## Generate sample characterstics table
-## Define model names and characteristics list
+## Generate sample characterstics table (to be inserted)
+## Define model_names
 model_names <- c("RTS",
                  "GAP",
                  "KTS",
                  "gerdin")
-seqs <- c(1,2,3,4)
-setNames(as.list(seqs),
-         model_names)
+## Generate model predictions
+predictions <- generate.model.predictions(study_data,
+                                          model_names)
 
-models_funcs <- list(modelling_names = unlist(lapply(model_names,
-                                                     function(name) paste0("model.", name))),
-                     by_seqs = setNames(as.list(c(0.5, 1, 1, 0.01)),
-                                        model_names),
-                     analysis_list = unlist(lapply(c("AUROCC",
-                                                     "reclassification"),
-                                                   function(name)paste0("model.review.",
-                                                                        name))))
-str(models_funcs)
-## Generate model scores
-#preds <- lapply(setNames(models_funcs$modelling_names, nm = model_names),
-#                function(func_name)
-#                {
-#                    fun <- get(func_name)
-#                    fun(study_data)
-#                }
-#                )
-#outcome <- study_data$s30d; levels(outcome) <- c(0,1)
-### Bin model predictions
-#binned_preds <- lapply(setNames(model_names, nm = model_names),
-#                       function(model_name) bin.models(preds[[model_name]],
-#                                                       outcome,
-#                                                       models_funcs$by_seqs[[model_name]]))
-### Convert to numeric preds
-#num_preds <- lapply(binned_preds,
-#                    function(pred) {
-#                        levels(pred) <- c("1","2","3","4")
-#                        as.numeric(pred)
-#                    }
-#                    )
-## Add outcome and tc to preds list
-num_preds$s30d <- as.numeric(as.character(outcome))
-num_preds$tc <- as.numeric(study_data$tc)
-
-## Save binned preds to disk
-saveRDS(num_preds, "num_preds")
 
 
