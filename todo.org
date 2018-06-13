@@ -1,5 +1,5 @@
 * Todos
-** TODO [#A] Add files for functions [4/6]                            :todo1:
+** TODO [#A] Add files for functions [5/7]                            :todo1:
    - [X] Functions for modelllng [100%]
      - [X] RTS 
      - [X] GAP
@@ -9,13 +9,13 @@
    - [ ] Table1 function
    - [X] cc.and.omitted function
    - [X] Binning models function (using cuts from gridsearch)
-   - [ ] generate.predictions function
+   - [X] generate.predictions function
+   - [ ] Predictions on bootstrap samples
 ** DONE Modify gcs parameter in functions for modelling [100%]        :todo2:
    - [X] model.rts function
    - [X] model.gap function
    - [X] model.gerdin function
-** TODO [#A] Modify cut points in binning process to account for 0:os [0%] :todo3:
-   - [ ] model.rts function
+** DONE Modify cut points in binning process to account for 0:os      :todo3:
 ** TODO [#C] Update function descriptions                             :todo4:
 ** TODO [#B] Change levels of NSI and AVPU of model.KTS once appropriate :todo5:
 ** TODO [#B] Modify to numeric process to account for non-testable    :todo6:
@@ -23,7 +23,7 @@
 ** DONE Modify hard-code on line 32 regarding basis funcs             :todo7:
 ** DONE Add NSI to data_dictionary;remove nsi-bind in playground      :todo8:
 ** DONE Think about modelling structure :) (end-prod: preds and outcome) :todo9:
-** TODO [#A] Modify AUROCC and reclassification functions in SupaLarna :todo10:
+** DONE Modify AUROCC and reclassification functions in SupaLarna    :todo10:
 ** TODO [#C] complete.dataset before collapsed moi?                  :todo11:
 ** TODO [#B] Add exclusion criteria from alltien (month before)      :todo12:
 * Issues
