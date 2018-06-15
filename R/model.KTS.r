@@ -41,8 +41,6 @@ model.KTS <- function(
                                      binned_age,
                                      study_data$avpu,
                                      study_data$nsi))
-    ## Add predictions to results in mother function
-    results$KTS_predictions <<- kts_predictions
 
     return(kts_predictions)
 }

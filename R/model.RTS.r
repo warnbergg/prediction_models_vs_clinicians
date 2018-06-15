@@ -36,7 +36,6 @@ model.RTS <- function(
     predictions <- rowSums(mapply('*',
                                   binned_variables,
                                   RTS_coefficients))
-    ## Add RTS predictions to mother function
-    results$RTS_predictions <<- predictions
+
     return (predictions)
 }

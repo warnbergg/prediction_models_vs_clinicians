@@ -24,8 +24,6 @@ model.GAP <- function(
     ## Sum binned_variables to generate gap score
     gap_predictions <- rowSums(cbind(binned_variables,
                                      study_data$gcs))
-    ## Add the predictions of GAP to results in mother function
-    results$GAP_predictions <<- gap_predictions
 
     return(gap_predictions)
 }

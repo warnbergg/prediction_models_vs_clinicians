@@ -56,8 +56,6 @@ model.gerdin <- function(
     ## Use y-model as parameter in simple logit formula to generate
     ## predictions
     predictions <- 1/(1 + exp(-y_model))
-    ## Add to results in mother function
-    results$Gerdin_predictions <<- predictions
 
     return (predictions)
 }
