@@ -48,7 +48,16 @@ model_names <- c("RTS",
                  "gerdin")
 ## Generate model predictions
 predictions <- generate.model.predictions(study_data,
-                                          model_names)
-
-
-
+                                          model_names,
+                                          write_to_disk = TRUE,
+                                          gridsearch_parallel = TRUE)
+## Generate boostrap samples
+samples <- SupaLarna::generate.bootstrap.samples(study_data,
+                                                 bs_samples = 3)
+## Generate predictions on bootstrap samples
+bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(samples,
+                                                                   prediction_func = "generate.model.predictions",
+                                                                   parallel = TRUE,
+                                                                   log = TRUE,
+                                                                   boot = TRUE,
+                                                                   write_to_disk = TRUE)
