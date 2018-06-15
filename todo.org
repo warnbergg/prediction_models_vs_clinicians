@@ -1,5 +1,5 @@
 * Todos
-** TODO [#A] Add files for functions [5/7]                            :todo1:
+** TODO [#A] Add files for functions [6/7]                            :todo1:
    - [X] Functions for modelllng [100%]
      - [X] RTS 
      - [X] GAP
@@ -10,7 +10,7 @@
    - [X] cc.and.omitted function
    - [X] Binning models function (using cuts from gridsearch)
    - [X] generate.predictions function
-   - [ ] Predictions on bootstrap samples
+   - [X] Predictions on bootstrap samples
 ** DONE Modify gcs parameter in functions for modelling [100%]        :todo2:
    - [X] model.rts function
    - [X] model.gap function
@@ -26,6 +26,10 @@
 ** DONE Modify AUROCC and reclassification functions in SupaLarna    :todo10:
 ** TODO [#C] complete.dataset before collapsed moi?                  :todo11:
 ** TODO [#B] Add exclusion criteria from alltien (month before)      :todo12:
+** TODO [#B] Modify bin_variables to return cut_points               :todo13:
+** DONE Modify generate.model.predictions to include parallel        :todo14:
+** TODO [#C] Modify SupaLarnas bssamples predictions for parallel    :todo15:
+    - On line 60 - 61: Modify inclusion of functions
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** TODO Low AUROCC?                                                  :issue2:
