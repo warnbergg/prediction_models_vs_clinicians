@@ -4,11 +4,13 @@
 #' @param predictions A numeric vector of predicted probabilites. No default.
 #' @param outomes A numeric vector of 0 and 1. No default.
 #' @param by_seq Used for "by" parameter in seq. Defaults to 1.
+#' @param gridsearch_parallel Logical. If TRUE the gridsearch is performed in parallel. Defaults to FALSE.
 #' @export
 bin.models <- function(
                        predictions,
                        outcomes,
-                       by_seq = 1
+                       by_seq = 1,
+                       gridsearch_parallel = FALSE
                        )
 {
     ## Grid search cutpoints for model predictions.
@@ -16,6 +18,7 @@ bin.models <- function(
     ## end point in grid search.
     cut_points <- SupaLarna::gridsearch.breaks(predictions,
                                                outcomes = outcomes,
+                                               parallel = gridsearch_parallel,
                                                grid = seq(min(predictions),
                                                           max(predictions),
                                                           by_seq))
