@@ -47,18 +47,24 @@ generate.model.predictions <- function(
                                                            preds_list$by_seqs[[model_name]],
                                                            gridsearch_parallel = gridsearch_parallel))
     ## Convert to numeric preds
-    num_preds <- lapply(binned_preds,
-                        function(pred) {
-                            levels(pred) <- c("1","2","3","4")
-                            as.numeric(as.character(pred))
-                        }
-                        )
-    ## Bind outcome and tc to outcome
-    num_preds$outcome <- outcome
-    num_preds$tc <- as.numeric(study_data$tc)
+    binned_to_ints <- lapply(binned_preds,
+                             function(pred) {
+                                 levels(pred) <- c("1","2","3","4")
+                                 as.numeric(as.character(pred))
+                             }
+                             )
+    ## Define names of list elements for continous predictions
+    names(preds) <- unlist(lapply(model_names,
+                                  function(name) paste0(name, "_con")))
+    ## Define names list elements of binned_predictions
+    names(binned_to_ints) <- unlist(lapply(model_names,
+                                         function(name) paste0(name, "_binned")))
     ## Define pred_data
-    pred_data <- list(continous_predictions = preds,
-                      cut_predictions = num_preds)
+    pred_data <- c(preds,
+                   binned_to_ints)
+    ## Bind outcome and tc to pred_data
+    pred_data$outcome <- outcome
+    pred_data$tc <- as.numeric(study_data$tc)
     ## Define timestamp
     timestamp <- Sys.time()
     file_name <- ""
