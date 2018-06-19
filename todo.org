@@ -33,13 +33,13 @@
 ** TODO [#C] Touch-up SupaLarnas bssamples predictions for parallel  :todo15:
     - On line 60 - 61: Modify inclusion of functions
 ** DONE Modify SupaLarnas model.review.reclassification to ret all   :todo16:
-** TODO [#B] Modify SupaLarnas model.review function to include both :todo17:
+** DONE (removed) Modify SupaLarnas model.review function to include both :todo17:
 ** TODO [#C] Modify SupaLarnas generate.confidence.intervals         :todo18:
    - Adjust for model_names argument of length 1.
-** TODO [#B] Add parallel gridsearch to regular generate.predictions :todo19:
+** DONE Add parallel gridsearch to regular generate.predictions      :todo19:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** TODO Low AUROCC?                                                  :issue2:
-** TODO n_cores is missing in generate.predictions.bssamples         :issue3:
+** DONE n_cores is missing in generate.predictions.bssamples         :issue3:
     - Explanation? Added n_cores as function argument in bin.models?
 
