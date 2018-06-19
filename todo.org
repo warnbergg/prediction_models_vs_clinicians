@@ -37,6 +37,7 @@
 ** TODO [#C] Modify SupaLarnas generate.confidence.intervals         :todo18:
    - Adjust for model_names argument of length 1.
 ** DONE Add parallel gridsearch to regular generate.predictions      :todo19:
+** TODO [#C] Change sides of A and B in ROCR plots                   :todo20:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** TODO Low AUROCC?                                                  :issue2:
