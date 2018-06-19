@@ -79,14 +79,14 @@ analysis_lst$AUROCC <- lapply(binned_and_continous$names,
                                                  the_func = SupaLarna::model.review.AUROCC,
                                                  samples = bootstrap_predictions,
                                                  diffci_or_ci = "ci",
-                                                 outcome_name = "outcome"))
+                                                 outcome_name = "outcome_cut"))
 analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 predictions,
-                                                model_names = binned_and_continous$names$binned_models,
+                                                model_names = binned_and_continous$names$cut_models,
                                                 the_func = SupaLarna::model.review.reclassification,
                                                 samples = bootstrap_predictions,
                                                 diffci_or_ci = "ci",
-                                                outcome_name = "outcome"
+                                                outcome_name = "outcome_cut"
                                             )
 
 
