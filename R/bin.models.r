@@ -20,7 +20,7 @@ bin.models <- function(
     ## end point in grid search.
     cut_points <- SupaLarna::gridsearch.breaks(predictions,
                                                outcomes = outcomes,
-                                               parallel = gridsearch_parallel,,
+                                               parallel = gridsearch_parallel,
                                                n_cores = n_cores,
                                                grid = seq(min(predictions),
                                                           max(predictions),
