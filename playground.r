@@ -51,8 +51,7 @@ predictions <- generate.model.predictions(study_data,
                                           model_names,
                                           n_cores = 4,
                                           write_to_disk = TRUE,
-                                          gridsearch_parallel = TRUE,
-                                          )
+                                          gridsearch_parallel = TRUE)
 ## Generate boostrap samples
 samples <- SupaLarna::generate.bootstrap.samples(study_data,
                                                  bs_samples = 3)
@@ -66,7 +65,7 @@ bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(samples,
                                                                    write_to_disk = TRUE)
 ## Create list of names of binned and contionous predictions
 binned_and_continous <- list(names = list(cut_models = unlist(lapply(model_names,
-                                                                        paste0, "_cut")),
+                                                                     paste0, "_cut")),
                                           con_models = unlist(lapply(model_names,
                                                                      paste0, "_con"))))
 ## Intialize analysis list
@@ -76,7 +75,7 @@ analysis_lst$AUROCC <- lapply(binned_and_continous$names,
                                   SupaLarna::generate.confidence.intervals(
                                                  predictions,
                                                  model_names = names,
-                                                 the_func = SupaLarna::model.review.AUROCC,
+                                                 the_func =SupaLarna::model.review.AUROCC,
                                                  samples = bootstrap_predictions,
                                                  diffci_or_ci = "ci",
                                                  outcome_name = "outcome_cut"))
@@ -88,6 +87,23 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 diffci_or_ci = "ci",
                                                 outcome_name = "outcome_cut"
                                             )
-
-
-
+## Save plots to disk
+test_lst <- list(study_sample = predictions,
+                 split_var = "con",
+                 ROC_or_precrec = "ROC",
+                 device = "pdf",
+                 models = c(binned_and_continous$names$con_models,
+                            binned_and_continous$names$cut_models),
+                 pretty_names = c(binned_and_continous$names$con_models,
+                                  binned_and_continous$names$cut_models))
+## ROC-curves
+SupaLarna::create.ROCR.plots(study_sample = predictions,
+                             split_var = "con",
+                             ROC_or_precrec = "ROC",
+                             device = "pdf",
+                             models = c(binned_and_continous$names$con_models,
+                                        binned_and_continous$names$cut_models),
+                             pretty_names = c(binned_and_continous$names$con_models,
+                                              binned_and_continous$names$cut_models))
+## Precision/recall curves
+SupaLarna::create.ROCR.plots()
