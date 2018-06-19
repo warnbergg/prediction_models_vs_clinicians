@@ -49,6 +49,7 @@ model_names <- c("RTS",
 ## Generate model predictions
 predictions <- generate.model.predictions(study_data,
                                           model_names,
+                                          n_cores = 4,
                                           write_to_disk = TRUE,
                                           gridsearch_parallel = TRUE,
                                           )
@@ -63,34 +64,30 @@ bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(samples,
                                                                    log = TRUE,
                                                                    boot = TRUE,
                                                                    write_to_disk = TRUE)
-## Create analysis list
-analysis_lst <- list(funcs = c(SupaLarna::model.review.AUROCC,
-                               SupaLarna::model.review.reclassification),
-                     binned_names = unlist(lapply(model_names, paste0, "_binned")),
-                     con_names = unlist(lapply(model_names, paste0, "_con")))
-## Make analysis
-cis <- lapply(analysis_lst$funcs,
-              SupaLarna::generate.confidence.intervals(),
-              study_sample = predictions,
-              model_names = analysis_lst$binned_names,
-              samples = bootstrap_predictions,
-              diffci_or_ci = "ci",
-              outcome_name = "outcome"
-              )
-SupaLarna::generate.confidence.intervals(predictions,
-                                         model_names= c("GAP_binned",
-                                                        "RTS_binned"),
-                                         the_func = SupaLarna::model.review.AUROCC,
-                                         samples = bootstrap_predictions,
-                                         diffci_or_ci = "ci",
-                                         outcome_name = "outcome")
-generate.confidence.intervals(
-    study_sample = predictions,
-                              model_names= c("GAP_binned",
-                                             "RTS_binned"),
-                              the_func = SupaLarna::model.review.reclassification,
-                              samples = bootstrap_predictions,
-                              diffci_or_ci = "ci",
-                              outcome_name = "outcome"
+## Create list of names of binned and contionous predictions
+binned_and_continous <- list(names = list(cut_models = unlist(lapply(model_names,
+                                                                        paste0, "_cut")),
+                                          con_models = unlist(lapply(model_names,
+                                                                     paste0, "_con"))))
+## Intialize analysis list
+analysis_lst <- list()
+analysis_lst$AUROCC <- lapply(binned_and_continous$names,
+                              function(names)
+                                  SupaLarna::generate.confidence.intervals(
+                                                 predictions,
+                                                 model_names = names,
+                                                 the_func = SupaLarna::model.review.AUROCC,
+                                                 samples = bootstrap_predictions,
+                                                 diffci_or_ci = "ci",
+                                                 outcome_name = "outcome"))
+analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
+                                                predictions,
+                                                model_names = binned_and_continous$names$binned_models,
+                                                the_func = SupaLarna::model.review.reclassification,
+                                                samples = bootstrap_predictions,
+                                                diffci_or_ci = "ci",
+                                                outcome_name = "outcome"
+                                            )
+
 
 
