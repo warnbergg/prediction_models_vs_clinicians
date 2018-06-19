@@ -3,6 +3,7 @@
 #' This function bins model predictions and converts them from character labels to numeric labels.
 #' @param study_data The study data frame. No default
 #' @param model_names Character vector of names of models. Defaults to c("RTS","GAP","KTS","gerdin")
+#' @param n_cores Number of cores to be used in parallel gridsearch. Passed to bin.models (which, in turn, passes to SupaLarna::gridsearch.breaks). As integer. Defaults to 2 (in gridsearch.breaks)
 #' @param log Logical. If TRUE progress is logged in logfile. Defaults to FALSE.
 #' @param boot Logical. Affects only what is printed to logfile. If TRUE prepped_sample is assumed to be a bootstrap sample. Defaults to FALSE.
 #' @param write_to_disk Logical. If TRUE the prediction data is saved as RDS to disk. Defaults to FALSE.
@@ -15,6 +16,7 @@ generate.model.predictions <- function(
                                                        "GAP",
                                                        "KTS",
                                                        "gerdin"),
+                                       n_cores,
                                        log = FALSE,
                                        boot = FALSE,
                                        write_to_disk = FALSE,
@@ -45,6 +47,7 @@ generate.model.predictions <- function(
                            function(model_name) bin.models(preds[[model_name]],
                                                            outcome,
                                                            preds_list$by_seqs[[model_name]],
+                                                           n_cores = n_cores,
                                                            gridsearch_parallel = gridsearch_parallel))
     ## Convert to numeric preds
     binned_to_ints <- lapply(binned_preds,
@@ -58,12 +61,13 @@ generate.model.predictions <- function(
                                   function(name) paste0(name, "_con")))
     ## Define names list elements of binned_predictions
     names(binned_to_ints) <- unlist(lapply(model_names,
-                                         function(name) paste0(name, "_binned")))
+                                         function(name) paste0(name, "_cut")))
     ## Define pred_data
     pred_data <- c(preds,
                    binned_to_ints)
-    ## Bind outcome and tc to pred_data
-    pred_data$outcome <- outcome
+    ## Bind outcome_cut and outcome_con (for plots) as well as tc to pred_data
+    pred_data$outcome_cut <- outcome
+    pred_data$outcome_con <- outcome
     pred_data$tc <- as.numeric(study_data$tc)
     ## Define timestamp
     timestamp <- Sys.time()
