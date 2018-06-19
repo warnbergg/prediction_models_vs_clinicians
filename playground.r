@@ -106,4 +106,11 @@ SupaLarna::create.ROCR.plots(study_sample = predictions,
                              pretty_names = c(binned_and_continous$names$con_models,
                                               binned_and_continous$names$cut_models))
 ## Precision/recall curves
-SupaLarna::create.ROCR.plots()
+SupaLarna::create.ROCR.plots(study_sample = predictions,
+                             split_var = "con",
+                             ROC_or_precrec = "ROC",
+                             device = "pdf",
+                             models = c(binned_and_continous$names$con_models,
+                                        binned_and_continous$names$cut_models),
+                             pretty_names = c(binned_and_continous$names$con_models,
+                                              binned_and_continous$names$cut_models))
