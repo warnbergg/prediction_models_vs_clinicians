@@ -20,7 +20,9 @@
 ** TODO [#B] Change levels of NSI and AVPU of model.KTS once appropriate :todo5:
 ** TODO [#B] Modify to numeric process to account for non-testable    :todo6:
     - [ ] In playground in lapply around line 29
-** DONE Modify hard-code on line 32 regarding basis funcs             :todo7:
+** TODO [#C] Modify hard-code [1/2]                                   :todo7:
+    - [X] line 32, model.gerdin: regarding basis funcs
+    - [ ] line 69, generate.model.predicitons: regarding outcome
 ** DONE Add NSI to data_dictionary;remove nsi-bind in playground      :todo8:
 ** DONE Think about modelling structure :) (end-prod: preds and outcome) :todo9:
 ** DONE Modify AUROCC and reclassification functions in SupaLarna    :todo10:
@@ -34,6 +36,10 @@
 ** TODO [#B] Modify SupaLarnas model.review function to include both :todo17:
 ** TODO [#C] Modify SupaLarnas generate.confidence.intervals         :todo18:
    - Adjust for model_names argument of length 1.
+** TODO [#B] Add parallel gridsearch to regular generate.predictions :todo19:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** TODO Low AUROCC?                                                  :issue2:
+** TODO n_cores is missing in generate.predictions.bssamples         :issue3:
+    - Explanation? Added n_cores as function argument in bin.models?
+
