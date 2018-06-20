@@ -38,9 +38,13 @@
    - Adjust for model_names argument of length 1.
 ** DONE Add parallel gridsearch to regular generate.predictions      :todo19:
 ** TODO [#C] Change sides of A and B in ROCR plots                   :todo20:
+** TODO min, max regarding predictions on gridsearch?                :todo21:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
-** TODO Low AUROCC?                                                  :issue2:
+** DONE Low AUROCC?                                                  :issue2:
+    - Explanation: Gives cut_points based on max, when AUROCC is 
+      inverted. Should give min, or flip predictions in the first
+      place. 
 ** DONE n_cores is missing in generate.predictions.bssamples         :issue3:
     - Explanation? Added n_cores as function argument in bin.models?
 
