@@ -22,9 +22,7 @@ bin.models <- function(
                                                outcomes = outcomes,
                                                parallel = gridsearch_parallel,
                                                n_cores = n_cores,
-                                               grid = seq(min(predictions),
-                                                          max(predictions),
-                                                          by_seq))
+                                               sample = TRUE)
     ## Define labels for binning
     labels <- c("Green",
                 "Yellow",
@@ -37,5 +35,4 @@ bin.models <- function(
                               include.lowest = TRUE)
 
     return (binned_predictions)
-
 }
