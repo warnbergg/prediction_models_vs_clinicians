@@ -21,9 +21,9 @@ model.GAP <- function(
                                             model_variables,
                                             cut_points,
                                             scores)
-    ## Sum binned_variables to generate gap score
-    gap_predictions <- rowSums(cbind(binned_variables,
-                                     study_data$gcs))
+    ## Sum binned_variables to generate gap score. Then, invert.
+    gap_predictions <- 1/rowSums(cbind(binned_variables,
+                                       study_data$gcs))
 
     return(gap_predictions)
 }
