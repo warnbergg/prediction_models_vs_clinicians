@@ -29,6 +29,8 @@
 ** TODO [#C] complete.dataset before collapsed moi?                  :todo11:
 ** DONE Add exclusion criteria from alltien (month before)           :todo12:
 ** TODO [#B] Modify bin_variables to return cut_points               :todo13:
+   - bin.models not finding parent list in generate.predictions
+     Gridsearch problem?
 ** DONE Modify generate.model.predictions to include parallel        :todo14:
 ** TODO [#C] Touch-up SupaLarnas bssamples predictions for parallel  :todo15:
     - On line 60 - 61: Modify inclusion of functions

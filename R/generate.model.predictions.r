@@ -42,6 +42,7 @@ generate.model.predictions <- function(
     outcome <- study_data$s30d; levels(outcome) <- c("0","1")
     outcome <- as.numeric(as.character(outcome))
     ## Bin model predictions
+    ## Initialize results list for playground
     binned_preds <- lapply(setNames(model_names, nm = model_names),
                            function(model_name) bin.models(preds[[model_name]],
                                                            outcomes = outcome,
