@@ -17,7 +17,7 @@
    - [X] model.gerdin function
 ** DONE Modify cut points in binning process to account for 0:os      :todo3:
 ** TODO [#C] Update function descriptions                             :todo4:
-** TODO [#B] Change levels of NSI and AVPU of model.KTS once appropriate :todo5:
+** DONE Change levels of NSI and AVPU of model.KTS once appropriate   :todo5:
 ** DONE Modify to numeric process to account for non-testable         :todo6:
     - [ ] In playground in lapply around line 29
 ** DONE Modify hard-code [2/2]                                        :todo7:
