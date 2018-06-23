@@ -41,7 +41,7 @@
 ** DONE Add parallel gridsearch to regular generate.predictions      :todo19:
 ** DONE Change sides of A and B in ROCR plots (fixed itself)         :todo20:
 ** DONE min, max regarding predictions on gridsearch?                :todo21:
-** TODO [#C] Fix structure with differenct outcomes in predicions    :todo22:
+** DONE Fix structure with differenct outcomes in predicions         :todo22:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** DONE Low AUROCC?                                                  :issue2:
