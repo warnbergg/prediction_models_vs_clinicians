@@ -27,7 +27,7 @@
 ** DONE Think about modelling structure :) (end-prod: preds and outcome) :todo9:
 ** DONE Modify AUROCC and reclassification functions in SupaLarna    :todo10:
 ** TODO [#C] complete.dataset before collapsed moi?                  :todo11:
-** TODO [#B] Add exclusion criteria from alltien (month before)      :todo12:
+** DONE Add exclusion criteria from alltien (month before)           :todo12:
 ** TODO [#B] Modify bin_variables to return cut_points               :todo13:
 ** DONE Modify generate.model.predictions to include parallel        :todo14:
 ** TODO [#C] Touch-up SupaLarnas bssamples predictions for parallel  :todo15:
