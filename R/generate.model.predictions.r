@@ -65,8 +65,7 @@ generate.model.predictions <- function(
     pred_data <- c(preds,
                    binned_to_ints)
     ## Bind outcome_cut and outcome_con (for plots) as well as tc to pred_data
-    pred_data$outcome_cut <- outcome
-    pred_data$outcome_con <- outcome
+    pred_data$outcome <- outcome
     pred_data$tc <- as.numeric(study_data$tc)
     ## Define timestamp
     timestamp <- Sys.time()

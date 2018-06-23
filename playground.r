@@ -34,7 +34,7 @@ study_data[, factors_to_numeric] <- lapply(study_data[, factors_to_numeric],
                                             function(comp) as.numeric(comp))
 ## Collapse gcs
 study_data$gcs <- with(study_data, egcs + mgcs + vgcs)
-p## ## Set patients to dead if dead at discharge or at 24 hours
+## ## Set patients to dead if dead at discharge or at 24 hours
 ## and alive if coded alive and admitted to other hospital
 study_data <- SupaLarna::set.to.outcome(study_data)
 ## Exclude those with missing data in outcome and triage category
@@ -78,7 +78,7 @@ analysis_lst$AUROCC <- SupaLarna::generate.confidence.intervals(
                                       the_func = SupaLarna::model.review.AUROCC,
                                       samples = bootstrap_predictions,
                                       diffci_or_ci = "ci",
-                                      outcome_name = "outcome_cut")
+                                      outcome_name = "outcome")
 analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 predictions,
                                                 model_names = grep("_cut",
@@ -87,12 +87,13 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 the_func = SupaLarna::model.review.reclassification,
                                                 samples = bootstrap_predictions,
                                                 diffci_or_ci = "ci",
-                                                outcome_name = "outcome_cut"
-                                            )
+                                                outcome_name = "outcome")
 ## Save plots to disk
 ## ROC-curves
 SupaLarna::create.ROCR.plots(study_sample = predictions,
+                             outcome_name = "outcome",
                              split_var = "con",
+                             train_test = FALSE,
                              ROC_or_precrec = "ROC",
                              device = "pdf",
                              models = models_w_suffixes,
