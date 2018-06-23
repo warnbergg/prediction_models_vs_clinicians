@@ -3,14 +3,13 @@
 #' This function bins model predictions using SupaLarnas gridsearch.breaks function.
 #' @param predictions A numeric vector of predicted probabilites. No default.
 #' @param outomes A numeric vector of 0 and 1. No default.
-#' @param by_seq Used for "by" parameter in seq. Defaults to 1.
+#' @param grid All values to be combnd in gridsearch.breaks, i.e. used to find optimal cutpoints. No default.
 #' @param n_cores Number of cores to be used in parallel gridsearch. Passed to SupaLarna::gridsearch.breaks. As integer. Defaults to 2 (in gridsearch.breaks)
 #' @param gridsearch_parallel Logical. If TRUE the gridsearch is performed in parallel. Defaults to FALSE.
 #' @export
 bin.models <- function(
                        predictions,
                        outcomes,
-                       by_seq = 1,
                        n_cores,
                        gridsearch_parallel = FALSE
                        )
@@ -19,6 +18,9 @@ bin.models <- function(
     ## Use max and min of predictions in as starting and
     ## end point in grid search.
     cut_points <- SupaLarna::gridsearch.breaks(predictions,
+                                               grid = seq(min(predictions),
+                                                          max(predictions),
+                                                          0.01),
                                                outcomes = outcomes,
                                                parallel = gridsearch_parallel,
                                                n_cores = n_cores,

@@ -56,61 +56,51 @@ predictions <- generate.model.predictions(study_data,
 samples <- SupaLarna::generate.bootstrap.samples(study_data,
                                                  bs_samples = 3)
 ## Generate predictions on bootstrap samples
-bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(samples,
-                                                                   prediction_func = "generate.model.predictions",
-                                                                   parallel = TRUE,
-                                                                   n_cores = 4,
-                                                                   log = TRUE,
-                                                                   boot = TRUE,
-                                                                   write_to_disk = TRUE)
-## Create list of names of binned and contionous predictions
-binned_and_continous <- list(names = list(cut_models = unlist(lapply(model_names,
-                                                                     paste0, "_cut")),
-                                          con_models = unlist(lapply(model_names,
-                                                                     paste0, "_con"))))
+bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(
+                                        samples,
+                                        prediction_func = "generate.model.predictions",
+                                        parallel = TRUE,
+                                        n_cores = 4,
+                                        log = TRUE,
+                                        boot = TRUE,
+                                        write_to_disk = TRUE)
+## Define names of models
+suffixes <- c("_cut", "_con")
+models_w_suffixes <- unlist(lapply(suffixes,
+                                   function(suffix) paste0(model_names, suffix)))
 ## Intialize analysis list
 analysis_lst <- list()
-analysis_lst$AUROCC <- lapply(binned_and_continous$names,
-                              function(names)
+analysis_lst$AUROCC <- lapply(models_w_suffixes,
+                              function (lsts)
                                   SupaLarna::generate.confidence.intervals(
                                                  predictions,
-                                                 model_names = names,
-                                                 the_func =SupaLarna::model.review.AUROCC,
+                                                 model_names = models_w_suffixes,
+                                                 the_func = SupaLarna::model.review.AUROCC,
                                                  samples = bootstrap_predictions,
                                                  diffci_or_ci = "ci",
                                                  outcome_name = "outcome_cut"))
 analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 predictions,
-                                                model_names = binned_and_continous$names$cut_models,
+                                                model_names = grep("_cut",
+                                                                   models_w_suffixes,
+                                                                   value = TRUE),
                                                 the_func = SupaLarna::model.review.reclassification,
                                                 samples = bootstrap_predictions,
                                                 diffci_or_ci = "ci",
                                                 outcome_name = "outcome_cut"
                                             )
 ## Save plots to disk
-test_lst <- list(study_sample = predictions,
-                 split_var = "con",
-                 ROC_or_precrec = "ROC",
-                 device = "pdf",
-                 models = c(binned_and_continous$names$con_models,
-                            binned_and_continous$names$cut_models),
-                 pretty_names = c(binned_and_continous$names$con_models,
-                                  binned_and_continous$names$cut_models))
 ## ROC-curves
 SupaLarna::create.ROCR.plots(study_sample = predictions,
                              split_var = "con",
                              ROC_or_precrec = "ROC",
                              device = "pdf",
-                             models = c(binned_and_continous$names$con_models,
-                                        binned_and_continous$names$cut_models),
-                             pretty_names = c(binned_and_continous$names$con_models,
-                                              binned_and_continous$names$cut_models))
+                             models = models_w_suffixes,
+                             pretty_names = models_w_suffixes)
 ## Precision/recall curves
 SupaLarna::create.ROCR.plots(study_sample = predictions,
                              split_var = "con",
-                             ROC_or_precrec = "ROC",
+                             ROC_or_precrec = "prec_rec",
                              device = "pdf",
-                             models = c(binned_and_continous$names$con_models,
-                                        binned_and_continous$names$cut_models),
-                             pretty_names = c(binned_and_continous$names$con_models,
-                                              binned_and_continous$names$cut_models))
+                             models = models_w_suffixes,
+                             pretty_names = models_w_suffixes)

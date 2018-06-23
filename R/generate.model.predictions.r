@@ -29,8 +29,7 @@ generate.model.predictions <- function(
     ## List modelling functions names and the spacing used in grid search
     preds_list <- list(modelling_names = unlist(lapply(model_names,
                                                        function(name) paste0("model.",
-                                                                             name))),
-                       by_seqs = setNames(as.list(c(0.5, 1, 1, 0.01)), model_names))
+                                                                             name))))
     ## Generate predictions with models
     preds <- lapply(setNames(preds_list$modelling_names, nm = model_names),
                     function(func_name)
@@ -45,8 +44,7 @@ generate.model.predictions <- function(
     ## Bin model predictions
     binned_preds <- lapply(setNames(model_names, nm = model_names),
                            function(model_name) bin.models(preds[[model_name]],
-                                                           outcome,
-                                                           preds_list$by_seqs[[model_name]],
+                                                           outcomes = outcome,
                                                            n_cores = n_cores,
                                                            gridsearch_parallel = gridsearch_parallel))
     ## Convert to numeric preds
