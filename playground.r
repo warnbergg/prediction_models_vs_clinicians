@@ -100,7 +100,9 @@ SupaLarna::create.ROCR.plots(study_sample = predictions,
                              pretty_names = models_w_suffixes)
 ## Precision/recall curves
 SupaLarna::create.ROCR.plots(study_sample = predictions,
+                             outcome_name = "outcome",
                              split_var = "con",
+                             train_test = FALSE,
                              ROC_or_precrec = "prec_rec",
                              device = "pdf",
                              models = models_w_suffixes,
