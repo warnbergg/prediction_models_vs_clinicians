@@ -8,7 +8,7 @@ model.KTS <- function(
                       )
 {
     ## Define variables to be included in model. Same with
-    ## nsi, change value to 3,2,1. Age is excluded, due to
+    ## nsi, change value to 3,2,1. Age is excluded
     ## and binded later with duplicate factor labels.
     model_variables <- c("sbp",
                          "rr")
