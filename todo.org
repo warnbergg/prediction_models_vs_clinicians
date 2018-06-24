@@ -26,7 +26,7 @@
 ** DONE Add NSI to data_dictionary;remove nsi-bind in playground      :todo8:
 ** DONE Think about modelling structure :) (end-prod: preds and outcome) :todo9:
 ** DONE Modify AUROCC and reclassification functions in SupaLarna    :todo10:
-** TODO [#C] complete.dataset before collapsed moi?                  :todo11:
+** DONE Set.data before collapsed moi?                               :todo11:
 ** DONE Add exclusion criteria from alltien (month before)           :todo12:
 ** TODO [#B] Modify bin_variables to return cut_points               :todo13:
    - bin.models not finding parent list in generate.predictions
