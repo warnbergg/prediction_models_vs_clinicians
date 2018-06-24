@@ -36,7 +36,7 @@
     - On line 60 - 61: Modify inclusion of functions
 ** DONE Modify SupaLarnas model.review.reclassification to ret all   :todo16:
 ** DONE (removed) Modify SupaLarnas model.review function to include both :todo17:
-** TODO [#C] Modify SupaLarnas generate.confidence.intervals         :todo18:
+** DONE Modify SupaLarnas generate.confidence.intervals              :todo18:
    - Adjust for model_names argument of length 1.
 ** DONE Add parallel gridsearch to regular generate.predictions      :todo19:
 ** DONE Change sides of A and B in ROCR plots (fixed itself)         :todo20:
