@@ -42,6 +42,7 @@
 ** DONE Change sides of A and B in ROCR plots (fixed itself)         :todo20:
 ** DONE min, max regarding predictions on gridsearch?                :todo21:
 ** DONE Fix structure with differenct outcomes in predicions         :todo22:
+** TODO [#B] Add dataset with all in set.data (for tbl one)          :todo23:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** DONE Low AUROCC?                                                  :issue2:
