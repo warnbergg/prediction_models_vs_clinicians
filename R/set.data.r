@@ -22,6 +22,8 @@ set.data <- function(
     date <- study_data[cc, ]$doar[200]
     ## identify complete cases
     cc_df <- study_data[cc & study_data$doar <= date, ]
+    ## and all cases
+    all <- study_data[study_data$doar <= date, ]
     ## Count number of patients omitted
     omitted <- nrow(study_data[study_data$doar <= date, ]) - nrow(cc_df)
     ## Add number of omitted and subjects in dataset to results
@@ -29,5 +31,6 @@ set.data <- function(
     results$n_dataset <<- nrow(study_data)
     results$n_after_omit <<- nrow(cc_df)
 
-    return (cc_df)
+    return (list(cc_df = cc_df,
+                 all = all))
 }
