@@ -1,12 +1,12 @@
 * Todos
-** TODO [#A] Add files for functions [6/7]                            :todo1:
+** TODO [#A] Add files for functions [7/7]                            :todo1:
    - [X] Functions for modelllng [100%]
      - [X] RTS 
      - [X] GAP
      - [X] Gerdin et al.
      - [X] KTS
    - [X] Binning variables function
-   - [ ] Table1 function
+   - [X] Table1 function
    - [X] cc.and.omitted function
    - [X] Binning models function (using cuts from gridsearch)
    - [X] generate.predictions function
@@ -42,7 +42,8 @@
 ** DONE Change sides of A and B in ROCR plots (fixed itself)         :todo20:
 ** DONE min, max regarding predictions on gridsearch?                :todo21:
 ** DONE Fix structure with differenct outcomes in predicions         :todo22:
-** TODO [#B] Add dataset with all in set.data (for tbl one)          :todo23:
+** DONE Add dataset with all in set.data (for tbl one)               :todo23:
+** TODO [#B] Check set.data and apply.exclusion purposes             :todo24:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** DONE Low AUROCC?                                                  :issue2:
@@ -51,4 +52,4 @@
       place. 
 ** DONE n_cores is missing in generate.predictions.bssamples         :issue3:
     - Explanation? Added n_cores as function argument in bin.models?
-
+** TODO tbl one not generating as expected from tex                  :issue4:
