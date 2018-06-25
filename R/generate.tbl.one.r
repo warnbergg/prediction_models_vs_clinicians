@@ -6,8 +6,8 @@
 #' @param digits Integer. Determining number of decimals when rounded. Defaults to 2.
 #' @param save Logical. Whether to write the table as latex. Defaults to TRUE.
 #' @export
-generate.tbl.one.r <- function(all, data_dictionary,
-                               digits = 2, save = TRUE){
+generate.tbl.one <- function(all, data_dictionary,
+                             digits = 2, save = TRUE){
     ## Setup tbl one with
     ## SupaLarnas create.table.of.sample.characteristics
     tables <- SupaLarna::create.table.of.sample.characteristics(all,
