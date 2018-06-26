@@ -35,13 +35,10 @@ study_data$gcs <- with(study_data, egcs + mgcs + vgcs)
 study_data <- SupaLarna::set.to.outcome(study_data)
 ## Collapse mechanism of injury
 study_data <- SupaLarna::collapse.moi(study_data)
-## Exclude those with missing data in outcome and triage category
-## as well as those who did not provide consent to inclusion
-study_data <- SupaLarna::apply.exclusion.criteria(study_data)
 ## Set study_data, i.e. remove patients arriving prior to one month
 ## before the dataset were created, remove patients before 2016-07-28
 ## when hospital collected tc. Also, complete dataset for analysis and
-## "all" tbl for tbl one
+## "all" tbl for tbl one.
 cc_and_all <- set.data(study_data)
 all <- cc_and_all$all
 study_data <- cc_and_all$cc
