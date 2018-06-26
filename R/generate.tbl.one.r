@@ -77,11 +77,23 @@ generate.tbl.one <- function(all, data_dictionary,
                                                            caption = "\\bf Sample characteristics.",
                                                            label = "tab:sample-characteristics"),
                                             type = "latex",
+                                            booktabs = TRUE,
                                             table.placement = "!ht",
                                             include.rownames = FALSE,
                                             include.colnames = TRUE,
                                             caption.placement = "top",
                                             print.results = FALSE)
+    ## Insert tabular and adjustbox
+    formatted_table <- sub("\\begin{tabular}",
+                           paste0("\\begin{adjustbox}{max width=\\linewidth} \n",
+                                  "\\begin{tabular} \n"),
+                           formatted_table,
+                           fixed = TRUE)
+    formatted_table <- sub("\\end{tabular}",
+                           paste0("\\end{tabular} \n",
+                                  "\\end{adjustbox}"),
+                           formatted_table,
+                           fixed = TRUE)
     ## New tables list
     tables <- list(raw = tables$raw,
                    formatted_table)

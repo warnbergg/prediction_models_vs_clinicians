@@ -50,12 +50,16 @@ model_names <- c("RTS",
                  "GAP",
                  "KTS",
                  "gerdin")
+##Initialize cut_points_lst
+results$cut_points_lst <- list()
 ## Generate model predictions
 predictions <- generate.model.predictions(study_data,
                                           model_names,
                                           n_cores = 4,
                                           write_to_disk = TRUE,
                                           gridsearch_parallel = TRUE)
+## Rename cut_points according to model_names
+names(results$cut_points_lst) <- model_names
 ## Generate boostrap samples
 samples <- SupaLarna::generate.bootstrap.samples(study_data,
                                                  bs_samples = 3)

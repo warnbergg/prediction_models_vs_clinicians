@@ -52,4 +52,4 @@
       place. 
 ** DONE n_cores is missing in generate.predictions.bssamples         :issue3:
     - Explanation? Added n_cores as function argument in bin.models?
-** TODO tbl one not generating as expected from tex                  :issue4:
+** DONE tbl one not generating as expected from tex                  :issue4:
