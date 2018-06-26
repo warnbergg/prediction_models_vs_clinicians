@@ -44,6 +44,8 @@
 ** DONE Fix structure with differenct outcomes in predicions         :todo22:
 ** DONE Add dataset with all in set.data (for tbl one)               :todo23:
 ** DONE Check set.data and apply.exclusion purposes                  :todo24:
+** TODO [#A] Manuscript                                              :todo25:
+asa
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** DONE Low AUROCC?                                                  :issue2:
