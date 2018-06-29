@@ -45,7 +45,17 @@
 ** DONE Add dataset with all in set.data (for tbl one)               :todo23:
 ** DONE Check set.data and apply.exclusion purposes                  :todo24:
 ** TODO [#A] Manuscript                                              :todo25:
-asa
+   - [ ] Intro 
+   - [ ] Methods
+     - [ ] Updating with precision/recall
+   - [ ] Results
+     - [ ] Including graphics and tables
+       - [ ] table1
+       - [ ] Precision/recall
+       - [ ] ROC
+       - [ ] Reclass
+   - [ ] Discussion
+** TODO [#B] Change colnames of analysis in SupaLarnas AUROCC gen    :todo26:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** DONE Low AUROCC?                                                  :issue2:
