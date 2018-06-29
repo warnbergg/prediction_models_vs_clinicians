@@ -25,6 +25,11 @@ set.data <- function(
     gcs_components <- c("egcs", "mgcs", "vgcs")
     ## replace non testable (99) in gcs with 1 instead 99
     study_data[, gcs_components][study_data[, gcs_components] == 99] <- 1
+    ## Coerce s30d of data to numeric
+    levels(study_data$s30d) <- c(0,1)
+    study_data$s30d <- as.numeric(as.character(study_data$s30d))
+    ## Order dataset copy according to data of arrival and s30d
+    study_data <- study_data[order(-study_data$s30d, study_data$doar), ]
     ## find the date when 200 had died
     cc <- complete.cases(study_data)
     date <- study_data[cc, ]$doar[200]
@@ -32,6 +37,8 @@ set.data <- function(
     cc_df <- study_data[cc & study_data$doar <= date, ]
     ## and all cases
     all <- study_data[study_data$doar <= date, ]
+    ## Refactor s30d for all
+    all$s30d <- factor(all$s30d)
     ## Add number of patients after cc to results
     results$n_after_exclusion <<- nrow(cc_df)
 

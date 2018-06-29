@@ -41,8 +41,7 @@ generate.model.predictions <- function(
                     }
                     )
     ## Extract outcome from study_data; Then, coerce to numeric
-    outcome <- study_data$s30d; levels(outcome) <- c("0","1")
-    outcome <- as.numeric(as.character(outcome))
+    outcome <- study_data$s30d
     ## Bin model predictions
     binned_preds <- lapply(setNames(model_names, nm = model_names),
                            function(model_name) bin.models(preds[[model_name]],
