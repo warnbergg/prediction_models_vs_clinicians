@@ -94,6 +94,10 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 samples = bootstrap_predictions,
                                                 diffci_or_ci = "ci",
                                                 outcome_name = "outcome")
+## Append analysis_lst to results
+results$Analysis <- analysis_lst
+## Save results to disk
+saveRDS(results, file = "results.rds")
 ## Save plots to disk
 ## ROC-curves
 SupaLarna::create.ROCR.plots(study_sample = predictions,
