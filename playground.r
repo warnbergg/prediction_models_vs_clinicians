@@ -44,6 +44,8 @@ all <- cc_and_all$all
 study_data <- cc_and_all$cc
 ## Generate table of sample characteristics
 tables <- generate.tbl.one(all, data_dictionary)
+## Append tables to results
+results$tables <- tables
 ## Generate sample characterstics table (to be inserted)
 ## Define model_names
 model_names <- c("RTS",
