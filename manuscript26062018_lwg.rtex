@@ -1,0 +1,336 @@
+% * Preamble
+% ** Document settings
+\documentclass{article}
+% ** Packages
+% load packages
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{graphics}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+\usepackage{stfloats}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{notoccite}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+\usepackage{pdfpages}
+\captionsetup[table]{skip=10pt}
+% Insert text fill colour for review reading
+\newcommand{\nt}[1]{\textcolor{red}{#1}}
+% ** R code
+%% begin.rcode, echo = FALSE
+% results <- readRDS("results.rds")
+%% end.rcode
+% * Manuscript
+% ** Title
+\begin{document}
+
+\title{Can prediction models triage adult trauma patients more
+  accurately than clinicians?}
+\maketitle
+% ** Introduction
+\newpage
+\section{Introduction}
+  
+Trauma, defined as external injury in combination with the body's response, is a
+major threat to population health globally. Today, about 4.5 million
+people die because of trauma each year - a number that exceeds the total number
+of yearly deaths from HIV/AIDS, malaria and tuberculosis combined
+\cite{Abajobir2017}, calling for more research on what works and does not work in trauma
+care. 
+
+Trauma care is highly time sensitive and early identification of potentially
+fatal injuries and conditions are crucial for survival
+\cite{Kondo2011,Fitzgeral2015}. Therefore triage is a key component of
+trauma care, and is here defined as the process of assigning different patients
+different levels of urgency for treatment and investigations.
+
+Many different trauma triage methods exist but can be broadly categorised into
+triage conducted by clinicians based on patients' clinical gestalt and triage
+conducted according to a priori determined criteria, regardless of whether it is
+performed by clinicians or non-clinicians. The latter system may be partly or
+fully based on so called prediction models.
+
+In this context, a prediction model can be defined as an algorithm that allows
+estimation of an individual patient's risk of a specific outcome, for example
+mortality \cite{Collins2015, }. There is an abundance of prediction models aimed
+for trauma triage in the literature
+\cite{LeoniedeMunteraSuzannePolinderKoenW.W.LansinkMaryseC.CnossenEwoutW.Steyerberg2017},
+but as far as we know no study has so far prospectively compared the performance
+of clinician's triage with that of prediction models. Therefore, the aim of this
+study was to evaluate and compare clinicians and prediction models in triage.
+% ** Methods
+% *** Study design
+\section{Methods}
+\subsection{Study Design}
+Prospective cohort study, part of the Trauma Triage Study in India (TTRIS), a
+Towards Improved Trauma Care Outcomes (TITCO) project. This study was registered
+on clinicaltrials.gov, identifier NCT02838459.
+% *** Setting
+\subsection{Setting}
+Three hospitals in urban India, KB Bhabha Hospital in Mumbai, Maulana Azad
+Medical College (MAMC) in Delhi and Institute of Post Graduate Medical Education
+\& Seth Sukhlal Karnani Memorial Hospital (IPGMER \& SSKM), Kolkata.
+% *** Participants
+\subsection{Participants}
+% **** Eligibility criteria
+\subsubsection{Eligibility criteria}
+Any person aged $\geq$ 18 years presenting to the emergency department (ED) of
+participating sites with history of trauma. History of trauma bwas here defined
+as having any of the external causes of morbidity and mortality listed in
+block V01-Y36, chapter XX of the International Classification of Disease
+version 10 (ICD-10) codebook as primary complaint, with some exclusions
+(Supplementary material).
+% **** Source and methods of selection of participants and follow up
+\subsubsection{Source and methods of selection of participants and
+  follow up}
+
+\begin{wrapfigure}{r}{0.55\textwidth}
+\includegraphics[scale = 0.45]{flowchart.pdf}
+\end{wrapfigure}
+The project officers worked morning, evening, and night shifts, and data was
+collected from the first ten consecutive patients during their shift. A
+follow-up were completed by the project officer 30 days after participant
+arrived at participating hospital. The follow-up was completed in person or per
+phone, depending on if the patient was still hospitalised or if the patient had
+been discharged. Phone numbers of one or more contact persons, e.g. relatives,
+were collected on enrollment and contacted if the participant did not reply on
+follow up. Only if neither the participant nor the contact person answered any
+of three repeated phone calls was the outcome recorded as missing.
+% *** Variables
+\subsection{Variables} 
+Clinicians were instructed to categorise patients in four colour-coded risk
+groups. The groups were green, yellow, orange, and red, where the green and red
+risk group represented the least and most severe group respectively. The yellow
+risk group represented a more severe category than the green risk group, yet a
+less severe category than the orange and red risk groups. The orange risk group
+represented a more severe category than the green and yellow risk group, however
+a less severe category than the red risk group.
+
+Four prediction models (Table 1) were evaluated and compared to clinicians in
+triage performance. The models included age, systolic blood pressure, heart
+rate, Glasgow coma scale, AVPU, respiratory rate, and number of serious
+injuries. \cite{Kondo2011, Gerdin2014, Kobusingye2000, ChampionHRSaccoWJCopesWSGannDSGennarelliTA1989} All vital signs were recorded
+by the project officers, after receiving training by project management, and
+overseen by local supervisors. Data on two other descriptive variables - sex and
+mechanism of injury - were recorded apart from the variables included in the
+models. The outcome variable was mortality within 30 days, henceforth referred
+to as 30-day mortality.
+
+The output of the prediction models were used to categorise patients in four
+risk groups, similar to the groups assigned by clinicians (Table 1). Cut-offs
+were designed to assign similar ranges of values of the model score to each risk
+group.
+% *** Statistical methods
+\subsection{Statistical Methods} 
+The triage performance of prediction models was first analysed by categorising
+crude score output into four risk groups similar to the risk groups produced by
+the clinicians. In this analyses the models are denoted RTS\textsubscript{CAT},
+Gerdin et al.\textsubscript{CAT}, GAP\textsubscript{CAT}, and
+KTS\textsubscript{CAT}. Then, the performance of prediction models was analysed
+by treating the output as continuous, with no attempt at standardisation. In
+this analyses, models are denoted RTS\textsubscript{CON}, Gerdin et
+al.\textsubscript{CON}, GAP\textsubscript{CON}, and KTS\textsubscript{CON}.
+
+\begin{table*}[h]
+  \centering
+  \caption{Cut-offs for models}
+  \begin{tabular}{lcccc}
+    \toprule
+    & GAP \cite{Kondo2011} & Gerdin et al. \cite{Gerdin2014} & KTS \cite{Kobusingye2000}
+    & RTS \cite{ChampionHRSaccoWJCopesWSGannDSGennarelliTA1989}\\
+    \midrule
+    Green & < 9 & < 0.25 & < 8 & < 1.9602\\
+    Yellow & 9 - 14 & 0.25 - 0.49 & 8 - 10 & 1.9603 - 3.9203\\
+    Orange & 15 - 19 & 0.50 - 0.75 & 11 - 13 & 3.9604 - 5.8807\\
+    Red & 20 - 24 & > 0.75 & 14 - 16 & > 5.8807\\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+  
+Statistical analysis were conducted with a confidence level of 95 per cent, and
+a 5 per cent level of significance. All reported p-values are
+two-sided. Confidence intervals were calculated using emperical
+bootstrapping \cite{Efron1979}. Observations with missing data were
+excluded, hence we report complete case analysis. All statistical
+analysis were conducted in the R statistical environment. \cite{RDevelopmentCoreTeam2008}
+% *** Discrimination 
+\subsubsection{Discrimination}
+Triage performance were evaluated in terms of discrimination,
+calibration, and
+reclassification. Discrimination refer to the ability to differentiate between
+patients with high and low risk of the outcome
+\cite{Fawcett2006}. Discrimination was illustrated as Receiver Operating
+Characteristics (ROC) curves and quantified by calculating the Area Under the
+ROC-curves (AUROCC). An AUROCC of 0.5 indicate a discriminatory ability no
+better than chance, and an area of 1.0 indicate perfect
+discrimination. Furthermore, the models were assessed as continuous scores, in
+order to evaluate the use of the chosen cut-offs.
+% *** Calibration
+\subsubsection{Calibration}
+Calibration refer to the relationship between predicted and observed probability
+of mortality \cite{Knaus1991}, and is generally assessed visually by plotting
+the relationship alongside a 45-degree line originating in origo representing
+perfect calibration. However, this assessment method requires the complete model
+equation to compute predicted probabilities. Because some of the original
+studies did not report the complete model equation we were unable to compute the
+predicted probability of 30-day mortality \cite{Kobusingye2000,
+  ChampionHRSaccoWJCopesWSGannDSGennarelliTA1989, Kobusingye2000}. Instead, we
+assumed that the risk of mortality was linearly associated with risk group
+assignment, i.e. that the more severe group the higher the mortality. Thus,
+calibration was illustrated as the observed probability of 30-day mortality
+across risk groups.
+% *** Reclassification 
+\subsubsection{Net reclassification improvement}
+Net Reclassification Improvement (NRI) is a measure of the difference in
+categorisation of two models \cite{MichaelJ.Pencina1RalphB.DAgostinoSr12009}. In
+this study the NRI equals the net percentage of non surviving patients
+risk-categorised higher and lower by the model than by the clinicians, minus the
+net percentage of surviving patients risk-categorised higher and lower by the
+model than by the clinicians. Additionally, net reclassified proportions of
+non-events and events are assessed individually. NRI, and event based
+proportions, ranges from -1 to 1, with positive values indicating the grouping
+conducted by the model to be more superior than that performed by the
+clinicians, and negative values indicating vice versa.
+% *** Study size
+\subsection{Study size}
+We estimated the sample size to include a total of 200 non surviving patients,
+called events, and all patients surviving during the same time period, called
+non-events. This sample size was calculated based on published simulation
+studies of the number of events needed to detect a difference in AUROCC between
+two models of approximately < 0.05, with 80\% power and 5\% significance level,
+when the prevalence of the outcome is 10\% \cite{Steyerberg2009}. To include the
+first 200 non-surviving patients we identified the date when the 200th patient,
+counting only complete cases, who died arrived to a participating centre. We
+then included all patients, both survivors and non-survivors, who arrived before
+or on this date.
+% *** Ethical approvals
+\subsection{Ethical approvals}
+The TITCO project were granted waivers of informed consent from all
+study centres. The ethical bodie's names, and approval registration
+numbers, is xxxxx,
+yyyyy, and IPGMER \& SSKM Research Oversight Committee (IEC/279) for
+KB Bhabha Hospital, MAMC and IPGMER \& SSKM, respectively. 
+
+\newpage
+% ** Results
+\section{Results}
+
+A total of \rinline{results[["n_enrolled"]]} patients were enrolled
+between 14th of July, 2016, and the 26th of July, 2017. Data from patients contained missing information
+and were thus omitted from analysis. Out of complete cases, xxx (perc)
+patients survived and yyy (perc) did not survive (Supplementary
+material). A
+majority were male (zzz) and the main
+mechanism of injury were transport accidents (yyy).
+
+%Clinicians' triage had a larger AUROCC than RTS\textsubscript{CAT}, Gerdin et
+%al.\textsubscript{CAT}, and KTS\textsubscript{CAT} (Figure 1 and Table
+%3).GAP\textsubscript{CAT}, however, had an AUROCC of},
+%whereas clinicians had an AUROCC of \rinline{tOfEstimates[1,5]}. There was no significant
+%difference in AUROCC of GAP\textsubscript{CAT} and clinicians (p =
+%0.188). Gerdin et al.\textsubscript{CAT} had the smallest AUROCC of
+%\rinline{tOfEstimatess[1,2]}, whereas RTS\textsubscript{CAT} generated
+%an AUROCC of \rinline{tOfEstimatess[1,3]} and KTS\textsubscript{CAT} an
+%AUROCC of \rinline{tOfEstimatess[1,4]}.
+
+%GAP\textsubscript{CON}, Gerdin et al.\textsubscript{CON}, and
+%RTS\textsubscript{CON} had similar AUROCC as clinicians' triage, with AUROCCs of
+%\rinline{tOfEstimatess[3,1]},
+%\rinline{tOfEstimatess[3,2]}, and \rinline{tOfEstimatess[3,4]}, respectively. KTS\textsubscri%pt{CON} discriminated the least
+%accurate with an AUROCC of \rinline{tOfEstimatess[3,3]}.
+
+All patients triaged green by clinicians survived, whereas all other models had
+non-survivors among the green patients (Figure 2). Furthermore, clinicians
+performed the most consistent in their predictions, illustrated by the
+relatively straight purple graph. GAP\textsubscript{CAT} predicted higher risk
+of mortality in relation to increasing risk group, however fairly inconsistently
+as illustrated by the crooked yellow graph. Gerdin et al.\textsubscript{CAT} and KTS\textsubscript{CAT} did not categorise
+any patients as red, and no patients in the orange and red risk groups of
+RTS\textsubscript{CAT} survived.
+
+\input{table_of_sample_characteristics.tex}
+
+\begin{figure}[h]
+  \centering
+  \caption{Precision/recall curves of, A, continous scores and, B,
+    binned scores.}
+  \includegraphics[scale = 0.8]{roc_plot.pdf}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \caption{Precision/recall curves of, A, continous scores and, B,
+    binned scores.}
+  \includegraphics[scale = 0.8]{prec_rec_plot.pdf}
+\end{figure}
+
+%Regarding reclassification, the risk-classifiction of non-surviving
+%patients conducted by models were less accurate
+%than that peformed by clinicians (Table 3). Compared to clinicians,
+%GAP, the Gerdin et al. model, KTS and RTS respectively reclassified patients
+%corresponding to net proportions of \rinline{tOfEstimatess[5,1]},
+%\rinline{tOfEstimatess[5,2]}, \rinline{tOfEstimatess[5,3]}, and
+%\rinline{tOfEstimatess[5,4]}. Categorisation of suriving patients, however, significantly
+%improved when performed by models. According to former model order,
+%the net reclassified proportions were
+%\rinline{tOfEstimatess[6,1]}, \rinline{tOfEstimatess[6,2]},
+%\rinline{tOfEstimatess[6,3]}, and \rinline{tOfEstimatess[6,4]}. Net
+%proportions for non-events and events were combined to generate
+%\rinline{tOfEstimatess[7,1]}, \rinline{tOfEstimatess[7,2]},
+%\rinline{tOfEstimatess[7,3]}, and \rinline{tOfEstimatess[7,4]} in
+%NRI. (Full overview in Supplementary material)
+ 
+% ** Discussion
+\newpage
+\section{Discussion}
+The result of this study indicates clinician's triage superiority over
+RTS, the Gerdin et al. model and KTS, when compared in terms of performance in
+calibration and discrimination. Moreover, clinicians outperformed GAP in terms
+of calibration, however discriminated patients equally accurate. Clinicians
+reclassified non-surviving patients more precise than all models, though models
+categorised surviving patients more accurately than clinicians. According to the
+NRI, all models categorised patients better than clinicians. This study build on
+previous studies of triage methodology and the results suggests an appropriate
+triage method for an Indian trauma care context. Importantly, the results
+advance traumatological research and its quest to reduce the mortality of trauma
+patients.
+% *** Methodological considerations
+\subsection{Methodological considerations}
+The cut-offs to model scores were not completely according to the original
+articles. Some of the original articles divided the model score in three risk
+groups - low moderate and high risk - though no model validation study to date
+have added a fourth risk group to GAP, the Gerdin et al. model, KTS, or RTS.
+
+Whilst no significant difference in discrimination was detected between
+GAP\textsubscript{CAT} and GAP\textsubscript{CON} (p = 0.25), the remaining
+models performed significantly worse when using the chosen cut-offs. The fault
+may lie in including equal ranges of the model scores to each risk group,
+however it was - arguably - the most fair method to use.
+
+The analysis of calibration was simplified because the prediction models had to
+be analysed as four risk groups rather than as continuous
+probailites. Therefore, the comparison of performance relied on visually
+apparent differences rather than the generally used calculations of
+slopes. While this approach could be criticised of being more subjective, thus
+making the result less reliable and objective, it was the best conceivable and
+most feasible approach.
+% ** Conclusion
+\section{Conclusion}
+Clinicians proved to be superiour to a majority of the evaluated models, in a
+majority of the conducted analysis, in triage of adult indian trauma
+patients. Based on these results, clinical judgement and prioritisation based on
+clinical gestalt appear to be the appropriate triage method to implement in a
+potential indian triage system.
+
+\section{Supplementary material}
+
+\bibliographystyle{unsrt}
+\bibliography{library}
+
+\end{document}
