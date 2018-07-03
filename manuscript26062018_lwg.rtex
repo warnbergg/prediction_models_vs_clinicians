@@ -34,8 +34,24 @@
 %                        }
 %                          )
 %                          # Get max of mechanism of injury
-%                          
-%%                          end.rcode
+%                          levels.moi <- levels(results$samples$cc_df$moi)
+% ## Subset moi rows from table
+% moi.rows <- raw.table[unlist(lapply(levels.moi, grep, x =
+% raw.table[, "Level"])),]
+% ## Get valus of moi from Overall column in raw.table 
+% subbed.ints <- unlist(lapply(levels.moi,
+%                       function (the.level){
+%                           the.row <- grep(the.level, raw.table[, "Level"])
+%                           the.cell <- raw.table[the.row, "Overall"]
+%                           subbed.cell <- as.numeric(gsub(" \\(.*", "", the.cell))
+%                           return (subbed.cell)
+%                         }))
+% ## Get max of values and label of that moi
+% the.max.moi <- lapply(setNames(c("Level", "Overall"), nm = c("Level", "Value")),
+%                       function(var){
+%                           moi.rows[which.max(subbed.ints), var]
+%                       })
+%% end.rcode
 % * Manuscript
 % ** Title
 \begin{document}
@@ -236,7 +252,8 @@ between 14th of July, 2016, and the 26th of July, 2017. Out of
 all patients, \rinline{raw.table[1, "Survivors"]} 
 patients survived and \rinline{raw.table[1, "Non-Survivors"]} did not survive. A
 majority were male \rinline{raw.table[grep("Male", raw.table[,
-      "Level"]), "Overall"]} and the main mechanism of injury were 
+      "Level"]), "Overall"]} and the main mechanism of injury were
+\rinline{the.max.moi$Level}s, \rinline{the.max.moi$Value}.
 
 %Clinicians' triage had a larger AUROCC than RTS\textsubscript{CAT}, Gerdin et
 %al.\textsubscript{CAT}, and KTS\textsubscript{CAT} (Figure 1 and Table
