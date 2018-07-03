@@ -27,7 +27,7 @@ factors_to_numeric <- c("egcs",
                         "avpu")
 ## Transform some factors to numeric
 study_data[, factors_to_numeric] <- lapply(study_data[, factors_to_numeric],
-                                            function(comp) as.numeric(comp))
+                                           function(comp) as.numeric(comp))
 ## Collapse gcs
 study_data$gcs <- with(study_data, egcs + mgcs + vgcs)
 ## ## Set patients to dead if dead at discharge or at 24 hours
@@ -42,6 +42,8 @@ study_data <- SupaLarna::collapse.moi(study_data)
 cc_and_all <- set.data(study_data)
 all <- cc_and_all$all
 study_data <- cc_and_all$cc
+## Append samples to results
+results$samples <- cc_and_all
 ## Generate table of sample characteristics
 tables <- generate.tbl.one(all, data_dictionary)
 ## Append tables to results
@@ -52,7 +54,7 @@ model_names <- c("RTS",
                  "GAP",
                  "KTS",
                  "gerdin")
-##Initialize cut_points_lst
+## Initialize cut_points_lst
 results$cut_points_lst <- list()
 ## Generate model predictions
 predictions <- generate.model.predictions(study_data,
