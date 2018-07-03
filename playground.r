@@ -44,10 +44,14 @@ all <- cc_and_all$all
 study_data <- cc_and_all$cc
 ## Append samples to results
 results$samples <- cc_and_all
-## Generate table of sample characteristics
+## Generate table of sample characteristics and save to disk
 tables <- generate.tbl.one(all, data_dictionary)
 ## Append tables to results
 results$tables <- tables
+## Save results table to disk
+analysis_table <- create.results.table(analysis_lst)
+## Add analysis table to results
+results$Analysis_table <- analysis_table
 ## Generate sample characterstics table (to be inserted)
 ## Define model_names
 model_names <- c("RTS",

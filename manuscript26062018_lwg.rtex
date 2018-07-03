@@ -269,7 +269,9 @@ majority were male \rinline{raw.table[grep("Male", raw.table[,
 %RTS\textsubscript{CON} had similar AUROCC as clinicians' triage, with AUROCCs of
 %\rinline{tOfEstimatess[3,1]},
 %\rinline{tOfEstimatess[3,2]}, and \rinline{tOfEstimatess[3,4]}, respectively. KTS\textsubscri%pt{CON} discriminated the least
-%accurate with an AUROCC of \rinline{tOfEstimatess[3,3]}.
+%accurate with an AUROCC of \rinpline{tOfEstimatess[3,3]}.
+
+\input{analysis_table.tex}
 
 All patients triaged green by clinicians survived, whereas all other models had
 non-survivors among the green patients (Figure 2). Furthermore, clinicians
