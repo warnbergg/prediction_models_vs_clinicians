@@ -25,7 +25,17 @@
 % ** R code
 %% begin.rcode, echo = FALSE
 % results <- readRDS("results.rds")
-%% end.rcode
+% # Subset raw table data
+% raw_table <- results$tables$raw
+% # Get important characteristics
+% important_chars <- lapply(setNames(nm = c("sex", "moi")),
+%                           function(char){
+%                           vec <- raw.table[grep(char, row.names(raw.table)),]
+%                        }
+%                          )
+%                          # Get max of mechanism of injury
+%                          
+%%                          end.rcode
 % * Manuscript
 % ** Title
 \begin{document}
@@ -222,12 +232,11 @@ KB Bhabha Hospital, MAMC and IPGMER \& SSKM, respectively.
 \section{Results}
 
 A total of \rinline{results[["n_enrolled"]]} patients were enrolled
-between 14th of July, 2016, and the 26th of July, 2017. Data from patients contained missing information
-and were thus omitted from analysis. Out of complete cases, xxx (perc)
-patients survived and yyy (perc) did not survive (Supplementary
-material). A
-majority were male (zzz) and the main
-mechanism of injury were transport accidents (yyy).
+between 14th of July, 2016, and the 26th of July, 2017. Out of
+all patients, \rinline{raw.table[1, "Survivors"]} 
+patients survived and \rinline{raw.table[1, "Non-Survivors"]} did not survive. A
+majority were male \rinline{raw.table[grep("Male", raw.table[,
+      "Level"]), "Overall"]} and the main mechanism of injury were 
 
 %Clinicians' triage had a larger AUROCC than RTS\textsubscript{CAT}, Gerdin et
 %al.\textsubscript{CAT}, and KTS\textsubscript{CAT} (Figure 1 and Table
