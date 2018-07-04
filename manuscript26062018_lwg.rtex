@@ -26,7 +26,7 @@
 %% begin.rcode, echo = FALSE
 % results <- readRDS("results.rds")
 % # Subset raw table data
-% raw_table <- results$tables$raw
+% raw.table <- results$tables$raw
 % # Get important characteristics
 % important_chars <- lapply(setNames(nm = c("sex", "moi")),
 %                           function(char){
@@ -90,7 +90,7 @@ for trauma triage in the literature
 but as far as we know no study has so far prospectively compared the performance
 of clinician's triage with that of prediction models. Therefore, the aim of this
 study was to evaluate and compare clinicians and prediction models in triage.
-% ** Methods
+p% ** Methods
 % *** Study design
 \section{Methods}
 \subsection{Study Design}
@@ -271,8 +271,6 @@ majority were male \rinline{raw.table[grep("Male", raw.table[,
 %\rinline{tOfEstimatess[3,2]}, and \rinline{tOfEstimatess[3,4]}, respectively. KTS\textsubscri%pt{CON} discriminated the least
 %accurate with an AUROCC of \rinpline{tOfEstimatess[3,3]}.
 
-\input{analysis_table.tex}
-
 All patients triaged green by clinicians survived, whereas all other models had
 non-survivors among the green patients (Figure 2). Furthermore, clinicians
 performed the most consistent in their predictions, illustrated by the
@@ -283,6 +281,8 @@ any patients as red, and no patients in the orange and red risk groups of
 RTS\textsubscript{CAT} survived.
 
 \input{table_of_sample_characteristics.tex}
+
+\input{analysis_table.tex}
 
 \begin{figure}[h]
   \centering

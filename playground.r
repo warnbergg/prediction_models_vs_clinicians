@@ -48,10 +48,6 @@ results$samples <- cc_and_all
 tables <- generate.tbl.one(all, data_dictionary)
 ## Append tables to results
 results$tables <- tables
-## Save results table to disk
-analysis_table <- create.results.table(analysis_lst)
-## Add analysis table to results
-results$Analysis_table <- analysis_table
 ## Generate sample characterstics table (to be inserted)
 ## Define model_names
 model_names <- c("RTS",
@@ -104,6 +100,10 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 outcome_name = "outcome")
 ## Append analysis_lst to results
 results$Analysis <- analysis_lst
+## Save results table to disk
+analysis_table <- create.results.table(analysis_lst)
+## Add analysis table to results
+results$Analysis_table <- analysis_table
 ## Save results to disk
 saveRDS(results, file = "results.rds")
 ## Save plots to disk
