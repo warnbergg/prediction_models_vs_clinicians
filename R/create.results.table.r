@@ -10,10 +10,10 @@ create.results.table <- function(analysis_lst){
             ## Merge columns to paranthesised ci
             model_df$ci <- with(model_df, paste(sample_estimate,
                                                 paste0("(",
-                                                       paste(lower, "to", upper),
+                                                       paste(lb, "to", ub),
                                                        ")")))
             ## Remove original columns
-            model_df[, c("lower", "upper", "sample_estimate")]<- NULL
+            model_df[, c("lb", "ub", "sample_estimate")]<- NULL
 
             return(model_df)
         })
