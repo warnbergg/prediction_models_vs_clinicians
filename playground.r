@@ -80,15 +80,37 @@ bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(
 suffixes <- c("_cut", "_con")
 models_w_suffixes <- unlist(lapply(suffixes,
                                    function(suffix) paste0(model_names, suffix)))
+## Add AUC_ci and AUC_diff list
+AUC_ci <- list(models = models_w_suffixes,
+               ci_type = "ci")
+AUC_diff <- list(models = models_w_suffixes,
+                 ci_type = "diff")
+AUC_lst <- list(AUC_ci = AUC_ci,
+                AUC_diff = AUC_diff)
 ## Intialize analysis list
 analysis_lst <- list()
-analysis_lst$AUROCC <- SupaLarna::generate.confidence.intervals(
-                                      predictions,
-                                      model_names = models_w_suffixes,
-                                      the_func = SupaLarna::model.review.AUROCC,
-                                      samples = bootstrap_predictions,
-                                      diffci_or_ci = "ci",
-                                      outcome_name = "outcome")
+analysis_lst$AUROCC <- lapply(AUC_lst, function(AUC){
+    if (AUC$ci_type == "ci"){
+        SupaLarna::generate.confidence.intervals(
+                       predictions,
+                       model_names = c(AUC$models,
+                                       "tc"),
+                       the_func = SupaLarna::model.review.AUROCC,
+                       samples = bootstrap_predictions,
+                       diffci_or_ci = AUC$ci_type,
+                       outcome_name = "outcome")
+    } else {
+        lapply(setNames(nm = AUC$models), function (model_name){
+           SupaLarna::generate.confidence.intervals(
+                           predictions,
+                           model_names = c(model_name,
+                                           "tc"),
+                           the_func = SupaLarna::model.review.AUROCC,
+                           samples = bootstrap_predictions,
+                           diffci_or_ci = AUC$ci_type,
+                           outcome_name = "outcome")})
+    }
+})
 analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 predictions,
                                                 model_names = grep("_cut",
