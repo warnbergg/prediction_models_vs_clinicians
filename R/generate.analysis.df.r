@@ -11,7 +11,6 @@ generate.analysis.df <- function(analysis_lst,
                                  lb_name = "lb",
                                  ub_name = "ub")
 {
-    analysis_lst <- analysis_lst$reclassification
     ## Error handling
     if (!(is.list(analysis_lst))) stop ("Analysis_lst must be data frame or list")
     if (!all(unlist(lapply(list(estimate_name, lb_name, ub_name), function (arg) length(arg) == 1)))) stop ("Args estimate_name, lb_name and ub_name should all be of length 1 ")
