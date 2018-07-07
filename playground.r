@@ -93,12 +93,8 @@ analysis_lst$AUROCC <- lapply(AUC_lst, function(AUC){
     if (AUC$ci_type == "ci"){
         SupaLarna::generate.confidence.intervals(
                        predictions,
-<<<<<<< HEAD
-                       model_names = AUC$models,
-=======
                        model_names = c(AUC$models,
                                        "tc"),
->>>>>>> func.analysis.table
                        the_func = SupaLarna::model.review.AUROCC,
                        samples = bootstrap_predictions,
                        diffci_or_ci = AUC$ci_type,
