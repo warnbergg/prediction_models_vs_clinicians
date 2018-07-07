@@ -100,7 +100,7 @@ analysis_lst$AUROCC <- lapply(AUC_lst, function(AUC){
                        diffci_or_ci = AUC$ci_type,
                        outcome_name = "outcome")
     } else {
-        lapply(setNames(nm = AUC$models), function (model_name){
+        lapply(setNames(nm = c(AUC$models, "tc")), function (model_name){
            SupaLarna::generate.confidence.intervals(
                            predictions,
                            model_names = c(model_name,
@@ -120,12 +120,31 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 samples = bootstrap_predictions,
                                                 diffci_or_ci = "ci",
                                                 outcome_name = "outcome")
-## Append analysis_lst to results
+
+## Append analysis list to results
 results$Analysis <- analysis_lst
-## Save results table to disk
-analysis_table <- create.results.table(analysis_lst)
-## Add analysis table to results
-results$Analysis_table <- analysis_table
+## Initialize list for estimate tables
+auc_table <- list(table_data = do.call(rbind, lapply(analysis_lst$AUROCC,
+                                                     generate.estimate.table)),
+                  label = "AUC estimates and difference of model and clinicians AUC, both with corresponding confidence interval (95 %)",
+                  caption = "auc",
+                  file_name = "auc_estimates_table.tex")
+reclassification_table <- list(table_data = generate.estimate.table(analysis_lst$reclassification),
+                               label = "Estimates of reclassification and corresponding confidence intervals (95 %)",
+                               caption = "reclassification",
+                               file_name = "reclassification_estimates_table.tex")
+## Add tables
+table_lst <- list(auc_table = auc_table,
+                  reclassification_table = reclassification_table)
+## Save results tables
+for (lst in table_lst){
+    with(lst, make.xtable(table_data = table_data,
+                          caption = caption,
+                          label = label,
+                          file_name = file_name))
+}
+## Save estimate tables to results
+results$estimate_tables <- table_lst
 ## Save results to disk
 saveRDS(results, file = "results.rds")
 ## Save plots to disk
