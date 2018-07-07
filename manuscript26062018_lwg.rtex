@@ -282,8 +282,6 @@ RTS\textsubscript{CAT} survived.
 
 \input{table_of_sample_characteristics.tex}
 
-\input{analysis_table.tex}
-
 \begin{figure}[h]
   \centering
   \caption{Precision/recall curves of, A, continous scores and, B,
