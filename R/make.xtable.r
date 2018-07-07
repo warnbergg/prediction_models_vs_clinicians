@@ -11,7 +11,7 @@ make.xtable <- function(table_data,
                         include_rownames = TRUE, file_name){
     ## xtable the analysis table
     the_table <- xtable::print.xtable(xtable::xtable(table_data,
-                                                     caption = paste("\bf", caption),
+                                                     caption = paste("\\bf", caption),
                                                      label = paste0("tab:", label)),
                                       type = "latex",
                                       booktabs = TRUE,
