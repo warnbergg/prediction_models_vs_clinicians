@@ -110,7 +110,7 @@ analysis_lst$AUROCC <- lapply(AUC_lst, function(AUC){
                            samples = bootstrap_predictions,
                            diffci_or_ci = AUC$ci_type,
                            outcome_name = "outcome")})
-    }
+    }}
 analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 predictions,
                                                 model_names = grep("_cut",
