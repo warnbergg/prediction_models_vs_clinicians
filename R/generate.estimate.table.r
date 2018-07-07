@@ -6,10 +6,10 @@
 #' @param lb_name String. Lower boundary element label or colname. Defaults to "lb"
 #' @param ub_name String. Upper boundary label or colname. Defaults to "ub"
 #' @export
-generate.analysis.df <- function(analysis_lst,
-                                 estimate_name = "point_estimate",
-                                 lb_name = "lb",
-                                 ub_name = "ub")
+generate.estimate.table <- function(analysis_lst,
+                                    estimate_name = "point_estimate",
+                                    lb_name = "lb",
+                                    ub_name = "ub")
 {
     ## Error handling
     if (!(is.list(analysis_lst))) stop ("Analysis_lst must be data frame or list")
@@ -42,6 +42,8 @@ generate.analysis.df <- function(analysis_lst,
                                 return (analysis_objs[[obj_name]])
                             }
                             )
+    ## Merge analysis object to table
+    merged <- do.call(cbind, analysis_objs)
 
-    return (analysis_objs)
+    return (merged)
 }
