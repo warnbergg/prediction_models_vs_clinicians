@@ -3,9 +3,9 @@
 files <- list.files("./R", pattern = ".r$", full.names = TRUE)
 for (f in files) source(f)
 ## Set parameters and initialize results list
-data_path =  c("../data/sample.csv")
-bs_samples = 4
-results = list()
+data_path <- c("../data/sample.csv")
+bs_samples <- 4
+results <- list()
 ## Import data
 study_data <- read.csv(data_path, stringsAsFactors = FALSE)
 ## Get data dictionary
@@ -100,7 +100,6 @@ analysis_lst$AUROCC <- lapply(AUC_lst, function(AUC){
                        diffci_or_ci = AUC$ci_type,
                        outcome_name = "outcome")
     } else {
-
         lapply(setNames(nm = c(AUC$models, "tc")), function (model_name){
            SupaLarna::generate.confidence.intervals(
                            predictions,
@@ -125,12 +124,12 @@ results$Analysis <- analysis_lst
 ## Initialize list for estimate tables
 auc_table <- list(table_data = do.call(rbind, lapply(analysis_lst$AUROCC,
                                                      generate.estimate.table)),
-                  label = "AUC estimates and difference of model and clinicians AUC, both with corresponding confidence interval (95 %)",
-                  caption = "auc",
+                  label = "auc",
+                  caption = "AUC estimates and difference of model and clinicians AUC, both with corresponding confidence interval (95 \\%)",
                   file_name = "auc_estimates_table.tex")
 reclassification_table <- list(table_data = generate.estimate.table(analysis_lst$reclassification),
-                               label = "Estimates of reclassification and corresponding confidence intervals (95 %)",
-                               caption = "reclassification",
+                               label = "reclassification",
+                               caption = "Estimates of reclassification and corresponding confidence intervals (95 \\%)",
                                file_name = "reclassification_estimates_table.tex")
 ## Add tables
 table_lst <- list(auc_table = auc_table,

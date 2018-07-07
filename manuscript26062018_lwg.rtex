@@ -280,6 +280,9 @@ as illustrated by the crooked yellow graph. Gerdin et al.\textsubscript{CAT} and
 any patients as red, and no patients in the orange and red risk groups of
 RTS\textsubscript{CAT} survived.
 
+\input{auc_estimates_table.tex}
+\input{reclassification_estimates_table.tex}
+
 \input{table_of_sample_characteristics.tex}
 
 \begin{figure}[h]
