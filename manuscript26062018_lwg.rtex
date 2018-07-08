@@ -90,7 +90,7 @@ for trauma triage in the literature
 but as far as we know no study has so far prospectively compared the performance
 of clinician's triage with that of prediction models. Therefore, the aim of this
 study was to evaluate and compare clinicians and prediction models in triage.
-p% ** Methods
+% ** Methods
 % *** Study design
 \section{Methods}
 \subsection{Study Design}
@@ -128,7 +128,7 @@ been discharged. Phone numbers of one or more contact persons, e.g. relatives,
 were collected on enrollment and contacted if the participant did not reply on
 follow up. Only if neither the participant nor the contact person answered any
 of three repeated phone calls was the outcome recorded as missing.
-% *** Variables
+%*** Variables
 \subsection{Variables} 
 Clinicians were instructed to categorise patients in four colour-coded risk
 groups. The groups were green, yellow, orange, and red, where the green and red
@@ -254,6 +254,7 @@ patients survived and \rinline{raw.table[1, "Non-Survivors"]} did not survive. A
 majority were male \rinline{raw.table[grep("Male", raw.table[,
       "Level"]), "Overall"]} and the main mechanism of injury were
 \rinline{the.max.moi$Level}s, \rinline{the.max.moi$Value}.
+
 
 %Clinicians' triage had a larger AUROCC than RTS\textsubscript{CAT}, Gerdin et
 %al.\textsubscript{CAT}, and KTS\textsubscript{CAT} (Figure 1 and Table
