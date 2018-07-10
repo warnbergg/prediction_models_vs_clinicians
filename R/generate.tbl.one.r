@@ -1,6 +1,6 @@
-#' Title of function
+#' Generate table one function
 #'
-#' Description of function.
+#' This function uses SupaLarnas create.table.of.sample.charactersitics to create table one, and binds with a column of missing values.
 #' @param all. The all data frame. No default.
 #' @param data_dictionary. The data_dictionary. No default.
 #' @param digits Integer. Determining number of decimals when rounded. Defaults to 2.
@@ -83,17 +83,8 @@ generate.tbl.one <- function(all, data_dictionary,
                                             include.colnames = TRUE,
                                             caption.placement = "top",
                                             print.results = FALSE)
-    ## Insert tabular and adjustbox
-    formatted_table <- sub("\\begin{tabular}",
-                           paste0("\\begin{adjustbox}{max width=\\linewidth} \n",
-                                  "\\begin{tabular} \n"),
-                           formatted_table,
-                           fixed = TRUE)
-    formatted_table <- sub("\\end{tabular}",
-                           paste0("\\end{tabular} \n",
-                                  "\\end{adjustbox}"),
-                           formatted_table,
-                           fixed = TRUE)
+    ## Add adjustbox and tabular
+    formatted_table <- formatting.xtable(formatted_table)
     ## New tables list
     tables <- list(raw = tables$raw,
                    formatted_table)
