@@ -83,21 +83,26 @@ bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(
                                         log = TRUE,
                                         boot = TRUE,
                                         write_to_disk = TRUE)
-## Define names of models with suffixes
+## Define suffixes to be added to models
 suffixes <- c("_CUT", "_CON")
-names_lst <- lapply(setNames(list(model_names, pretty_model_names),
-                             nm = c("names", "pretty_names")),
-                    function (names){
+## Define clinicians labels for regular and pretty names
+clinicians_names <- c("tc", "Clinicians Priority Level")
+## Create names list for loop
+lst_w_names <- setNames(list(model_names, pretty_model_names),
+                        nm = c("names", "pretty_names"))
+## Paste suffixes to names, and bind triage category
+names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
+                    function (model_lst, names, i){
                         ## Paste suffixes to both pretty and non-pretty model
                         ## names
                         lst <- lapply(suffixes, function(suffix){
-                            paste0(names, suffix)
+                            paste0(model_lst[[i]], suffix)
                         })
                         ## Unlist to vector and bind tc to models
-                        new_names <- c(unlist(lst), "tc")
+                        new_names <- c(unlist(lst), clinicians_names[i])
 
                         return (new_names)
-                    })
+                    }, model_lst = lst_w_names, names = names(lst_w_names))
 ## Add AUC_ci and AUC_diff list
 AUC_ci <- list(models = names_lst$names,
                ci_type = "ci")
