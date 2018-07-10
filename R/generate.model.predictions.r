@@ -58,10 +58,10 @@ generate.model.predictions <- function(
                              )
     ## Define names of list elements for continous predictions
     names(preds) <- unlist(lapply(model_names,
-                                  function(name) paste0(name, "_con")))
-    ## Define names list elements of binned_predictions
+                                  function(name) paste0(name, "_CON")))
+    ## Define names list elements of binned predictions
     names(binned_to_ints) <- unlist(lapply(model_names,
-                                           function(name) paste0(name, "_cut")))
+                                           function(name) paste0(name, "_CUT")))
     ## Define pred_data
     pred_data <- c(preds,
                    binned_to_ints)
