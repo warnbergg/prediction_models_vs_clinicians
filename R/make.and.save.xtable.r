@@ -8,7 +8,7 @@
 #' @param label String. Latex label. Defaults to "analysis_table".
 #' @param file_name String. File name. No default.
 #' @export
-make.xtable <- function(table_data, file_name, san_row = NULL, san_col = NULL,
+make.and.save.xtable <- function(table_data, file_name, san_row = NULL, san_col = NULL,
                         caption = "Table of Estimates.", label = "analysis_table",
                         include_rownames = TRUE){
     ## xtable the analysis table
