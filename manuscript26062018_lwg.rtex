@@ -130,13 +130,10 @@ follow up. Only if neither the participant nor the contact person answered any
 of three repeated phone calls was the outcome recorded as missing.
 % *** Variables
 \subsection{Variables} 
-Clinicians were instructed to categorise patients in four colour-coded risk
-groups. The groups were green, yellow, orange, and red, where the green and red
-risk group represented the least and most severe group respectively. The yellow
-risk group represented a more severe category than the green risk group, yet a
-less severe category than the orange and red risk groups. The orange risk group
-represented a more severe category than the green and yellow risk group, however
-a less severe category than the red risk group.
+Clinicians were instructed to categorise patients in four colour-coded
+groups. The groups were green, yellow, orange, and red. Here, risk of
+mortality were assumed to increase moving from green to red in the
+corresponding colour spectrum.
 
 Four prediction models (Table 1) were evaluated and compared to clinicians in
 triage performance. The models included age, systolic blood pressure, heart
@@ -148,16 +145,12 @@ mechanism of injury - were recorded apart from the variables included in the
 models. The outcome variable was mortality within 30 days, henceforth referred
 to as 30-day mortality.
 
-The output of the prediction models were used to categorise patients in four
-risk groups, similar to the groups assigned by clinicians (Table 1). Cut-offs
-were designed to assign similar ranges of values of the model score to each risk
-group.
 % *** Statistical methods
 
 \subsection{Statistical Methods} 
 The triage performance of prediction models was first analysed by categorising
-crude score output into four risk groups similar to the risk groups produced by
-the clinicians. In this analyses the models are denoted RTS\textsubscript{CAT},
+crude score output into four risk groups, similar to the
+prioritisation conducted by the clinicians. In this analyses the models are denoted RTS\textsubscript{CAT},
 Gerdin et al.\textsubscript{CAT}, GAP\textsubscript{CAT}, and
 KTS\textsubscript{CAT}. Then, the performance of prediction models was analysed
 by treating the output as continuous, with no attempt at standardisation. In
