@@ -54,7 +54,7 @@ model_names <- c("RTS",
                  "GAP",
                  "KTS",
                  "gerdin")
-v## Define pretty model names
+## Define pretty model names
 pretty_model_names <- c("RTS",
                         "GAP",
                         "KTS",
@@ -160,12 +160,12 @@ table_lst <- list(auc_table = auc_table,
                   reclassification_table = reclassification_table)
 ## Save results tables
 for (lst in table_lst){
-    with(lst, make.xtable(table_data = table_data,
-                          caption = caption,
-                          label = label,
-                          file_name = file_name,
-                          san_col = san_col,
-                          san_row = san_row))
+    with(lst, make.and.save.xtable(table_data = table_data,
+                                   caption = caption,
+                                   label = label,
+                                   file_name = file_name,
+                                   san_col = san_col,
+                                   san_row = san_row))
 }
 ## Save estimate tables to results
 results$estimate_tables <- table_lst
@@ -190,4 +190,5 @@ SupaLarna::create.ROCR.plots(study_sample = predictions,
                              ROC_or_precrec = "prec_rec",
                              device = "pdf",
                              models = names_lst$names,
-                             pretty_names = names_lst$pretty_names)
+                             pretty_names = names_lst$pretty_names,
+                             subscript = TRUE)
