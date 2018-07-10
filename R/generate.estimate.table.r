@@ -2,21 +2,25 @@
 #'
 #' This function generatest the analysis df for xtable.maker.
 #' @param analysis_lst List or data frame. Object containing point estimates as well as upper and lower boundary of ci. No default.
+#' @param pretty_names Character vector. Pretty names for tables. No default.
 #' @param estimate_name String. Point stimate list label or df colname. Defaults to point_estimate.
 #' @param lb_name String. Lower boundary element label or colname. Defaults to "lb"
 #' @param ub_name String. Upper boundary label or colname. Defaults to "ub"
 #' @export
-generate.estimate.table <- function(analysis_lst,
+generate.estimate.table <- function(analysis_lst, pretty_names,
                                     estimate_name = "point_estimate",
                                     lb_name = "lb",
                                     ub_name = "ub")
 {
     ## Error handling
+    ## Must be list or data frame
     if (!(is.list(analysis_lst))) stop ("Analysis_lst must be data frame or list")
+    ## Check length of arguments
     if (!all(unlist(lapply(list(estimate_name, lb_name, ub_name), function (arg) length(arg) == 1)))) stop ("Args estimate_name, lb_name and ub_name should all be of length 1 ")
+    ## Check equal lengths of names and list elements
+    if (length(names(analysis_lst)) != length(pretty_names)) stop ("Input pretty names the same length as analysis_lst elements names")
     ## Merge columns of analysis to parathesised cis
-    analysis_objs <- lapply(analysis_lst, function (model_obj)
-    {
+    analysis_objs <- mapply(function (model_obj, pretty_name){
         ## If list, coerce to data.frame
         if (!(is.data.frame(model_obj))){
             model_obj <- data.frame(point_estimate = model_obj$diff_point_estimate,
@@ -24,7 +28,7 @@ generate.estimate.table <- function(analysis_lst,
                                     row.names = "ci")
         }
         ## Merge columns to paranthesised ci
-        model_obj$ci <- paste(model_obj[, estimate_name],
+        model_obj[, pretty_name] <- paste(model_obj[, estimate_name],
                                                paste0("(",
                                                       paste(model_obj[, lb_name],
                                                             "to",
@@ -34,16 +38,17 @@ generate.estimate.table <- function(analysis_lst,
         model_obj[, c(estimate_name, lb_name, ub_name)] <- NULL
 
         return(model_obj)
-    })
-    ## Set colnames from of analysis_objs to model names
-    analysis_objs <- lapply(setNames(nm = names(analysis_objs)),
-                            function(obj_name) {
-                                colnames(analysis_objs[[obj_name]]) <- obj_name
-                                return (analysis_objs[[obj_name]])
-                            }
-                            )
+    },
+    analysis_lst, pretty_names, SIMPLIFY = FALSE)
     ## Merge analysis object to table
     merged <- do.call(cbind, analysis_objs)
+    ## Subscript con and cat in colnames which have underscore
+    undscr_names <- grep("_", colnames(merged))
+    ## Sub underscores for textsubscripts
+    colnames(merged)[undscr_names] <- paste0(gsub("_",
+                                                  "\\\\textsubscript{",
+                                                  colnames(merged)[undscr_names]),
+                                             "}")
 
     return (merged)
 }
