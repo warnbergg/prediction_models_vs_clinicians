@@ -54,6 +54,11 @@ model_names <- c("RTS",
                  "GAP",
                  "KTS",
                  "gerdin")
+v## Define pretty model names
+pretty_model_names <- c("RTS",
+                        "GAP",
+                        "KTS",
+                        "Gerdin et al.")
 ## Initialize cut_points_lst
 results$cut_points_lst <- list()
 ## Generate model predictions
@@ -63,7 +68,9 @@ predictions <- generate.model.predictions(study_data,
                                           write_to_disk = TRUE,
                                           gridsearch_parallel = TRUE)
 ## Rename cut_points according to model_names
-names(results$cut_points_lst) <- model_names
+names(results$cut_points_lst) <- pretty_model_names
+## Save cut points table
+cut_points_table <- generate.cut.points.table(cut_points = results$cut_points_lst)
 ## Generate boostrap samples
 samples <- SupaLarna::generate.bootstrap.samples(study_data,
                                                  bs_samples = 3)
@@ -76,44 +83,55 @@ bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(
                                         log = TRUE,
                                         boot = TRUE,
                                         write_to_disk = TRUE)
-## Define names of models
-suffixes <- c("_cut", "_con")
-models_w_suffixes <- unlist(lapply(suffixes,
-                                   function(suffix) paste0(model_names, suffix)))
+## Define names of models with suffixes
+suffixes <- c("_CUT", "_CON")
+names_lst <- lapply(setNames(list(model_names, pretty_model_names),
+                             nm = c("names", "pretty_names")),
+                    function (names){
+                        ## Paste suffixes to both pretty and non-pretty model
+                        ## names
+                        lst <- lapply(suffixes, function(suffix){
+                            paste0(names, suffix)
+                        })
+                        ## Unlist to vector and bind tc to models
+                        new_names <- c(unlist(lst), "tc")
+
+                        return (new_names)
+                    })
 ## Add AUC_ci and AUC_diff list
-AUC_ci <- list(models = models_w_suffixes,
+AUC_ci <- list(models = names_lst$names,
                ci_type = "ci")
-AUC_diff <- list(models = models_w_suffixes,
+AUC_diff <- list(models = names_lst$names,
                  ci_type = "diff")
-AUC_lst <- list(AUC_ci = AUC_ci,
-                AUC_diff = AUC_diff)
+AUC_lst <- setNames(list(AUC_ci, AUC_diff), nm = c("AUC (95 \\%)",
+                                                   "95 \\% CI on AUC-difference"))
 ## Intialize analysis list
 analysis_lst <- list()
 analysis_lst$AUROCC <- lapply(AUC_lst, function(AUC){
     if (AUC$ci_type == "ci"){
         SupaLarna::generate.confidence.intervals(
                        predictions,
-                       model_names = c(AUC$models,
-                                       "tc"),
+                       model_names = AUC$models,
                        the_func = SupaLarna::model.review.AUROCC,
                        samples = bootstrap_predictions,
                        diffci_or_ci = AUC$ci_type,
                        outcome_name = "outcome")
     } else {
-        lapply(setNames(nm = c(AUC$models, "tc")), function (model_name){
+        lapply(setNames(nm = AUC$models), function (model_name){
            SupaLarna::generate.confidence.intervals(
-                           predictions,
-                           model_names = c(model_name,
-                                           "tc"),
-                           the_func = SupaLarna::model.review.AUROCC,
-                           samples = bootstrap_predictions,
-                           diffci_or_ci = AUC$ci_type,
-                           outcome_name = "outcome")})
-    }})
+                          predictions,
+                          model_names = c(model_name,
+                                          "tc"),
+                          the_func = SupaLarna::model.review.AUROCC,
+                          samples = bootstrap_predictions,
+                          diffci_or_ci = AUC$ci_type,
+                          outcome_name = "outcome")})
+    }
+})
 analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 predictions,
-                                                model_names = grep("_cut",
-                                                                   models_w_suffixes,
+                                                model_names = grep("_CUT",
+                                                                   names_lst$names,
                                                                    value = TRUE),
                                                 the_func = SupaLarna::model.review.reclassification,
                                                 samples = bootstrap_predictions,
@@ -122,15 +140,21 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
 ## Append analysis list to results
 results$Analysis <- analysis_lst
 ## Initialize list for estimate tables
-auc_table <- list(table_data = do.call(rbind, lapply(analysis_lst$AUROCC,
-                                                     generate.estimate.table)),
+auc_table <- list(table_data = t(do.call(rbind, lapply(analysis_lst$AUROCC,
+                                                       generate.estimate.table,
+                                                       pretty_names = names_lst$pretty_names))),
                   label = "auc",
                   caption = "AUC estimates and difference of model and clinicians AUC, both with corresponding confidence interval (95 \\%)",
-                  file_name = "auc_estimates_table.tex")
-reclassification_table <- list(table_data = generate.estimate.table(analysis_lst$reclassification),
+                  file_name = "auc_estimates_table.tex",
+                  san_col = function (word) {word},
+                  san_row = function (word) {word})
+reclassification_table <- list(table_data = generate.estimate.table(analysis_lst$reclassification,
+                                                                    pretty_names = names_lst$pretty_names[grep("_CUT", names_lst$pretty_names)]),
                                label = "reclassification",
                                caption = "Estimates of reclassification and corresponding confidence intervals (95 \\%)",
-                               file_name = "reclassification_estimates_table.tex")
+                               file_name = "reclassification_estimates_table.tex",
+                               san_col = function (word) {word},
+                               san_row = NULL)
 ## Add tables
 table_lst <- list(auc_table = auc_table,
                   reclassification_table = reclassification_table)
@@ -139,7 +163,9 @@ for (lst in table_lst){
     with(lst, make.xtable(table_data = table_data,
                           caption = caption,
                           label = label,
-                          file_name = file_name))
+                          file_name = file_name,
+                          san_col = san_col,
+                          san_row = san_row))
 }
 ## Save estimate tables to results
 results$estimate_tables <- table_lst
@@ -149,25 +175,19 @@ saveRDS(results, file = "results.rds")
 ## ROC-curves
 SupaLarna::create.ROCR.plots(study_sample = predictions,
                              outcome_name = "outcome",
-                             split_var = "con",
+                             split_var = "CON",
                              train_test = FALSE,
                              ROC_or_precrec = "ROC",
                              device = "pdf",
-                             models = models_w_suffixes,
-                             pretty_names = c("RTS_cat",
-                                              "GAP_cat",
-                                              "KTS_cat",
-                                              "Gerdin_cat",
-                                              "RTS_con",
-                                              "GAP_con",
-                                              "KTS_con",
-                                              "Gerdin_con"))
+                             models = names_lst$names,
+                             pretty_names = names_lst$pretty_names,
+                             subscript = TRUE)
 ## Precision/recall curves
 SupaLarna::create.ROCR.plots(study_sample = predictions,
                              outcome_name = "outcome",
-                             split_var = "con",
+                             split_var = "CON",
                              train_test = FALSE,
                              ROC_or_precrec = "prec_rec",
                              device = "pdf",
-                             models = models_w_suffixes,
-                             pretty_names = models_w_suffixes)
+                             models = names_lst$names,
+                             pretty_names = names_lst$pretty_names)
