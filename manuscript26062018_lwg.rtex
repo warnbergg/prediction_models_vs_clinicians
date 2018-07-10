@@ -128,7 +128,7 @@ been discharged. Phone numbers of one or more contact persons, e.g. relatives,
 were collected on enrollment and contacted if the participant did not reply on
 follow up. Only if neither the participant nor the contact person answered any
 of three repeated phone calls was the outcome recorded as missing.
-%*** Variables
+% *** Variables
 \subsection{Variables} 
 Clinicians were instructed to categorise patients in four colour-coded risk
 groups. The groups were green, yellow, orange, and red, where the green and red
@@ -153,6 +153,7 @@ risk groups, similar to the groups assigned by clinicians (Table 1). Cut-offs
 were designed to assign similar ranges of values of the model score to each risk
 group.
 % *** Statistical methods
+
 \subsection{Statistical Methods} 
 The triage performance of prediction models was first analysed by categorising
 crude score output into four risk groups similar to the risk groups produced by
@@ -161,23 +162,10 @@ Gerdin et al.\textsubscript{CAT}, GAP\textsubscript{CAT}, and
 KTS\textsubscript{CAT}. Then, the performance of prediction models was analysed
 by treating the output as continuous, with no attempt at standardisation. In
 this analyses, models are denoted RTS\textsubscript{CON}, Gerdin et
-al.\textsubscript{CON}, GAP\textsubscript{CON}, and KTS\textsubscript{CON}.
+al.\textsubscript{CON}, GAP\textsubscript{CON}, and
+KTS\textsubscript{CON}.
 
-\begin{table*}[h]
-  \centering
-  \caption{Cut-offs for models}
-  \begin{tabular}{lcccc}
-    \toprule
-    & GAP \cite{Kondo2011} & Gerdin et al. \cite{Gerdin2014} & KTS \cite{Kobusingye2000}
-    & RTS \cite{ChampionHRSaccoWJCopesWSGannDSGennarelliTA1989}\\
-    \midrule
-    Green & < 9 & < 0.25 & < 8 & < 1.9602\\
-    Yellow & 9 - 14 & 0.25 - 0.49 & 8 - 10 & 1.9603 - 3.9203\\
-    Orange & 15 - 19 & 0.50 - 0.75 & 11 - 13 & 3.9604 - 5.8807\\
-    Red & 20 - 24 & > 0.75 & 14 - 16 & > 5.8807\\
-    \bottomrule
-  \end{tabular}
-\end{table*}
+\input{cut_points_table.tex}
   
 Statistical analysis were conducted with a confidence level of 95 per cent, and
 a 5 per cent level of significance. All reported p-values are
