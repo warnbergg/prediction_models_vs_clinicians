@@ -186,19 +186,19 @@ better than chance, and an area of 1.0 indicate perfect
 discrimination. Furthermore, the models were assessed as continuous scores, in
 order to evaluate the use of the chosen cut-offs.
 % *** Calibration
-\subsubsection{Calibration}
-Calibration refer to the relationship between predicted and observed probability
-of mortality \cite{Knaus1991}, and is generally assessed visually by plotting
-the relationship alongside a 45-degree line originating in origo representing
-perfect calibration. However, this assessment method requires the complete model
-equation to compute predicted probabilities. Because some of the original
-studies did not report the complete model equation we were unable to compute the
-predicted probability of 30-day mortality \cite{Kobusingye2000,
-  ChampionHRSaccoWJCopesWSGannDSGennarelliTA1989, Kobusingye2000}. Instead, we
-assumed that the risk of mortality was linearly associated with risk group
-assignment, i.e. that the more severe group the higher the mortality. Thus,
-calibration was illustrated as the observed probability of 30-day mortality
-across risk groups.
+%\subsubsection{Calibration}
+%Calibration refer to the relationship between predicted and observed probability
+%of mortality \cite{Knaus1991}, and is generally assessed visually by plotting
+%the relationship alongside a 45-degree line originating in origo representing
+%perfect calibration. However, this assessment method requires the complete model
+%equation to compute predicted probabilities. Because some of the original
+%studies did not report the complete model equation we were unable to compute the
+%predicted probability of 30-day mortality \cite{Kobusingye2000,
+%  ChampionHRSaccoWJCopesWSGannDSGennarelliTA1989, Kobusingye2000}. Instead, we
+%assumed that the risk of mortality was linearly associated with risk group
+%assignment, i.e. that the more severe group the higher the mortality. Thus,
+%calibration was illustrated as the observed probability of 30-day mortality
+%across risk groups.
 % *** Reclassification 
 \subsubsection{Net reclassification improvement}
 Net Reclassification Improvement (NRI) is a measure of the difference in
@@ -243,7 +243,6 @@ majority were male \rinline{raw.table[grep("Male", raw.table[,
       "Level"]), "Overall"]} and the main mechanism of injury were
 \rinline{the.max.moi$Level}s, \rinline{the.max.moi$Value}.
 
-
 %Clinicians' triage had a larger AUROCC than RTS\textsubscript{CAT}, Gerdin et
 %al.\textsubscript{CAT}, and KTS\textsubscript{CAT} (Figure 1 and Table
 %3).GAP\textsubscript{CAT}, however, had an AUROCC of},
@@ -269,12 +268,11 @@ as illustrated by the crooked yellow graph. Gerdin et al.\textsubscript{CAT} and
 any patients as red, and no patients in the orange and red risk groups of
 RTS\textsubscript{CAT} survived.
 
+\input{table_of_sample_characteristics.tex}
 \input{auc_estimates_table.tex}
 \input{reclassification_estimates_table.tex}
 
-\input{table_of_sample_characteristics.tex}
-
-\begin{figure}[h]
+\begin{figure}[h!]
   \centering
   \caption{Precision/recall curves of, A, continous scores and, B,
     binned scores.}
@@ -303,7 +301,7 @@ RTS\textsubscript{CAT} survived.
 %\rinline{tOfEstimatess[7,1]}, \rinline{tOfEstimatess[7,2]},
 %\rinline{tOfEstimatess[7,3]}, and \rinline{tOfEstimatess[7,4]} in
 %NRI. (Full overview in Supplementary material)
- 
+
 % ** Discussion
 \newpage
 \section{Discussion}
