@@ -51,7 +51,7 @@
 %                       function(var){
 %                           moi.rows[which.max(subbed.ints), var]
 %                       })
-%% end.rcode
+%%                         end.rcode
 % * Manuscript
 % ** Title
 \begin{document}
@@ -236,10 +236,16 @@ A total of \rinline{results[["n_enrolled"]]} patients were enrolled
 between 14th of July, 2016, and the 26th of July, 2017. Out of
 all patients, \rinline{raw.table[1, "Survivors"]} 
 patients survived and \rinline{raw.table[1, "Non-Survivors"]} did not survive. A
-majority were male \rinline{raw.table[grep("Male", raw.table[,
-      "Level"]), "Overall"]} and the main mechanism of injury were
+majority were male, \rinline{raw.table[grep("Male", raw.table[,
+      "Level"]), "Overall"]}, and the main mechanism of injury were
 \rinline{the.max.moi$Level}s, \rinline{the.max.moi$Value}.
 
+AUROCC estimates and corresponding confidence intervals, as well as
+confidence intervals on model-clinicians difference in AUROCC, are reported
+in Table \ref{table:auc}.
+
+Reclassification estimates and corresponding confidence intervals for
+binned model scores are reported in Table \ref{table:reclassification}.
 %Clinicians' triage had a larger AUROCC than RTS\textsubscript{CAT}, Gerdin et
 %al.\textsubscript{CAT}, and KTS\textsubscript{CAT} (Figure 1 and Table
 %3).GAP\textsubscript{CAT}, however, had an AUROCC of},
@@ -256,14 +262,14 @@ majority were male \rinline{raw.table[grep("Male", raw.table[,
 %\rinline{tOfEstimatess[3,2]}, and \rinline{tOfEstimatess[3,4]}, respectively. KTS\textsubscri%pt{CON} discriminated the least
 %accurate with an AUROCC of \rinpline{tOfEstimatess[3,3]}.
 
-All patients triaged green by clinicians survived, whereas all other models had
-non-survivors among the green patients (Figure 2). Furthermore, clinicians
-performed the most consistent in their predictions, illustrated by the
-relatively straight purple graph. GAP\textsubscript{CAT} predicted higher risk
-of mortality in relation to increasing risk group, however fairly inconsistently
-as illustrated by the crooked yellow graph. Gerdin et al.\textsubscript{CAT} and KTS\textsubscript{CAT} did not categorise
-any patients as red, and no patients in the orange and red risk groups of
-RTS\textsubscript{CAT} survived.
+%All patients triaged green by clinicians survived, whereas all other models had
+%non-survivors among the green patients (Figure 2). Furthermore, clinicians
+%performed the most consistent in their predictions, illustrated by the
+%relatively straight purple graph. GAP\textsubscript{CAT} predicted higher risk
+%of mortality in relation to increasing risk group, however fairly inconsistently
+%as illustrated by the crooked yellow graph. Gerdin et al.\textsubscript{CAT} and KTS\textsubscript{CAT} did not categorise
+%any patients as red, and no patients in the orange and red risk groups of
+%RTS\textsubscript{CAT} survived.
 
 \input{table_of_sample_characteristics.tex}
 \input{auc_estimates_table.tex}
@@ -320,19 +326,19 @@ articles. Some of the original articles divided the model score in three risk
 groups - low moderate and high risk - though no model validation study to date
 have added a fourth risk group to GAP, the Gerdin et al. model, KTS, or RTS.
 
-Whilst no significant difference in discrimination was detected between
-GAP\textsubscript{CAT} and GAP\textsubscript{CON} (p = 0.25), the remaining
-models performed significantly worse when using the chosen cut-offs. The fault
-may lie in including equal ranges of the model scores to each risk group,
-however it was - arguably - the most fair method to use.
+%Whilst no significant difference in discrimination was detected between
+%GAP\textsubscript{CAT} and GAP\textsubscript{CON} (p = 0.25), the remaining
+%models performed significantly worse when using the chosen cut-offs. The fault
+%may lie in including equal ranges of the model scores to each risk group,
+%however it was - arguably - the most fair method to use.
 
-The analysis of calibration was simplified because the prediction models had to
-be analysed as four risk groups rather than as continuous
-probailites. Therefore, the comparison of performance relied on visually
-apparent differences rather than the generally used calculations of
-slopes. While this approach could be criticised of being more subjective, thus
-making the result less reliable and objective, it was the best conceivable and
-most feasible approach.
+%The analysis of calibration was simplified because the prediction models had to
+%be analysed as four risk groups rather than as continuous
+%probailites. Therefore, the comparison of performance relied on visually
+%apparent differences rather than the generally used calculations of
+%slopes. While this approach could be criticised of being more subjective, thus
+%making the result less reliable and objective, it was the best conceivable and
+%most feasible approach.
 % ** Conclusion
 \section{Conclusion}
 Clinicians proved to be superiour to a majority of the evaluated models, in a
