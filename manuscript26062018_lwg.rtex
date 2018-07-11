@@ -150,13 +150,17 @@ to as 30-day mortality.
 \subsection{Statistical Methods} 
 The triage performance of prediction models was first analysed by categorising
 crude score output into four risk groups, similar to the
-prioritisation conducted by the clinicians. In this analyses the models are denoted RTS\textsubscript{CAT},
+prioritisation conducted by the clinicians. Cut-offs hyperparameters
+were optimised to maximize the Area Under Reciever Operating
+Characteristics Curve (AUROCC) (See subsection Discrimination) using a
+grid search. In this analyses the models are denoted RTS\textsubscript{CAT},
 Gerdin et al.\textsubscript{CAT}, GAP\textsubscript{CAT}, and
 KTS\textsubscript{CAT}. Then, the performance of prediction models was analysed
-by treating the output as continuous, with no attempt at standardisation. In
+by treating the output as continuous, with no attempt at
+standardisation. In
 this analyses, models are denoted RTS\textsubscript{CON}, Gerdin et
 al.\textsubscript{CON}, GAP\textsubscript{CON}, and
-KTS\textsubscript{CON}.
+KTS\textsubscript{CON}. 
 
 \input{cut_points_table.tex}
   
