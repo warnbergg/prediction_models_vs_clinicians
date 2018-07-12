@@ -103,36 +103,56 @@ names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
 
                         return (new_names)
                     }, model_lst = lst_w_names, names = names(lst_w_names))
-## Add AUC_ci and AUC_diff list
+## List for ci for each model
 AUC_ci <- list(models = names_lst$names,
-               ci_type = "ci")
-AUC_diff <- list(models = names_lst$names,
-                 ci_type = "diff")
-AUC_lst <- setNames(list(AUC_ci, AUC_diff), nm = c("AUC (95 \\%)",
-                                                   "95 \\% CI on AUC-difference"))
+               ci_type = "ci",
+               analysis_type = "AUC",
+               un_list = TRUE)
+## List for model clinician comparison
+AUC_diff <- list(models = setNames(lapply(names_lst$names, function(model_name) c(model_name, "tc")),
+                                   nm = names_lst$names),
+                 ci_type = "diff",
+                 analysis_type = "AUC",
+                 un_list = FALSE)
+## List for cat con model comparison
+model_model_pairs <- lapply(model_names,
+                            function(model_name){
+                                grep(model_name,
+                                     names_lst$names,
+                                     value = TRUE)})
+model_model_pairs <- setNames(c(model_model_pairs, lapply(model_model_pairs,
+                                                          function(pair) rev(pair)),
+                                list(rep("tc", 2))),
+                              nm = names_lst$names)
+AUC_diff_cat_con <- list(models = model_model_pairs,
+                         ci_type = "diff",
+                         analysis_type = "AUC",
+                         un_list = FALSE)
+## List for reclassification
+## List together
+AUC_together <- setNames(list(AUC_ci, AUC_diff, AUC_diff_cat_con),
+                         nm = c("AUC and corresponding CI (95 \\%)",
+                                "95 \\% CI on model-model AUC difference",
+                                "95 \\% CI on model-clinician AUC difference"))
 ## Intialize analysis list
 analysis_lst <- list()
-analysis_lst$AUROCC <- lapply(AUC_lst, function(AUC){
-    if (AUC$ci_type == "ci"){
+## Generate confidence intervals for diff types
+analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
+    cis <- lapply(AUC_lst$models, function(model_or_pair){
         SupaLarna::generate.confidence.intervals(
                        predictions,
-                       model_names = AUC$models,
+                       model_names = model_or_pair,
                        the_func = SupaLarna::model.review.AUROCC,
                        samples = bootstrap_predictions,
-                       diffci_or_ci = AUC$ci_type,
+                       diffci_or_ci = AUC_lst$ci_type,
                        outcome_name = "outcome")
-    } else {
-        lapply(setNames(nm = AUC$models), function (model_name){
-           SupaLarna::generate.confidence.intervals(
-                          predictions,
-                          model_names = c(model_name,
-                                          "tc"),
-                          the_func = SupaLarna::model.review.AUROCC,
-                          samples = bootstrap_predictions,
-                          diffci_or_ci = AUC$ci_type,
-                          outcome_name = "outcome")})
-    }
-})
+    })
+    ## To prevent list of lists
+    if (AUC_lst$un_list == TRUE) cis <- unlist(cis, recursive = FALSE)
+    return (cis)
+}
+)
+## Generate confidence intervals for reclassification estimates
 analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 predictions,
                                                 model_names = grep("_CUT",
