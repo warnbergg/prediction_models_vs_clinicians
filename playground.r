@@ -66,7 +66,8 @@ predictions <- generate.model.predictions(study_data,
                                           model_names,
                                           n_cores = 4,
                                           write_to_disk = TRUE,
-                                          gridsearch_parallel = TRUE)
+                                          gridsearch_parallel = TRUE,
+                                          clean_start = TRUE)
 ## Rename cut_points according to model_names
 names(results$cut_points_lst) <- pretty_model_names
 ## Save cut points table
@@ -142,7 +143,7 @@ analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
         SupaLarna::generate.confidence.intervals(
                        predictions,
                        model_names = model_or_pair,
-                       the_func = SupaLarna::model.review.AUROCC,
+                       the_func = SupaLarna::model.review.with.rocr,
                        samples = bootstrap_predictions,
                        diffci_or_ci = AUC_lst$ci_type,
                        outcome_name = "outcome")
