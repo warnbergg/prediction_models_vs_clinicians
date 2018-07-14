@@ -11,6 +11,7 @@
 #' @param clean_start Logical. If TRUE the predictions directory and all files in it are removed before saving new stuff there. Defaults to FALSE.
 #' @param gridsearch_parallel Logical. Passed to bin.models (which, in turn, passes to SupaLarnas gridsearch.breaks). If TRUE the gridsearch is performed in parallel. Defaults to FALSE.
 #' @param is_sample Logical. Passed to bin.models. If TRUE, only a tenth of possible cut points is searched. Defaults to TRUE.
+#' @param clean_start Logical. If TRUE the predictions directory and all files in it are removed before saving new stuff there. Defaults to FALSE.
 #' @export
 generate.model.predictions <- function(
                                        study_data,
@@ -30,6 +31,11 @@ generate.model.predictions <- function(
 {
     ## Define dir_name for write_to_disk
     dir_name <- "predictions"
+    if (clean_start) {
+        if (dir.exists(dir_name)) unlink(dir_name, recursive = TRUE)
+        if (file.exists("logfile")) file.remove("logfile")
+        if (log) write("Nothing yet...", "logfile")
+    }
     ## List modelling functions names and the spacing used in grid search
     preds_list <- list(modelling_names = unlist(lapply(model_names,
                                                        function(name) paste0("model.",
