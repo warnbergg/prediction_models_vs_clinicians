@@ -103,8 +103,8 @@ Three hospitals in urban India, KB Bhabha Hospital in Mumbai, Maulana Azad
 Medical College (MAMC) in Delhi and Institute of Post Graduate Medical Education
 \& Seth Sukhlal Karnani Memorial Hospital (IPGMER \& SSKM), Kolkata.
 % *** Participants
-\subsection{Participants}
 % **** Eligibility criteria
+\subsection{Participants}
 \subsubsection{Eligibility criteria}
 Any person aged $\geq$ 18 years presenting to the emergency department (ED) of
 participating sites with history of trauma. History of trauma bwas here defined
@@ -172,8 +172,7 @@ excluded, hence we report complete case analysis. All statistical
 analysis were conducted in the R statistical environment. \cite{RDevelopmentCoreTeam2008}
 % *** Discrimination 
 \subsubsection{Discrimination}
-Triage performance were evaluated in terms of discrimination,
-calibration, and
+Triage performance were evaluated in terms of discrimination and
 reclassification. Discrimination refer to the ability to differentiate between
 patients with high and low risk of the outcome
 \cite{Fawcett2006}. Discrimination was illustrated as Receiver Operating
@@ -242,10 +241,11 @@ majority were male, \rinline{raw.table[grep("Male", raw.table[,
 
 AUROCC estimates and corresponding confidence intervals, as well as
 confidence intervals on model-clinicians difference in AUROCC, are reported
-in Table \ref{table:auc}.
+in Table \ref{table:auc}. \nt{To be written}
 
 Reclassification estimates and corresponding confidence intervals for
-binned model scores are reported in Table \ref{table:reclassification}.
+binned model scores are reported in Table
+\ref{table:reclassification}. \nt{To be written}
 %Clinicians' triage had a larger AUROCC than RTS\textsubscript{CAT}, Gerdin et
 %al.\textsubscript{CAT}, and KTS\textsubscript{CAT} (Figure 1 and Table
 %3).GAP\textsubscript{CAT}, however, had an AUROCC of},
@@ -321,11 +321,12 @@ advance traumatological research and its quest to reduce the mortality of trauma
 patients.
 % *** Methodological considerations
 \subsection{Methodological considerations}
-The cut-offs to model scores were not completely according to the original
-articles. Some of the original articles divided the model score in three risk
-groups - low moderate and high risk - though no model validation study to date
+The cut-offs used to bin model scores were not according to the original
+articles. Some original articals applied thresholds to place patients in three risk
+groups - low moderate and high risk. bmode validation study to date
 have added a fourth risk group to GAP, the Gerdin et al. model, KTS, or RTS.
 
+\nt{Analysis decision}
 %Whilst no significant difference in discrimination was detected between
 %GAP\textsubscript{CAT} and GAP\textsubscript{CON} (p = 0.25), the remaining
 %models performed significantly worse when using the chosen cut-offs. The fault
