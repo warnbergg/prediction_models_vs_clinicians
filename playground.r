@@ -146,7 +146,9 @@ analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
                        the_func = SupaLarna::model.review.with.rocr,
                        samples = bootstrap_predictions,
                        diffci_or_ci = AUC_lst$ci_type,
-                       outcome_name = "outcome")
+                       outcome_name = "outcome",
+                       digits = 3,
+                       measure = "auc")
     })
     ## To prevent list of lists
     if (AUC_lst$un_list == TRUE) cis <- unlist(cis, recursive = FALSE)
