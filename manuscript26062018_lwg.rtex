@@ -174,13 +174,13 @@ analysis were conducted in the R statistical environment. \cite{RDevelopmentCore
 \subsubsection{Discrimination}
 Triage performance were evaluated in terms of discrimination and
 reclassification. Discrimination refer to the ability to differentiate between
-patients with high and low risk of the outcome
-\cite{Fawcett2006}. Discrimination was illustrated as Receiver Operating
+patients with high and low risk of outcome.
+\cite{Fawcett2006}. Discrimination may be illustrated as Receiver Operating
 Characteristics (ROC) curves and quantified by calculating the Area Under the
 ROC-curves (AUROCC). An AUROCC of 0.5 indicate a discriminatory ability no
 better than chance, and an area of 1.0 indicate perfect
-discrimination. Furthermore, the models were assessed as continuous scores, in
-order to evaluate the use of the chosen cut-offs.
+discrimination. Furthermore, the models were evaluated as continuous scores, in
+order to 
 % *** Calibration
 %\subsubsection{Calibration}
 %Calibration refer to the relationship between predicted and observed probability
@@ -197,14 +197,14 @@ order to evaluate the use of the chosen cut-offs.
 %across risk groups.
 % *** Reclassification 
 \subsubsection{Net reclassification improvement}
-Net Reclassification Improvement (NRI) is a measure of the difference in
-categorisation of two models \cite{MichaelJ.Pencina1RalphB.DAgostinoSr12009}. In
-this study the NRI equals the net percentage of non surviving patients
+Net Reclassification Improvement (NRI) is a proportional measure of the difference in
+categorisation of two models
+\cite{MichaelJ.Pencina1RalphB.DAgostinoSr12009}. Here, NRI equals the net percentage of non surviving patients
 risk-categorised higher and lower by the model than by the clinicians, minus the
 net percentage of surviving patients risk-categorised higher and lower by the
-model than by the clinicians. Additionally, net reclassified proportions of
-non-events and events are assessed individually. NRI, and event based
-proportions, ranges from -1 to 1, with positive values indicating the grouping
+model than by the clinicians. Event and non-event net reclassifed
+proportions are assessed individually. NRI, and event based
+proportions, all range from -1 to 1, with positive values indicating the grouping
 conducted by the model to be more superior than that performed by the
 clinicians, and negative values indicating vice versa.
 % *** Study size
@@ -314,17 +314,15 @@ calibration and discrimination. Moreover, clinicians outperformed GAP in terms
 of calibration, however discriminated patients equally accurate. Clinicians
 reclassified non-surviving patients more precise than all models, though models
 categorised surviving patients more accurately than clinicians. According to the
-NRI, all models categorised patients better than clinicians. This study build on
-previous studies of triage methodology and the results suggests an appropriate
-triage method for an Indian trauma care context. Importantly, the results
-advance traumatological research and its quest to reduce the mortality of trauma
-patients.
+NRI, all models categorised patients better than clinicians.
 % *** Methodological considerations
 \subsection{Methodological considerations}
 The cut-offs used to bin model scores were not according to the original
-articles. Some original articals applied thresholds to place patients in three risk
-groups - low moderate and high risk. bmode validation study to date
-have added a fourth risk group to GAP, the Gerdin et al. model, KTS, or RTS.
+articles. Some applied thresholds to categorise
+patients according to three risk
+groups - low, moderate and high risk.  No validation study to date
+have added a fourth risk group to GAP, the Gerdin et al. model, KTS,
+or RTS. 
 
 \nt{Analysis decision}
 %Whilst no significant difference in discrimination was detected between
