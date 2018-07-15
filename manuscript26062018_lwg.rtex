@@ -177,13 +177,17 @@ analysis were conducted in the R statistical environment. \cite{RDevelopmentCore
 \subsubsection{Discrimination}
 Triage performance were evaluated in terms of discrimination and
 reclassification. Discrimination refer to the ability to differentiate between
-patients with high and low risk of outcome.
-\cite{Fawcett2006}. Discrimination may be illustrated as Receiver Operating
-Characteristics (ROC) curves and quantified by calculating the Area Under the
-ROC-curves (AUROCC). An AUROCC of 0.5 indicate a discriminatory ability no
-better than chance, and an area of 1.0 indicate perfect
-discrimination. Furthermore, the models were evaluated as continuous scores, in
-order to 
+patients with high and low risk of the outcome of interest.
+\cite{Fawcett2006}. Model discrimination may be illustrated as point True Positive Rates (TPR) and False Positive
+Rates (FPR) estimates accross all possible thresholds of its
+score. The corresponding graph is referred to as Receiver Operating
+Characteristics (ROC) curve. Discriminatory ability may be quantified by calculating the Area Under the
+ROC-curves (AUROCC). An AUROCC of 0.5 and 1.0 respectively indicate a
+discriminatory ability no better than chance and perfect
+discrimination. Here, both standardised and non-standardised model
+version were assessed as part of the standardisation evaluating
+process.
+
 % *** Calibration
 %\subsubsection{Calibration}
 %Calibration refer to the relationship between predicted and observed probability
