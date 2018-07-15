@@ -162,8 +162,8 @@ by treating the output as continuous, with no attempt at
 standardisation. In
 this analyses, models are denoted RTS\textsubscript{CON}, Gerdin et
 al.\textsubscript{CON}, GAP\textsubscript{CON}, and
-KTS\textsubscript{CON}. Here, a model-model comparison were conducted
-in order to evaluate the chosen score cut-offs.
+KTS\textsubscript{CON}. Here, the primary purpose were to conduct a
+model-model in order to evaluate the chosen score cut-offs.
 
 \input{cut_points_table.tex}
   
