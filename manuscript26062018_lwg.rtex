@@ -247,11 +247,13 @@ majority were male, \rinline{raw.table[grep("Male", raw.table[,
 
 AUROCC estimates and corresponding confidence intervals, as well as
 confidence intervals on model-clinicians difference in AUROCC, are reported
-in Table \ref{table:auc}. \nt{To be written}
+in Table \ref{table:auc}. Model x and y
+respectively discriminated least and most accurately. Model a and b
+generated AUROCC:s of insA and insB. Clinicians had an AUROCC of insC.
 
 Reclassification estimates and corresponding confidence intervals for
 binned model scores are reported in Table
-\ref{table:reclassification}. \nt{To be written}
+\ref{table:reclassification}. 
 %Clinicians' triage had a larger AUROCC than RTS\textsubscript{CAT}, Gerdin et
 %al.\textsubscript{CAT}, and KTS\textsubscript{CAT} (Figure 1 and Table
 %3).GAP\textsubscript{CAT}, however, had an AUROCC of},
