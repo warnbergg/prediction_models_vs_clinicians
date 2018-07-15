@@ -131,9 +131,11 @@ of three repeated phone calls was the outcome recorded as missing.
 % *** Variables
 \subsection{Variables} 
 Clinicians were instructed to categorise patients in four colour-coded
-groups. The groups were green, yellow, orange, and red. Here, risk of
-mortality were assumed to increase moving from green to red in the
-corresponding colour spectrum.
+groups. The groups were green, yellow, orange, and red. Risk of
+mortality were assumed to increase
+moving from green to red in the corresponding colour spectrum, with
+green and red respectively coded to the least and most urgent
+patients. 
 
 Four prediction models (Table 1) were evaluated and compared to clinicians in
 triage performance. The models included age, systolic blood pressure, heart
