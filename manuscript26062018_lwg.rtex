@@ -204,16 +204,16 @@ process.
 %across risk groups.
 % *** Reclassification 
 \subsubsection{Net reclassification improvement}
-Net Reclassification Improvement (NRI) is a proportional measure of the difference in
-categorisation of two models
-\cite{MichaelJ.Pencina1RalphB.DAgostinoSr12009}. Here, NRI equals the net percentage of non surviving patients
-risk-categorised higher and lower by the model than by the clinicians, minus the
-net percentage of surviving patients risk-categorised higher and lower by the
-model than by the clinicians. Event and non-event net reclassifed
-proportions are assessed individually. NRI, and event based
-proportions, all range from -1 to 1, with positive values indicating the grouping
+Net Reclassification Improvement (NRI) may be defined as a measure of the difference in
+subject classification of two models
+\cite{MichaelJ.Pencina1RalphB.DAgostinoSr12009}. In this study, NRI
+equals the difference of groups of summarized proportions for surviving and
+non-surviving patients, each group being the sum of net proportions
+reclassified up- and downwards in priority groups.
+In addition to NRI, event and non-event summarized groups are assessed individually. All values range from -1 to 1, with positive values indicating the grouping
 conducted by the model to be more superior than that performed by the
 clinicians, and negative values indicating vice versa.
+
 % *** Study size
 \subsection{Study size}
 We estimated the sample size to include a total of 200 non surviving patients,
