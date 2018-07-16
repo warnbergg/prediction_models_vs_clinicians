@@ -29,6 +29,10 @@ generate.model.predictions <- function(
                                        is_sample = TRUE
                                        )
 {
+    ## Extract outcome from study_data
+    outcome <- study_data$s30d
+    ## Define suffixes
+    suffixes <- setNames(nm = c("_CON", "_CUT"))
     ## Define dir_name for write_to_disk
     dir_name <- "predictions"
     if (clean_start) {
@@ -36,45 +40,30 @@ generate.model.predictions <- function(
         if (file.exists("logfile")) file.remove("logfile")
         if (log) write("Nothing yet...", "logfile")
     }
-    ## List modelling functions names and the spacing used in grid search
-    preds_list <- list(modelling_names = unlist(lapply(model_names,
-                                                       function(name) paste0("model.",
-                                                                             name))))
     ## Generate predictions with models
-    preds <- lapply(setNames(preds_list$modelling_names, nm = model_names),
-                    function(func_name)
-                    {
-                        fun <- get(func_name) # Get function from string
-                        fun(study_data)       # Make predictions on study_data
-                    }
-                    )
-    ## Extract outcome from study_data; Then, coerce to numeric
-    outcome <- study_data$s30d
-    ## Bin model predictions
-    binned_preds <- lapply(setNames(model_names, nm = model_names),
-                           function(model_name) bin.models(preds[[model_name]],
-                                                           outcomes = outcome,
-                                                           n_cores = n_cores,
-                                                           return_cps = return_cps,
-                                                           gridsearch_parallel = gridsearch_parallel,
-                                                           is_sample = is_sample))
-    ## Convert to numeric preds
-    binned_to_ints <- lapply(binned_preds,
-                             function(pred) {
-                                 levels(pred) <- c("1","2","3","4")
-                                 as.numeric(as.character(pred))
-                             }
-                             )
-    ## Define names of list elements for continous predictions
-    names(preds) <- unlist(lapply(model_names,
-                                  function(name) paste0(name, "_CON")))
-    ## Define names list elements of binned predictions
-    names(binned_to_ints) <- unlist(lapply(model_names,
-                                           function(name) paste0(name, "_CUT")))
-    ## Define pred_data
-    pred_data <- c(preds,
-                   binned_to_ints)
-    ## Bind outcome_cut and outcome_con (for plots) as well as tc to pred_data
+    pred_data <- unlist(lapply(model_names, function(model_name, suffixes){
+        ## Get function from string
+        model_func <- get(paste0("model.", model_name))
+        ## Make predictions on study_data
+        con_pred <- model_func(study_data)
+        ## Bin preds
+        binned_pred <- bin.models(con_pred,
+                                  outcomes = outcome,
+                                  n_cores = n_cores,
+                                  return_cps = return_cps,
+                                  gridsearch_parallel = gridsearch_parallel,
+                                  is_sample = is_sample)
+        ## Convert to numeric preds
+        levels(binned_pred) <- as.character(1:4)
+        binned_pred <- as.numeric(binned_pred)
+        ## Make pred_data
+        pred_data <- setNames(list(con_pred,
+                                   binned_pred),
+                              nm = sapply(suffixes, function(suffix)
+                                  paste0(model_name, suffix)))
+        return (pred_data)}, suffixes = suffixes),
+        recursive = FALSE)
+    ## Bind outcome as well as tc to pred_data
     pred_data$outcome <- outcome
     pred_data$tc <- as.numeric(study_data$tc)
     ## Define timestamp
