@@ -50,8 +50,15 @@
 % the.max.moi <- lapply(setNames(c("Level", "Overall"), nm = c("Level", "Value")),
 %                       function(var){
 %                           moi.rows[which.max(subbed.ints), var]
-%                       })
-%%                         end.rcode
+%                         })
+% ## Extract auc_table
+% auc.tbl <- results$estimate_tables$auc_table$table_data
+% ## Subset rows with CAT
+% cut.lst.auc <- auc.tbl[grep("CUT", rownames(auc.tbl)),][,1]
+% clin.auc <- auc.tbl[grep("Clinicians", rownames(auc.tbl)), ][1]
+% ## Extract reclassification_table
+% reclass.tbl <- results$estimate_tables$reclassification_table$table_data
+%% end.rcode
 % * Manuscript
 % ** Title
 \begin{document}
@@ -117,7 +124,8 @@ version 10 (ICD-10) codebook as primary complaint, with some exclusions
   follow up}
 
 \begin{wrapfigure}{r}{0.55\textwidth}
-\includegraphics[scale = 0.45]{flowchart.pdf}
+  \includegraphics[scale = 0.45]{flowchart.pdf}
+  \caption{Study flowchart.}
 \end{wrapfigure}
 The project officers worked morning, evening, and night shifts, and data was
 collected from the first ten consecutive patients during their shift. A
@@ -163,7 +171,7 @@ standardisation. In
 this analyses, models are denoted RTS\textsubscript{CON}, Gerdin et
 al.\textsubscript{CON}, GAP\textsubscript{CON}, and
 KTS\textsubscript{CON}. Here, the primary purpose were to conduct a
-model-model in order to evaluate the chosen score cut-offs.
+model-model comparison in order to evaluate the chosen score cut-offs.
 
 \input{cut_points_table.tex}
   
@@ -238,7 +246,7 @@ KB Bhabha Hospital, MAMC and IPGMER \& SSKM, respectively.
 \section{Results}
 
 A total of \rinline{results[["n_enrolled"]]} patients were enrolled
-between 14th of July, 2016, and the 26th of July, 2017. Out of
+between 14th of July, 2016, and the 26th of July, 2017 (Table \ref{tab:sample-characteristics}). Out of
 all patients, \rinline{raw.table[1, "Survivors"]} 
 patients survived and \rinline{raw.table[1, "Non-Survivors"]} did not survive. A
 majority were male, \rinline{raw.table[grep("Male", raw.table[,
@@ -246,23 +254,20 @@ majority were male, \rinline{raw.table[grep("Male", raw.table[,
 \rinline{the.max.moi$Level}s, \rinline{the.max.moi$Value}.
 
 AUROCC estimates and corresponding confidence intervals, as well as
-confidence intervals on model-clinicians difference in AUROCC, are reported
-in Table \ref{table:auc}. Model x and y
-respectively discriminated least and most accurately. Model a and b
-generated AUROCC:s of insA and insB. Clinicians had an AUROCC of insC.
+confidence intervals on model-clinicians and model-model difference in AUROCC, are reported
+in Table
+\ref{table:auc}. \rinline{paste(names(cut.lst.auc), sep = ",")}
+respectively generated AUROCCs of \rinline{paste(cut.lst.auc, sep =
+  ",")}. Clinicians generates an AUROCC of \rinline{clin.auc}.
 
 Reclassification estimates and corresponding confidence intervals for
 binned model scores are reported in Table
-\ref{table:reclassification}. 
-%Clinicians' triage had a larger AUROCC than RTS\textsubscript{CAT}, Gerdin et
-%al.\textsubscript{CAT}, and KTS\textsubscript{CAT} (Figure 1 and Table
-%3).GAP\textsubscript{CAT}, however, had an AUROCC of},
-%whereas clinicians had an AUROCC of \rinline{tOfEstimates[1,5]}. There was no significant
-%difference in AUROCC of GAP\textsubscript{CAT} and clinicians (p =
-%0.188). Gerdin et al.\textsubscript{CAT} had the smallest AUROCC of
-%\rinline{tOfEstimatess[1,2]}, whereas RTS\textsubscript{CAT} generated
-%an AUROCC of \rinline{tOfEstimatess[1,3]} and KTS\textsubscript{CAT} an
-%AUROCC of \rinline{tOfEstimatess[1,4]}.
+\ref{table:reclassification}. \rinline{paste(colnames(reclass.tbl),
+  sep = ",")} respectively reported an NRI of
+\rinline{paste(reclass.tbl["NRI",], sep = ",")}, event
+reclassification of \rinline{paste(reclass.tbl["NRI+",], sep = ",")}
+and non-event reclassification of \rinline{paste(reclass.tbl["NRI-",],
+  sep = ",")}.
 
 %GAP\textsubscript{CON}, Gerdin et al.\textsubscript{CON}, and
 %RTS\textsubscript{CON} had similar AUROCC as clinicians' triage, with AUROCCs of
