@@ -38,7 +38,7 @@ model.KTS <- function(
                                             scores)
     ## Sum binned variables to generate score
     kts_predictions <- 1/rowSums(cbind(binned_variables,
-                                       binned_age,
+                                       age_var,
                                        study_data$avpu,
                                        study_data$nsi))
 

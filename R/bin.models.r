@@ -21,14 +21,15 @@ bin.models <- function(
     ## Grid search cutpoints for model predictions.
     ## Use max and min of predictions in as starting and
     ## end point in grid search.
-    cut_points <- SupaLarna::gridsearch.breaks(predictions,
-                                               grid = seq(min(predictions),
-                                                          max(predictions),
-                                                          0.01),
-                                               outcomes = outcomes,
-                                               parallel = gridsearch_parallel,
-                                               n_cores = n_cores,
-                                               sample = is_sample)
+    cut_points <- SupaLarna::gridsearch.breaks(
+                                 predictions,
+                                 grid = seq(min(predictions),
+                                            max(predictions),
+                                            0.01),
+                                 outcomes = outcomes,
+                                 parallel = gridsearch_parallel,
+                                 n_cores = n_cores,
+                                 sample = is_sample)
     if (return_cps) results$cut_points_lst[[paste0(max(predictions), "_cut_points")]] <<- cut_points
     ## Define labels for binning
     labels <- c("Green",
