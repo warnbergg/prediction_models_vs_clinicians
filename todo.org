@@ -67,4 +67,4 @@
 ** DONE n_cores is missing in generate.predictions.bssamples         :issue3:
     - Explanation? Added n_cores as function argument in bin.models?
 ** DONE tbl one not generating as expected from tex                  :issue4:
-** TODO Low levels of gridsearch, 4 possible?                        :issue5:
+** DONE Low levels of gridsearch, 4 possible?                        :issue5:
