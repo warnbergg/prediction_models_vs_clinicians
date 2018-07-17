@@ -58,6 +58,7 @@
 ** DONE Change colnames of analysis in SupaLarnas AUROCC gen         :todo26:
 ** TODO Modify SupaLarnas create.rocr.plots error handling           :todo27:
     - Error handling for split var and train test
+** TODO [#B] Generalize flowchart generator (for test sample)        :todo28:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** DONE Low AUROCC?                                                  :issue2:
