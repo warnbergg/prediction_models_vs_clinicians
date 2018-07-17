@@ -2,11 +2,18 @@
 #'
 #' This function creates a complete case dataset.
 #' @param study_data The study data frame. No default.
+#' @param test Logical. If TRUE, study_data is test data. Defaults to TRUE.
 #' @export
 set.data <- function(
-                     study_data
+                     study_data,
+                     test = TRUE
                      )
 {
+    ## Coerce age to numeric
+    if (!is.numeric(study_data$age)) {
+        if (">89" %in% study_data$age) study_data$age[study_data$age == ">89"] <- "100"
+        study_data$age <- as.numeric(study_data$age)
+    }
     ## Assign number of enrolled to results
     results$n_enrolled <<- nrow(study_data)
     ## Error handling
@@ -16,14 +23,16 @@ set.data <- function(
     results$n_ic <<- nrow(study_data)
     ## Drop ic column from data
     study_data$ic <- NULL
-    ## Coerce doar to date format
-    study_data$doar <- as.Date(study_data$doar)
-    ## drops observations included later than one month prior to creating this dataset
-    study_data <- study_data[study_data$doar < "2017-05-22", ]
-    results$n_before_22052017 <<- nrow(study_data)
-    ## 2016-07-28 was the date when 1515 started collecting triage category
-    study_data <- study_data[study_data$doar >= "2016-07-28", ]
-    results$n_after_tc1515 <<- nrow(study_data)
+    if (!test){
+        ## Coerce doar to date format
+        study_data$doar <- as.Date(study_data$doar)
+        ## drops observations included later than one month prior to creating this dataset
+        study_data <- study_data[study_data$doar < "2017-05-22", ]
+        results$n_before_22052017 <<- nrow(study_data)
+        ## 2016-07-28 was the date when 1515 started collecting triage category
+        study_data <- study_data[study_data$doar >= "2016-07-28", ]
+        results$n_after_tc1515 <<- nrow(study_data)
+    }
     ## Define gcs_components
     gcs_components <- c("egcs", "mgcs", "vgcs")
     ## replace non testable (99) in gcs with 1 instead 99
@@ -31,8 +40,9 @@ set.data <- function(
     ## Coerce s30d of data to numeric
     levels(study_data$s30d) <- c(0,1)
     study_data$s30d <- as.numeric(as.character(study_data$s30d))
-    ## Order dataset copy according to data of arrival and s30d
+    if (test) study_data$doar <- study_data$seqn
     study_data <- study_data[order(-study_data$s30d, study_data$doar), ]
+    ## Order dataset copy according to data of arrival and s30d
     ## find the date when 200 had died
     cc <- complete.cases(study_data)
     date <- study_data[cc, ]$doar[200]
