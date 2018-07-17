@@ -1,15 +1,18 @@
 ## This is a file for testing
+str(results)
 ## Source all functions (remove when turned into package)
 files <- list.files("./R", pattern = ".r$", full.names = TRUE)
 for (f in files) source(f)
 ## Set parameters and initialize results list
-data_path <- c("../data/sample.csv")
+data_path <- c("../data/test_sample.csv")
 bs_samples <- 4
 results <- list()
+test <- TRUE
 ## Import data
 study_data <- read.csv(data_path, stringsAsFactors = FALSE)
 ## Get data dictionary
 data_dictionary <- SupaLarna::get.data.dictionary()
+if (!test) data_dictionary$seqn <- NULL
 ## Keep relevant variables
 study_data <- SupaLarna::keep.relevant.variables(study_data,
                                                  data_dictionary = data_dictionary)
@@ -19,7 +22,7 @@ study_data[study_data == 999] <- NA
 ## transform variables to factors
 study_data <- SupaLarna::prepare.study.data(study_data,
                                             data_dictionary,
-                                            is_seqn = FALSE)
+                                            is_seqn = TRUE)
 ## Define variabels to transform from factor to numeric
 factors_to_numeric <- c("egcs",
                         "mgcs",
@@ -153,8 +156,7 @@ analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
     ## To prevent list of lists
     if (AUC_lst$un_list == TRUE) cis <- unlist(cis, recursive = FALSE)
     return (cis)
-}
-)
+})
 ## Generate confidence intervals for reclassification estimates
 analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 predictions,
@@ -164,7 +166,8 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
                                                 the_func = SupaLarna::model.review.reclassification,
                                                 samples = bootstrap_predictions,
                                                 diffci_or_ci = "ci",
-                                                outcome_name = "outcome")
+                                                outcome_name = "outcome",
+                                                digits = 3)
 ## Append analysis list to results
 results$Analysis <- analysis_lst
 ## Initialize list for estimate tables
