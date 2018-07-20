@@ -1,5 +1,4 @@
 ## This is a file for testing
-str(results)
 ## Source all functions (remove when turned into package)
 files <- list.files("./R", pattern = ".r$", full.names = TRUE)
 for (f in files) source(f)
@@ -21,8 +20,7 @@ study_data[study_data == 999] <- NA
 ## Prepare study_data using the data dictionary, i.e
 ## transform variables to factors
 study_data <- SupaLarna::prepare.study.data(study_data,
-                                            data_dictionary,
-                                            is_seqn = TRUE)
+                                            data_dictionary)
 ## Define variabels to transform from factor to numeric
 factors_to_numeric <- c("egcs",
                         "mgcs",
@@ -47,6 +45,17 @@ all <- cc_and_all$all
 study_data <- cc_and_all$cc
 ## Append samples to results
 results$samples <- cc_and_all
+## Generate flowchart
+flow_vec <- generate.flowchart.vec(
+    results$n_s,
+    node_text = c("patients were enrolled for this study",
+                  "patients did inform consent",
+                  "patients had complete data",
+                  "patients total were included when study size criteria had been met"),
+    exclusion = c("patients did not inform consent",
+                  "patients had missing information",
+                  "patients were excluded when study size criteria had been met"),
+    to_results = TRUE)
 ## Generate table of sample characteristics and save to disk
 tables <- generate.tbl.one(all, data_dictionary)
 ## Append tables to results
