@@ -4,7 +4,8 @@
 #' @export
 load.packages <- function(){
     ## List packages
-    packages <- c("SupaLarna")
+    packages <- c("SupaLarna",
+                  "knitr")
     ##Load packages
     for (package in packages) require(package,
                                       character.only = TRUE)
