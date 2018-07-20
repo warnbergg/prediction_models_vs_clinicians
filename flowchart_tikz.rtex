@@ -1,0 +1,70 @@
+% * Preamble
+% ** Set documentclass and tikzlibrary
+\documentclass[tikz, border = 5pt]{standalone}
+\usetikzlibrary{
+  chains,
+  arrows.meta,
+  decorations.pathmorphing,
+  shadows.blur}
+% ** Load packages
+\usepackage{xstring}
+% ** Get data to flowchart
+%% begin.rcode, echo = FALSE
+% results <- readRDS("results.rds")
+% flow.vec <- results$ns_vec
+%% end.rcode
+% * Flowchart
+% ** TikzSet
+\tikzset{rightNode/.style={
+    align=center,
+    text width=60mm,
+    minimum height=15mm,
+    draw,
+    shade,
+    blur shadow={shadow blur steps=8}
+  }
+}
+% ** Flowchart command
+\newcommand{\flow}[1]{
+  % Count number of commas in input array
+  \StrCount{#1}{,}[\numCommas]
+  % Add one to get number of elements in array:
+  % https://tex.stackexchange.com/questions/66121/how-can-i-determine-the-size-of-an-array
+  \pgfmathtruncatemacro\theLength{\numCommas + 1}
+  \foreach[evaluate=\j using int(\i - 1)] \i in {1,...,\theLength}{
+    % Get array subset
+    \pgfmathsetmacro\arrayElement{array({#1}, \j)}
+    % Every other node should be a middle block
+    \ifodd\i{
+      \node[on chain,
+        draw,
+        shade,
+        blur shadow={shadow blur steps=8}]
+      (block \i) {\arrayElement};
+    }
+    % Every other should be invisible
+    \else
+    \node[on chain] (mid \i) {};
+    % Define exclusion nodes
+    \node[rightNode, right =2cm of mid \i] (right \i) {\arrayElement};
+    % Draw arrows from middle to exclusion nodes
+    \draw[->, shorten >=3pt, thick] (mid \i.center) -- (right \i);
+    \fi
+  }
+  \foreach[evaluate=\j using int(\i - 2)] \i in {3,5,...,\theLength}{
+    \draw[->, shorten >= 3pt, thick] (block \j) -- (block \i);
+  }
+}
+% ** TikzPicture
+\def\theArray{\rinline{flow.vec}}
+\begin{document}
+\begin{tikzpicture}
+  [start chain=main going below,
+    every on chain/.append style={
+      align=center, 
+      text width=60mm,
+      minimum height=15mm},
+    >={LaTeX[]}]
+  \flow{\theArray}
+\end{tikzpicture}
+\end{document}
