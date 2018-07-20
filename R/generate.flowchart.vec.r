@@ -6,8 +6,8 @@
 #' @param exclusion_text Character vector. Length of node_text - 1. Node text for exclusion nodes. In the order in which ns is presenter in the results list. No default.
 #' @param to_results Logical. If TRUE, save to results list. Defaults to FALSE.
 #' @export
-generate.flowchart.vec.and.compile <- function(results, node_text, exclusion_text,
-                                               to_results = FALSE){
+generate.flowchart.vec <- function(results, node_text, exclusion_text,
+                                   to_results = FALSE){
     ## Error handling
     if (length(node_text) - 1 != length(exclusion_text)) stop("Exclusion criteria should be length of node_text -1")
     if (length(results) != length(node_text)) stop ("Length of node_text must match that of results.")
