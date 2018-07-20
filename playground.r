@@ -3,7 +3,7 @@
 files <- list.files("./R", pattern = ".r$", full.names = TRUE)
 for (f in files) source(f)
 ## Set parameters and initialize results list
-data_path <- c("../data/test_sample.csv")
+data_path <- c("./extdata/test_sample.csv")
 bs_samples <- 4
 results <- list()
 test <- TRUE

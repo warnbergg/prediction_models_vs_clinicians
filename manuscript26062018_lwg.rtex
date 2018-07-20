@@ -124,9 +124,10 @@ version 10 (ICD-10) codebook as primary complaint, with some exclusions
   follow up}
 
 \begin{wrapfigure}{r}{0.55\textwidth}
-  \includegraphics[scale = 0.45]{flowchart.pdf}
+  \includegraphics[scale = 0.45]{flowchart_tikz.pdf}
   \caption{Study flowchart.}
 \end{wrapfigure}
+
 The project officers worked morning, evening, and night shifts, and data was
 collected from the first ten consecutive patients during their shift. A
 follow-up were completed by the project officer 30 days after participant
