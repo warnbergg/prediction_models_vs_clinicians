@@ -45,16 +45,20 @@ all <- cc_and_all$all
 study_data <- cc_and_all$cc
 ## Append samples to results
 results$samples <- cc_and_all
-## Generate flowchart
+## Define flowchart main node text
+node_text <- c("patients were enrolled for this study",
+               "patients did inform consent",
+               "patients had complete data",
+               "patients total were included when study size criteria had been met")
+## Define flowchart exclusion node text
+exclusion_text <- c("patients did not inform consent",
+                    "patients had missing information",
+                    "patients were excluded when study size criteria had been met")
+## Generate flow vec
 flow_vec <- generate.flowchart.vec(
     results$n_s,
-    node_text = c("patients were enrolled for this study",
-                  "patients did inform consent",
-                  "patients had complete data",
-                  "patients total were included when study size criteria had been met"),
-    exclusion = c("patients did not inform consent",
-                  "patients had missing information",
-                  "patients were excluded when study size criteria had been met"),
+    node_text = node_text,
+    exclusion_text = exclusion_text,
     to_results = TRUE)
 ## Generate table of sample characteristics and save to disk
 tables <- generate.tbl.one(all, data_dictionary)
@@ -211,6 +215,8 @@ for (lst in table_lst){
 results$estimate_tables <- table_lst
 ## Save results to disk
 saveRDS(results, file = "results.rds")
+## Compile flowchart latex document
+knit2pdf("flowchart_tikz.rtex")
 ## Save plots to disk
 ## ROC-curves
 SupaLarna::create.ROCR.plots(study_sample = predictions,
