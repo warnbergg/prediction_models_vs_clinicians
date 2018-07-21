@@ -266,7 +266,7 @@ binned model scores are reported in Table
 \ref{table:reclassification}. \rinline{paste(colnames(reclass.tbl),
   sep = ",")} respectively reported an NRI of
 \rinline{paste(reclass.tbl["NRI",], sep = ",")}, event
-reclassification of \rinline{paste(reclass.tbl["NRI+",], sep = ",")}
+reclassification of \rinline{paste(reclass.tbl["NRI+",], soep = ",")}
 and non-event reclassification of \rinline{paste(reclass.tbl["NRI-",],
   sep = ",")}.
 
