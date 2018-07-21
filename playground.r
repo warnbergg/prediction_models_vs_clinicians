@@ -228,13 +228,3 @@ SupaLarna::create.ROCR.plots(study_sample = predictions,
                              models = names_lst$names,
                              pretty_names = names_lst$pretty_names,
                              subscript = TRUE)
-## Precision/recall curves
-SupaLarna::create.ROCR.plots(study_sample = predictions,
-                             outcome_name = "outcome",
-                             split_var = "CON",
-                             train_test = FALSE,
-                             ROC_or_precrec = "prec_rec",
-                             device = "pdf",
-                             models = names_lst$names,
-                             pretty_names = names_lst$pretty_names,
-                             subscript = TRUE)
