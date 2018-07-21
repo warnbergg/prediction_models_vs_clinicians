@@ -144,7 +144,7 @@ groups. The groups were green, yellow, orange, and red. Risk of
 mortality were assumed to increase
 moving from green to red in the corresponding colour spectrum, with
 green and red respectively coded to the least and most urgent
-patients. 
+patients.
 
 Four prediction models (Table 1) were evaluated and compared to clinicians in
 triage performance. The models included age, systolic blood pressure, heart
@@ -161,7 +161,8 @@ to as 30-day mortality.
 \subsection{Statistical Methods} 
 The triage ability of prediction models was first analysed by categorising
 crude score output into four risk groups, similar to the
-prioritisation conducted by the clinicians. Cut-off hyperparameters
+prioritisation conducted by the clinicians. Models nor clinicians were
+informed of each others prioritisation. Cut-off hyperparameters
 were optimised using the Area Under the Reciever Operating
 Characteristics Curves (AUROCC) as performance metric in a grid
 search (See subsection Discrimination). In this analyses the models are denoted RTS\textsubscript{CAT},
@@ -177,8 +178,7 @@ model-model comparison in order to evaluate the chosen score cut-offs.
 \input{cut_points_table.tex}
   
 Statistical analysis were conducted with a confidence level of 95 per cent, and
-a 5 per cent level of significance. All reported p-values are
-two-sided. Confidence intervals were calculated using emperical
+a 5 per cent level of significance. Confidence intervals were calculated using emperical
 bootstrapping \cite{Efron1979}. Observations with missing data were
 excluded, hence we report complete case analysis. All statistical
 analysis were conducted in the R statistical environment. \cite{RDevelopmentCoreTeam2008}
@@ -322,23 +322,36 @@ and non-event reclassification of \rinline{paste(reclass.tbl["NRI-",],
 % ** Discussion
 \newpage
 \section{Discussion}
-The result of this study indicates clinician's triage superiority over
-RTS, the Gerdin et al. model and KTS, when compared in terms of performance in
-calibration and discrimination. Moreover, clinicians outperformed GAP in terms
-of calibration, however discriminated patients equally accurate. Clinicians
-reclassified non-surviving patients more precise than all models, though models
-categorised surviving patients more accurately than clinicians. According to the
-NRI, all models categorised patients better than clinicians.
+%The result of this study indicates clinician's triage superiority over
+%RTS, the Gerdin et al. model and KTS, when compared in terms of performance in
+%calibration and discrimination. Moreover, clinicians outperformed GAP in terms
+%of calibration, however discriminated patients equally accurate. Clinicians
+%reclassified non-surviving patients more precise than all models, though models
+%categorised surviving patients more accurately than clinicians. According to the
+%NRI, all models categorised patients better than clinicians.
+\nt{To be written}
 % *** Methodological considerations
 \subsection{Methodological considerations}
-The cut-offs used to bin model scores were not according to the original
-articles. Some applied thresholds to categorise
-patients according to three risk
-groups - low, moderate and high risk.  No validation study to date
-have added a fourth risk group to GAP, the Gerdin et al. model, KTS,
-or RTS. 
+The cut-offs used were not at the same thresholds as in the original
+publications. Nor were the same number of cut points used. Some categorised patients in
+three risk groups - low,
+moderate, and high - yet none included a fourth
+risk group. Here, the rationale were to adjust categorisation according to
+existing trauma triage systems (\nt{see SATS etc.}) in order to
+generalize the findings and report them as more clinically applicable.
 
-\nt{Analysis decision}
+Analysis were conducted according to recommendations from clinicial
+prediction model development framework (see <insert footnote>). Hence,
+perhaps equally important performance estimates and illustrations,
+such as precision-recall tradeoffs, were not
+included. Precision-recall have been suggested to be appropriate
+for clinical settings.
+
+\nt{Performance metric grid search and cut points (cat-con comparison) consideration.}
+
+\nt{Settings in which models were developed}
+
+
 %Whilst no significant difference in discrimination was detected between
 %GAP\textsubscript{CAT} and GAP\textsubscript{CON} (p = 0.25), the remaining
 %models performed significantly worse when using the chosen cut-offs. The fault

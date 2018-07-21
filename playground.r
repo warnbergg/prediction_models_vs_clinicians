@@ -216,7 +216,7 @@ results$estimate_tables <- table_lst
 ## Save results to disk
 saveRDS(results, file = "results.rds")
 ## Compile flowchart latex document
-knit2pdf("flowchart_tikz.rtex")
+knitr::knit2pdf("flowchart_tikz.rtex")
 ## Save plots to disk
 ## ROC-curves
 SupaLarna::create.ROCR.plots(study_sample = predictions,
