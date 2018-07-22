@@ -83,7 +83,8 @@ predictions <- generate.model.predictions(study_data,
                                           n_cores = 4,
                                           write_to_disk = TRUE,
                                           gridsearch_parallel = TRUE,
-                                          clean_start = TRUE)
+                                          clean_start = TRUE,
+                                          return_cps = TRUE)
 ## Rename cut_points according to model_names
 names(results$cut_points_lst) <- pretty_model_names
 ## Save cut points table
