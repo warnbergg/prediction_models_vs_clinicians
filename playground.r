@@ -45,6 +45,7 @@ all <- cc_and_all$all
 study_data <- cc_and_all$cc
 ## Append samples to results
 results$samples <- cc_and_all
+str(study_data)
 ## Define flowchart main node text
 node_text <- c("patients were enrolled for this study",
                "patients did inform consent",
@@ -157,7 +158,7 @@ analysis_lst <- list()
 ## Generate confidence intervals for diff types
 analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
     cis <- lapply(AUC_lst$models, function(model_or_pair){
-        SupaLarna::generate.confidence.intervals(
+        SupaLarna::generate.confidence.intervals.v2(
                        predictions,
                        model_names = model_or_pair,
                        the_func = SupaLarna::model.review.with.rocr,
@@ -172,7 +173,7 @@ analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
     return (cis)
 })
 ## Generate confidence intervals for reclassification estimates
-analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals(
+analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals.v2(
                                                 predictions,
                                                 model_names = grep("_CUT",
                                                                    names_lst$names,
@@ -220,7 +221,7 @@ saveRDS(results, file = "results.rds")
 knitr::knit2pdf("flowchart_tikz.rtex")
 ## Save plots to disk
 ## ROC-curves
-SupaLarna::create.ROCR.plots(study_sample = predictions,
+SupaLarna::create.ROCR.plots.v2(study_sample = predictions,
                              outcome_name = "outcome",
                              split_var = "CON",
                              train_test = FALSE,
