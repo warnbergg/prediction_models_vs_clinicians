@@ -20,7 +20,7 @@ generate.model.predictions <- function(
                                                        "KTS",
                                                        "gerdin"),
                                        n_cores,
-                                       return_cps = TRUE,
+                                       return_cps = FALSE,
                                        log = FALSE,
                                        boot = FALSE,
                                        write_to_disk = FALSE,
