@@ -64,6 +64,11 @@ flow_vec <- generate.flowchart.vec(
 tables <- generate.tbl.one(all, data_dictionary)
 ## Append tables to results
 results$tables <- tables
+## Extract descriptive characteristics from raw table using study data,
+## append to results
+extract.additional.characteristics(study_data = study_data,
+                                   raw_table = tables$raw,
+                                   results_list = results)
 ## Generate sample characterstics table (to be inserted)
 ## Define model_names
 model_names <- c("RTS",
