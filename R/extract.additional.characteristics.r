@@ -1,17 +1,18 @@
 #' Extract extra sample characterstics function
 #'
-#' This function extracts extra sample characterstistics from the raw table data, using levels of descriptive characteristics.
+#' This function extracts descriptive sample characterstistics from the raw table data using the study data.
 #' @param study_data Data frame. The study data frame. No Default.
 #' @param raw_table Data.frame. Raw table data, i.e. not formatted with xtable or other latex generating function. No default.
 #' @param descriptive_characterstics Character vector. Names of decriptive characteristics. Defaults to c("sex", "moi").
 #' @param which_max Character vector. Which characterstic(s) to describe as max. Defaults to "moi".
-#' #' @param results_list String. Name of results list, if such a list exists. Defaults to NULL.
+#' @param results_list String. Name of results list, i.e. list containing results from analysis. Defaults to NULL.
 #' @export
 extract.additional.characteristics <- function(study_data, raw_table,
                                                descriptive_characteristics = c("sex", "moi"),
                                                which_max = "moi", results_list = NULL){
     ## Error handling
     if (!is.data.frame(raw_table)) stop("Raw table must be data frame.")
+    if (is.null(results_list)) stop("Name of results list must be specified.")
     ## Subset important characteristics from table
     desc_chars <- lapply(setNames(nm = descriptive_characteristics),
                               function(char){
@@ -36,8 +37,6 @@ extract.additional.characteristics <- function(study_data, raw_table,
                               moi_rows[which.max(subbed_ints), var]
                           })
     ## Attach to results
-    if(!is.null(results_list)) {
-        results_list[["the_max_moi"]] <<- the_max_moi
-        results_list[["descriptive_characteristics"]] <<- desc_chars
-    }
+    results_list[["the_max_moi"]] <<- the_max_moi
+    results_list[["descriptive_characteristics"]] <<- desc_chars
 }
