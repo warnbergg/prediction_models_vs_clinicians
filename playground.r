@@ -43,8 +43,6 @@ study_data <- SupaLarna::collapse.moi(study_data)
 cc_and_all <- set.data(study_data)
 all <- cc_and_all$all
 study_data <- cc_and_all$cc
-## Append samples to results
-results$samples <- cc_and_all
 ## Define flowchart main node text
 node_text <- c("patients were enrolled for this study",
                "patients did inform consent",

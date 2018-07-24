@@ -313,21 +313,22 @@ existing trauma triage systems (\nt{see SATS etc.}) in order to
 generalize the findings and simplify potential model implemention in
 clinical practice.
 
-Important performance estimates and illustrations,
+Arugably as important performance estimates and illustrations,
 such as precision-rcall tradeoffs, were not
-included. The rationale were to follow published and revised recommendations from clinicial
+included. The rationale were to follow published recommendations from clinicial
 prediction model development framework (see <insert
 footnote>). Still, Calibration and clinical usefulness analyses were
 omitted. However, if used, the former have had to be simlified, sustituting
 the recommended decile scatter plot and a 0 to 1 limited x-axis for
 predicted to observed outcome in each risk group. Here,
 risk of 30-day mortality have had to be assumed to increase with upwards movement in
-categories. The latter analysis omitted relies on single dichtomisation, hence were not
+categories. The latter analysis relies on single dichtomisation, hence were not
 directly applicable to this study design.
 
 The models included were developed in different socionomical and
 economical settings. Hence, this study builds on the already published
-literature regarding the models external valitidy. 
+literature regarding the models external valitidy. However, few models
+have been
 
 \nt{Performance metric grid search and cut points (cat-con comparison) consideration.}
 
