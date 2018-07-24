@@ -222,12 +222,12 @@ KB Bhabha Hospital, MAMC and IPGMER \& SSKM, respectively.
 \section{Results}
 
 A total of \rinline{results[["n_enrolled"]]} patients were enrolled
-between 14th of July, 2016, and the 26th of July, 2017 (Table \ref{tab:sample-characteristics}). Out of
-all patients, \rinline{raw.table[1, "Survivors"]} 
-patients survived and \rinline{raw.table[1, "Non-Survivors"]} did not survive. A
-majority were male, \rinline{raw.table[grep("Male", raw.table[,
-      "Level"]), "Overall"]}, and the main mechanism of injury were
-\rinline{the.max.moi$Level}s, \rinline{the.max.moi$Value}.
+between 14th of July, 2016, and the 26th of July, 2017 (Table
+\ref{tab:sample-characteristics}). Out of all patients,
+\rinline{results$tables$raw[1, "Survivors"]}  patients survived and
+\rinline{results$tables$raw[1, "Non-Survivors"]} did not survive. A
+majority were \rinline{paste(results$desc_characteristics$sex,
+  sep = ",")}, and the main mechanism of injury were \rinline{results$desc_characteristics$moi$Level}s, \rinline{results$desc_characteristics$moi$Value}.
 
 AUROCC estimates and corresponding confidence intervals, as well as
 confidence intervals on model-clinicians and model-model difference in AUROCC, are reported
