@@ -24,33 +24,8 @@
 \newcommand{\nt}[1]{\textcolor{red}{#1}}
 % ** R code
 %% begin.rcode, echo = FALSE
+% ## Get results list
 % results <- readRDS("results.rds")
-% # Subset raw table data
-% raw.table <- results$tables$raw
-% # Get important characteristics
-% important_chars <- lapply(setNames(nm = c("sex", "moi")),
-%                           function(char){
-%                           vec <- raw.table[grep(char, row.names(raw.table)),]
-%                        }
-%                          )
-%                          # Get max of mechanism of injury
-%                          levels.moi <- levels(results$samples$cc_df$moi)
-% ## Subset moi rows from table
-% moi.rows <- raw.table[unlist(lapply(levels.moi, grep, x =
-% raw.table[, "Level"])),]
-% ## Get valus of moi from Overall column in raw.table 
-% subbed.ints <- unlist(lapply(levels.moi,
-%                       function (the.level){
-%                           the.row <- grep(the.level, raw.table[, "Level"])
-%                           the.cell <- raw.table[the.row, "Overall"]
-%                           subbed.cell <- as.numeric(gsub(" \\(.*", "", the.cell))
-%                           return (subbed.cell)
-%                         }))
-% ## Get max of values and label of that moi
-% the.max.moi <- lapply(setNames(c("Level", "Overall"), nm = c("Level", "Value")),
-%                       function(var){
-%                           moi.rows[which.max(subbed.ints), var]
-%                         })
 % ## Extract auc_table
 % auc.tbl <- results$estimate_tables$auc_table$table_data
 % ## Subset rows with CAT
