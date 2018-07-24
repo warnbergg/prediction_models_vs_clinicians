@@ -45,7 +45,6 @@ all <- cc_and_all$all
 study_data <- cc_and_all$cc
 ## Append samples to results
 results$samples <- cc_and_all
-str(study_data)
 ## Define flowchart main node text
 node_text <- c("patients were enrolled for this study",
                "patients did inform consent",
@@ -222,11 +221,11 @@ knitr::knit2pdf("flowchart_tikz.rtex")
 ## Save plots to disk
 ## ROC-curves
 SupaLarna::create.ROCR.plots.v2(study_sample = predictions,
-                             outcome_name = "outcome",
-                             split_var = "CON",
-                             train_test = FALSE,
-                             ROC_or_precrec = "ROC",
-                             device = "pdf",
-                             models = names_lst$names,
-                             pretty_names = names_lst$pretty_names,
-                             subscript = TRUE)
+                                outcome_name = "outcome",
+                                split_var = "CON",
+                                train_test = FALSE,
+                                ROC_or_precrec = "ROC",
+                                device = "pdf",
+                                models = names_lst$names,
+                                pretty_names = names_lst$pretty_names,
+                                subscript = TRUE)
