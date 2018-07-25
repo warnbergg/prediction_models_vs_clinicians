@@ -11,7 +11,7 @@
 % ** Get data to flowchart
 %% begin.rcode, echo = FALSE
 % results <- readRDS("results.rds")
-% flow.vec <- results$ns_vec
+% flow_lst <- results$flowchart_lst
 %% end.rcode
 % * Flowchart
 % ** TikzSet
@@ -25,28 +25,33 @@
   }
 }
 % ** Flowchart command
-\newcommand{\flow}[1]{
+\newcommand{\flow}[2]{
   % Count number of commas in input array
   \StrCount{#1}{,}[\numCommas]
   % Add one to get number of elements in array:
   % https://tex.stackexchange.com/questions/66121/how-can-i-determine-the-size-of-an-array
   \pgfmathtruncatemacro\theLength{\numCommas + 1}
   \foreach[evaluate=\j using int(\i - 1)] \i in {1,...,\theLength}{
-    % Get array subset
-    \pgfmathsetmacro\arrayElement{array({#1}, \j)}
+    % Get array subset of values
+    \pgfmathsetmacro\valueArrayElement{array({#1}, \j)}
+    % Get array subset of text
+    \pgfmathsetmacro\textArrayElement{array({#2}, \j)}
     % Every other node should be a middle block
     \ifodd\i{
       \node[on chain,
         draw,
         shade,
         blur shadow={shadow blur steps=8}]
-      (block \i) {\arrayElement};
+      (block \i)
+      {\textbf{\valueArrayElement}\\
+        \textArrayElement};
     }
     % Every other should be invisible
     \else
     \node[on chain] (mid \i) {};
     % Define exclusion nodes
-    \node[rightNode, right =2cm of mid \i] (right \i) {\arrayElement};
+    \node[rightNode, right =2cm of mid \i] (right \i)
+    {\textbf{\valueArrayElement}\\\textArrayElement};
     % Draw arrows from middle to exclusion nodes
     \draw[->, shorten >=3pt, thick] (mid \i.center) -- (right \i);
     \fi
@@ -56,7 +61,8 @@
   }
 }
 % ** TikzPicture
-\def\theArray{\rinline{flow.vec}}
+\def\theValueArray{\rinline{flow_lst$Value}}
+\def\theTextArray{\rinline{flow_lst$Text}}
 \begin{document}
 \begin{tikzpicture}
   [start chain=main going below,
@@ -65,6 +71,6 @@
       text width=60mm,
       minimum height=15mm},
     >={LaTeX[]}]
-  \flow{\theArray}
+  \flow{\theValueArray}{\theTextArray}
 \end{tikzpicture}
 \end{document}

@@ -4,14 +4,14 @@
 #' @param results Numeric vector or numeric list. Results vector or list. No default.
 #' @param node_text Character vector. Node text for each of ns in results. In the order in which ns is presented in the results list. No default.
 #' @param exclusion_text Character vector. Length of node_text - 1. Node text for exclusion nodes. In the order in which ns is presenter in the results list. No default.
-#' @param to_results Logical. If TRUE, save to results list. Defaults to FALSE.
+#' @param results_lst List. Results list, if such a list exist. Defaults to NULL.
 #' @export
 generate.flowchart.vec <- function(results, node_text, exclusion_text,
-                                   to_results = FALSE){
+                                   results_lst = NULL){
     ## Error handling
     if (length(node_text) - 1 != length(exclusion_text)) stop("Exclusion criteria should be length of node_text -1")
     if (length(results) != length(node_text)) stop ("Length of node_text must match that of results.")
-    ## Add space to exclusion text to match length of node text
+    ## Add space to exclusion text to adjust for node text
     exclusion_text <- c(exclusion_text, "")
     ## Generate numbers of excluded patients
     num_excl_patients <- sapply(seq_along(results), function (i){
@@ -21,22 +21,30 @@ generate.flowchart.vec <- function(results, node_text, exclusion_text,
 
         return (the_diff)
     })
-    ## Pair results ns with node_text
-    pairs <- mapply(function(ns_element, a_node_text,
-                             excl_element, a_excl_text){
-        ## Pair for center nodes
-        main_node_pair <- paste("\"", ns_element, a_node_text, "\"")
-        ## Pair for exclusion nodes
-        excl_node_pair <- paste("\"", excl_element, a_excl_text, "\"")
-        ## Vectorize pairs
-        paired_w_excl <- c(main_node_pair, excl_node_pair)
+    pair.function <- function(main_element, exclusion_element){
+        ## Vectorize
+        sapply(c(main_element, exclusion_element), function(element){
+            element_with_quotes <- paste("\"", element, "\"")
+            return (element_with_quotes)
+        })
+    }
+    ## Define text and value lists
+    value_lst <- list(main_element = results,
+                     exclusion_element = num_excl_patients)
+    text_lst <- list(main_element = node_text,
+                       exclusion_element = exclusion_text)
+    pair_lst <- lapply(setNames(list(value_lst, text_lst), nm = c("Value", "Text")),
+                       function (lst){
+                           ## Vectorize
+                           vectorized <- unlist(mapply(pair.function,
+                                                       main_element = lst$main_element,
+                                                       exclusion_element = lst$exclusion_element,
+                                                       SIMPLIFY = FALSE),
+                                                recursive = FALSE)
+                           ## Remove space vector element
+                           return (head(vectorized, -1))
+                       })
+    if (!is.null(results_lst)) results$flowchart_lst <<- pair_lst
 
-        return (paired_w_excl)
-    }, results, node_text, num_excl_patients, exclusion_text,
-    SIMPLIFY = FALSE)
-    ## Vectorize pairs list and remove last, empty element
-    vectorized_pair <- head(unlist(pairs), -1)
-    if (to_results) results$ns_vec <<- vectorized_pair
-
-    return (vectorized_pair)
+    return (pair_lst)
 }

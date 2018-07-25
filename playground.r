@@ -57,7 +57,7 @@ flow_vec <- generate.flowchart.vec(
     results$n_s,
     node_text = node_text,
     exclusion_text = exclusion_text,
-    to_results = TRUE)
+    results_lst = results)
 ## Generate table of sample characteristics and save to disk
 tables <- generate.tbl.one(all, data_dictionary)
 ## Append tables to results
@@ -147,7 +147,7 @@ model_model_pairs <- setNames(c(model_model_pairs, lapply(model_model_pairs,
                               nm = names_lst$names)
 AUC_diff_cat_con <- list(models = model_model_pairs,
                          ci_type = "diff",
-                         analysis_type = "AUC",
+analysis_type = "AUC",
                          un_list = FALSE)
 ## List for reclassification
 ## List together
@@ -188,9 +188,10 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals.v2(
 ## Append analysis list to results
 results$Analysis <- analysis_lst
 ## Initialize estimate tables
-auc_table <- list(table_data = t(do.call(rbind, lapply(analysis_lst$AUROCC,
-                                                       generate.estimate.table,
-                                                       pretty_names = names_lst$pretty_names))),
+auc_table <- list(table_data = t(do.call(rbind,
+                                         lapply(analysis_lst$AUROCC,
+                                                generate.estimate.table,
+                                                pretty_names = names_lst$pretty_names))),
                   label = "auc",
                   caption = "AUC estimates and difference of model and clinicians AUC, both with corresponding confidence interval (95 \\%)",
                   file_name = "auc_estimates_table.tex",
