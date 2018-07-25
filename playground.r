@@ -107,7 +107,7 @@ bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(
 ## Define suffixes to be added to models
 suffixes <- c("_CUT", "_CON")
 ## Define clinicians labels for regular and pretty names
-clinicians_names <- c("tc", "Clinicians Priority Level")
+clinicians_names <- c("tc", "Clinicians")
 ## Create names list for loop
 lst_w_names <- setNames(list(model_names, pretty_model_names),
                         nm = c("names", "pretty_names"))
@@ -187,7 +187,7 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals.v2(
                                                 digits = 3)
 ## Append analysis list to results
 results$Analysis <- analysis_lst
-## Initialize list for estimate tables
+## Initialize estimate tables
 auc_table <- list(table_data = t(do.call(rbind, lapply(analysis_lst$AUROCC,
                                                        generate.estimate.table,
                                                        pretty_names = names_lst$pretty_names))),
@@ -196,8 +196,16 @@ auc_table <- list(table_data = t(do.call(rbind, lapply(analysis_lst$AUROCC,
                   file_name = "auc_estimates_table.tex",
                   san_col = function (word) {word},
                   san_row = function (word) {word})
-reclassification_table <- list(table_data = generate.estimate.table(analysis_lst$reclassification,
-                                                                    pretty_names = names_lst$pretty_names[grep("_CUT", names_lst$pretty_names)]),
+reclassification_table <- list(table_data = generate.estimate.table(
+                                   analysis_lst$reclassification,
+                                   pretty_names = names_lst$pretty_names[grep("_CUT", names_lst$pretty_names)],
+                                   man_estimate_labels = c("NRI",
+                                                           "NRI+",
+                                                           "NRI-",
+                                                           "Pr(Up|Event)",
+                                                           "Pr(Down|Event)",
+                                                           "Pr(Down|Non-event)",
+                                                           "Pr(Up|Non-event)")),
                                label = "reclassification",
                                caption = "Estimates of reclassification and corresponding confidence intervals (95 \\%)",
                                file_name = "reclassification_estimates_table.tex",
@@ -219,8 +227,6 @@ for (lst in table_lst){
 results$estimate_tables <- table_lst
 ## Save results to disk
 saveRDS(results, file = "results.rds")
-## Compile flowchart latex document
-knitr::knit2pdf("flowchart_tikz.rtex")
 ## Save plots to disk
 ## ROC-curves
 SupaLarna::create.ROCR.plots.v2(study_sample = predictions,
@@ -232,3 +238,5 @@ SupaLarna::create.ROCR.plots.v2(study_sample = predictions,
                                 models = names_lst$names,
                                 pretty_names = names_lst$pretty_names,
                                 subscript = TRUE)
+## Compile flowchart latex document
+knitr::knit2pdf("flowchart_tikz.rtex")
