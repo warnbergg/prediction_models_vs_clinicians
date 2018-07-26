@@ -21,24 +21,32 @@ generate.flowchart.vec <- function(results, node_text, exclusion_text,
 
         return (the_diff)
     })
-    pair.function <- function(main_element, exclusion_element){
-        ## Vectorize
-        sapply(c(main_element, exclusion_element), function(element){
+    ## Define  function for mapply
+    pair.function <- function(main_element, exclusion_element, i){
+        ## Vectorize and paste quotes around strings for tikz
+        vectorized <- sapply(c(main_element, exclusion_element), function(element){
             element_with_quotes <- paste("\"", element, "\"")
             return (element_with_quotes)
         })
+        ## Set names
+        names(vectorized) <- sapply(c("Main", "Exclusion"), function (node_type)
+                                    paste0(node_type, "_node_", i))
+        return (vectorized)
     }
     ## Define text and value lists
     value_lst <- list(main_element = results,
-                     exclusion_element = num_excl_patients)
+                      exclusion_element = num_excl_patients)
     text_lst <- list(main_element = node_text,
-                       exclusion_element = exclusion_text)
+                     exclusion_element = exclusion_text)
+    ## Pair texts and values
     pair_lst <- lapply(setNames(list(value_lst, text_lst), nm = c("Value", "Text")),
                        function (lst){
                            ## Vectorize
                            vectorized <- unlist(mapply(pair.function,
                                                        main_element = lst$main_element,
                                                        exclusion_element = lst$exclusion_element,
+                                                       i = seq_along(lst$main_element),
+                                                       USE.NAMES = FALSE,
                                                        SIMPLIFY = FALSE),
                                                 recursive = FALSE)
                            ## Remove space vector element
