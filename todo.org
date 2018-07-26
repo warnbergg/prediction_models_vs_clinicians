@@ -59,7 +59,8 @@
 ** TODO Modify SupaLarnas create.rocr.plots error handling           :todo27:
     - Error handling for split var and train test
 ** DONE [#B] Generalize flowchart generator (for test sample)        :todo28:
-** TODO [#A] Fix sample inclusion                                    :todo29:
+** DONE Fix sample inclusion                                         :todo29:
+** TODO [#B] Modify grid for models, as appropriate for steps        :todo30:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** DONE Low AUROCC?                                                  :issue2:

@@ -163,10 +163,10 @@ Triage performance were evaluated in terms of discrimination and
 reclassification. Discrimination refer to the ability to differentiate between
 patients with high and low risk of the outcome of interest.
 \cite{Fawcett2006}. Model discrimination may be illustrated as point True Positive Rate (TPR) and False Positive
-Rate (FPR) estimates accross all possible thresholds of the models 
-score. The corresponding graph is referred to as a Receiver Operating
-Characteristics (ROC) curve. Discriminatory performance may be quantified by calculating the Area Under the
-ROC-curves (AUROCC). An AUROCC of 0.5 indicate a discriminatory
+Rate (FPR) tradeoffs accross all possible thresholds of a models 
+score. The corresponding graph is a Receiver Operating
+Characteristics (ROC) curve. Discriminative performance may be quantified by calculating the Area Under the
+ROC-curves (AUROCC). An AUROCC of 0.5 indicate a discriminative
 ability no better than chance, and an AUC of 1.0 indicate perfect
 discrimination. Both continous and binned scores were assessed in
 order to evaluate the grid searched cut-offs.
@@ -298,8 +298,7 @@ and non-event reclassification of \rinline{paste(reclass.tbl["NRI-",],
 %categorised surviving patients more accurately than clinicians. According to the
 %NRI, all models categorised patients better than clinicians.
 \nt{To be written}
-\nt{Visual presentation alternatives, gerdin et al. The risk of dying
-  pp. 65, }
+
 % *** Methodological considerations
 \subsection{Methodological considerations}
 The cut-offs used were not at the same thresholds as in the original
@@ -308,8 +307,8 @@ original articles categorised patients in
 three risk groups - low,
 moderate, and high - yet none included a fourth
 risk group. Here, the rationale were to adjust categorisation according to
-existing trauma triage systems (\nt{see SATS etc.}) in order to
-generalize the findings and simplify potential model implemention in
+existing triage systems (\nt{see SATS etc.}) in order to
+generalize the findings and simplify future model implemention in
 clinical practice.
 
 Arugably as important performance estimates and illustrations as those
@@ -318,19 +317,29 @@ such as precision-rcall tradeoffs, were not
 generated. Insead, the aim were to follow published recommendations from clinicial
 prediction model development framework (see <insert
 footnote>). Calibration and clinical usefulness analyses were
-omitted, however if used the former have had to be simlified, sustituting
-the recommended decile scatter plot and a 0 to 1 limited x-axis for
-predicted to observed outcome in each risk group. Here,
-risk of 30-day mortality have had to be assumed to increase with upwards movement in
-categories. The latter analysis relies on single dichtomisation, hence were not
-directly applicable to this study design.
+omitted. However if used the former have had to be simlified, sustituting
+observed versus predicted proability of mortality in deciles of a
+model score,  and a 0
+to 1 limited x-axis, for predicted to observed outcome in each risk
+group. Here, risk of 30-day mortality have had to be assumed to
+increase with upwards movement in categories. The latter analysis
+relies on single dichtomisation, hence were not directly applicable to this study design.
 
-The rationale for including GAP, KTS, RTS, and the Gerdin et
-al. model were, firstly, that no validation study to date have
+The main rationale for including GAP, KTS, RTS, and the Gerdin et
+al. model were that no validation study to date have
 compared the models triage performance to that of
-clinicians. In contrast, few algorithms have been developed with
-intuitive mobile or computer applications other than simply - a key
-component in clinical implementation. 
+clinicians. That said, few of the study's algorithms have been
+developed with intuitive mobile applications or visually
+compelling charts. Instead, plain score
+calculators are widely used. Given that prediction
+models are developed for implementation in clinical trauma
+care, visual presentation has to be a highly prioritised focus area in
+score development and validation. Therefore, including models where
+this aspect has been looked after, for example the ISS or TTRIS scores, would perhaps
+have been a greater step towards final implementation.
+
+\nt{complete case analysis}
+
 \nt{Performance metric grid search and cut points (cat-con comparison) consideration.}
 
 % ** Conclusion
