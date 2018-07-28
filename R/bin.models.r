@@ -8,6 +8,7 @@
 #' @param return_cps Logical. Function returns model cut_points if TRUE. Defaults to TRUE.
 #' @param gridsearch_parallel Logical. If TRUE the gridsearch is performed in parallel. Defaults to FALSE.
 #' @param is_sample Logical. If TRUE, only a tenth of possible cut points is searched. Defaults to TRUE.
+#' @param maximise Logical. If TRUE, grid search maximizes performance metric. Passed to SupaLarna::gridsearch.breaks. Defaults to TRUE.
 #' @export
 bin.models <- function(
                        predictions,
@@ -16,7 +17,8 @@ bin.models <- function(
                        grid,
                        return_cps = TRUE,
                        gridsearch_parallel = FALSE,
-                       is_sample = TRUE
+                       is_sample = TRUE,
+                       maximise = FALSE
                        )
 {
     ## Grid search cutpoints for model predictions.
@@ -28,7 +30,8 @@ bin.models <- function(
                                  outcomes = outcomes,
                                  parallel = gridsearch_parallel,
                                  n_cores = n_cores,
-                                 sample = is_sample)
+                                 sample = is_sample,
+                                 maximise = maximise)
     if (return_cps) results$cut_points_lst[[paste0(max(predictions), "_cut_points")]] <<- cut_points
     ## Define labels for binning
     labels <- c("Green",
