@@ -188,12 +188,14 @@ order to evaluate the grid searched cut-offs.
 % *** Reclassification 
 \subsubsection{Net reclassification improvement}
 Net Reclassification Improvement (NRI) may be defined as a measure of the difference in
-subject classification of two models
+classification of two models
 \cite{MichaelJ.Pencina1RalphB.DAgostinoSr12009}. In this study, NRI
-equals the difference of groups of summarized proportions for surviving and
-non-surviving patients, each group being the sum of net proportions
-reclassified up- and downwards in priority groups.
-In addition to NRI, event and non-event summarized groups are assessed individually. All values range from -1 to 1, with positive values indicating the grouping
+equals the sum of proportions of events moving upwards and downwards in categories,
+minus the sum of proportions of non-events moving upwards and downwards
+in categories.
+In addition to the NRI, event and non-event summed proportions are
+assessed individually, denoted NRI+ and NRI-. NRI, NRI+, and NRI-
+values all range from -1 to 1, with positive values indicating the grouping
 conducted by the model to be more superior than that performed by the
 clinicians, and negative values indicating vice versa.
 
@@ -239,9 +241,9 @@ respectively generated AUROCCs of \rinline{paste(cut.lst.auc, sep =
 Reclassification estimates and corresponding confidence intervals for
 binned model scores are reported in Table
 \ref{table:reclassification}. \rinline{paste(colnames(reclass.tbl),
-  sep = ",")} respectively reported an NRI of
+  sep = ",")} respectively generated an NRI of
 \rinline{paste(reclass.tbl["NRI",], sep = ",")}, event
-reclassification of \rinline{paste(reclass.tbl["NRI+",], soep = ",")}
+reclassification of \rinline{paste(reclass.tbl["NRI+",], sep = ",")}
 and non-event reclassification of \rinline{paste(reclass.tbl["NRI-",],
   sep = ",")}.
 
@@ -301,44 +303,47 @@ and non-event reclassification of \rinline{paste(reclass.tbl["NRI-",],
 
 % *** Methodological considerations
 \subsection{Methodological considerations}
-The cut-offs used were not at the same thresholds as in the original
+The cut-offs used were not at the same thresholds as in some of the original
 publications. Nor were the same number of cut points used. Some
 original articles categorised patients in
 three risk groups - low,
 moderate, and high - yet none included a fourth
-risk group. Here, the rationale were to adjust categorisation according to
+risk group. Here, the rationale were to adjust model categorisation according to
 existing triage systems (\nt{see SATS etc.}) in order to
-generalize the findings and simplify future model implemention in
-clinical practice.
+simplify potential future implemention in clinical practice.
 
-Arugably as important performance estimates and illustrations as those
+Arugably as important performance measures and illustrations as those
 included,
-such as precision-rcall tradeoffs, were not
-generated. Insead, the aim were to follow published recommendations from clinicial
-prediction model development framework (see <insert
-footnote>). Calibration and clinical usefulness analyses were
-omitted. However if used the former have had to be simlified, sustituting
-observed versus predicted proability of mortality in deciles of a
-model score,  and a 0
-to 1 limited x-axis, for predicted to observed outcome in each risk
-group. Here, risk of 30-day mortality have had to be assumed to
-increase with upwards movement in categories. The latter analysis
-relies on single dichtomisation, hence were not directly applicable to this study design.
+such as precision-recall tradeoffs, were not
+generated. The aim were to follow published recommendations from clinicial
+prediction model development framework \cite{Steyerberg2014}. Still calibration and clinical usefulness analyses were
+omitted. If used the former would have been simlified:
+Observed and predicted mortality in model score deciles, and a 0
+to 1 limited x-axis, would be substituted for calibration in each risk
+group and a dichtomized x-axis. Here, risk of 30-day mortality would
+be assumed to increase with upwards movement in categories. The latter analysis,
+clinical usefulness,
+relies on categorising patients in low and
+high risk groups, hence were not directly applicable to the models multi-categorisation
+design.
 
 The main rationale for including GAP, KTS, RTS, and the Gerdin et
 al. model were that no validation study to date have
 compared the models triage performance to that of
-clinicians. That said, few of the study's algorithms have been
-developed with intuitive mobile applications or visually
-compelling charts. Instead, plain score
-calculators are widely used. Given that prediction
-models are developed for implementation in clinical trauma
-care, visual presentation has to be a highly prioritised focus area in
-score development and validation. Therefore, including models where
-this aspect has been looked after, for example the ISS or TTRIS scores, would perhaps
-have been a greater step towards final implementation.
+clinicians. However, considering a clinical usefulness aspect, other
+models may be seen as more appropriate to validate. 
+One being that few of this study's algorithms are presented
+with intuitive charts or other form of visual aid. Instead, most models
+are represented by plain score calculators. Visual
+presentation have been recommended as a prioritised focus area in
+score development and validation in order to similify practical use. 
 
-\nt{complete case analysis}
+A large number of patients, namely
+\rinline{gsub("\"", "",
+  results$flowchart_lst$Value[["Exclusion_node_3"]])} of them, were omitted upon
+case completion. As the sample size is quite small even pre-completion, we
+considered missing data imputation.
+
 
 \nt{Performance metric grid search and cut points (cat-con comparison) consideration.}
 
