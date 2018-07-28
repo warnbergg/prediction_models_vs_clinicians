@@ -13,6 +13,7 @@ bin.models <- function(
                        predictions,
                        outcomes,
                        n_cores,
+                       grid,
                        return_cps = TRUE,
                        gridsearch_parallel = FALSE,
                        is_sample = TRUE
@@ -23,9 +24,7 @@ bin.models <- function(
     ## end point in grid search.
     cut_points <- SupaLarna::gridsearch.breaks(
                                  predictions,
-                                 grid = seq(min(predictions),
-                                            max(predictions),
-                                            0.01),
+                                 grid = grid,
                                  outcomes = outcomes,
                                  parallel = gridsearch_parallel,
                                  n_cores = n_cores,

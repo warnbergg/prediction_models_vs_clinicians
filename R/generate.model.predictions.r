@@ -2,7 +2,6 @@
 #'
 #' This function bins model predictions and converts them from character labels to numeric labels.
 #' @param study_data The study data frame. No default
-#' @param model_names Character vector of names of models. Defaults to c("RTS","GAP","KTS","gerdin")
 #' @param n_cores Number of cores to be used in parallel gridsearch. Passed to bin.models (which, in turn, passes to SupaLarna::gridsearch.breaks). As integer. Defaults to 2 (in gridsearch.breaks)
 #' @param return_cps Logical. Function returns model cut_points if TRUE. Passed to bin.models. Defaults to TRUE.
 #' @param log Logical. If TRUE progress is logged in logfile. Defaults to FALSE.
@@ -15,10 +14,6 @@
 #' @export
 generate.model.predictions <- function(
                                        study_data,
-                                       model_names = c("RTS",
-                                                       "GAP",
-                                                       "KTS",
-                                                       "gerdin"),
                                        n_cores,
                                        return_cps = FALSE,
                                        log = FALSE,
@@ -31,8 +26,13 @@ generate.model.predictions <- function(
 {
     ## Extract outcome from study_data
     outcome <- study_data$s30d
+    ## Define model_names
+    model_names <- c("RTS", "GAP", "KTS", "gerdin")
     ## Define suffixes
     suffixes <- setNames(nm = c("_CON", "_CUT"))
+    ## Define model steps for gridsearch
+    model_steps <- setNames(as.list(c(0.5, 1, 1, 0.01)),
+                            nm = model_names)
     ## Define dir_name for write_to_disk
     dir_name <- "predictions"
     if (clean_start) {
@@ -41,14 +41,18 @@ generate.model.predictions <- function(
         if (log) write("Nothing yet...", "logfile")
     }
     ## Generate predictions with models
-    pred_data <- unlist(lapply(model_names, function(model_name, suffixes){
+    pred_data <- unlist(lapply(model_names, function(model_name, suffixes,
+                                                     model_steps){
         ## Get function from string
         model_func <- get(paste0("model.", model_name))
         ## Make predictions on study_data
         con_pred <- model_func(study_data)
+        ## Define grid for model
+        grid = seq(min(con_pred), max(con_pred), by = model_steps[[model_name]])
         ## Bin preds
         binned_pred <- bin.models(con_pred,
                                   outcomes = outcome,
+                                  grid = grid,
                                   n_cores = n_cores,
                                   return_cps = return_cps,
                                   gridsearch_parallel = gridsearch_parallel,
@@ -61,7 +65,7 @@ generate.model.predictions <- function(
                                    binned_pred),
                               nm = sapply(suffixes, function(suffix)
                                   paste0(model_name, suffix)))
-        return (pred_data)}, suffixes = suffixes),
+        return (pred_data)}, suffixes = suffixes, model_steps = model_steps),
         recursive = FALSE)
     ## Bind outcome as well as tc to pred_data
     pred_data$outcome <- outcome
