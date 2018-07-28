@@ -11,6 +11,7 @@
 #' @param gridsearch_parallel Logical. Passed to bin.models (which, in turn, passes to SupaLarnas gridsearch.breaks). If TRUE the gridsearch is performed in parallel. Defaults to FALSE.
 #' @param is_sample Logical. Passed to bin.models. If TRUE, only a tenth of possible cut points is searched. Defaults to TRUE.
 #' @param clean_start Logical. If TRUE the predictions directory and all files in it are removed before saving new stuff there. Defaults to FALSE.
+#' @param maximise Logical. If TRUE, grid search maximizes performance metric. Passed to bin.models (in turn passed to SupaLarna::gridsearch.breaks) Defaults to TRUE.
 #' @export
 generate.model.predictions <- function(
                                        study_data,
@@ -21,7 +22,8 @@ generate.model.predictions <- function(
                                        write_to_disk = FALSE,
                                        clean_start = FALSE,
                                        gridsearch_parallel = TRUE,
-                                       is_sample = TRUE
+                                       is_sample = TRUE,
+                                       maximise = FALSE
                                        )
 {
     ## Extract outcome from study_data
@@ -56,7 +58,8 @@ generate.model.predictions <- function(
                                   n_cores = n_cores,
                                   return_cps = return_cps,
                                   gridsearch_parallel = gridsearch_parallel,
-                                  is_sample = is_sample)
+                                  is_sample = is_sample,
+                                  maximise = maximise)
         ## Convert to numeric preds
         levels(binned_pred) <- as.character(1:4)
         binned_pred <- as.numeric(binned_pred)
