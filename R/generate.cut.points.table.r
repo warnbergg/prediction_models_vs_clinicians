@@ -11,23 +11,31 @@ generate.cut.points.table <- function(cut_points,
                                       range_labels = c("Green", "Yellow", "Orange", "Red"),
                                       invert_names = c("RTS", "GAP", "KTS"), digits = 2,
                                       save = TRUE){
+    cut_points = results$cut_points_lst
     ## Error handling
     if (!is.list(cut_points)) stop ("Cut_points must be list.")
     ## Invert prediction listed in invert_names
     for (pred_label in invert_names){
-        cut_points[[pred_label]] <- rev(1/cut_points[[pred_label]])
+        cut_points[[pred_label]] <- rev(cut_points[[pred_label]])
     }
     ## Generate table
     tbl <- as.matrix(do.call(cbind, cut_points))
     ## Initialize list for rows
     row_lst <- list()
-    ## Add operators
+    ## Adding operators. Loop through 1 to nrow of table + 1, adding
+    ## operators besed on type of score
     for (i in 0:nrow(tbl) + 1){
+        ## Get logical. To minimise repeating.
+        to_invert <- invert_names[i] %in% colnames(tbl)[i]
         if (i == 1){
+            ## Flip operator for max to min scores
+            ## and tos
+            operator <- "<"
+            if (to_invert) operator <- ">"
             ## First iter
-            row_lst[[i]] <- paste("<", round(tbl[i,],
-                                             digits = digits))
-        } else if (i > 1 & i < nrow(tbl) + 1){
+            row_lst[[i]] <- paste(operator, round(tbl[i,],
+                                                  digits = digits))
+        } else if (i > 1 && i < nrow(tbl) + 1){
             ## Subsequent iters until nrow(tbl) - 1
             row_lst[[i]] <- paste(round(tbl[i - 1,], digits = digits),
                                   "to",
@@ -35,8 +43,8 @@ generate.cut.points.table <- function(cut_points,
                                         digits = digits))
         } else if (i == nrow(tbl) + 1) {
             ## Last iter
-            row_lst[[i]] <- paste(">", round(tbl[i - 1,],
-                                             digits = digits))
+            row_lst[[i]] <- paste(operator, round(tbl[i - 1,],
+                                                  digits = digits))
         }
     }
     ## Bind levels
