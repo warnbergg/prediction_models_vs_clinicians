@@ -11,7 +11,6 @@
 #' @param gridsearch_parallel Logical. Passed to bin.models (which, in turn, passes to SupaLarnas gridsearch.breaks). If TRUE the gridsearch is performed in parallel. Defaults to FALSE.
 #' @param is_sample Logical. Passed to bin.models. If TRUE, only a tenth of possible cut points is searched. Defaults to TRUE.
 #' @param clean_start Logical. If TRUE the predictions directory and all files in it are removed before saving new stuff there. Defaults to FALSE.
-#' @param maximise Logical. If TRUE, grid search maximizes performance metric. Passed to bin.models (in turn passed to SupaLarna::gridsearch.breaks) Defaults to TRUE.
 #' @export
 generate.model.predictions <- function(
                                        study_data,
@@ -22,8 +21,7 @@ generate.model.predictions <- function(
                                        write_to_disk = FALSE,
                                        clean_start = FALSE,
                                        gridsearch_parallel = TRUE,
-                                       is_sample = TRUE,
-                                       maximise = FALSE
+                                       is_sample = TRUE
                                        )
 {
     ## Extract outcome from study_data
@@ -32,9 +30,11 @@ generate.model.predictions <- function(
     model_names <- c("RTS", "GAP", "KTS", "gerdin")
     ## Define suffixes
     suffixes <- setNames(nm = c("_CON", "_CUT"))
-    ## Define model steps for gridsearch
-    model_steps <- setNames(as.list(c(0.5, 1, 1, 0.01)),
-                            nm = model_names)
+    ## Define model settings for gridsearch
+    model_settings <- list(model_steps = setNames(as.list(c(0.5, 1, 1, 0.01)),
+                                                  nm = model_names),
+                           model_optimise = setNames(as.list(c(FALSE, FALSE, FALSE, TRUE)),
+                                                     nm = model_names))
     ## Define dir_name for write_to_disk
     dir_name <- "predictions"
     if (clean_start) {
@@ -44,13 +44,16 @@ generate.model.predictions <- function(
     }
     ## Generate predictions with models
     pred_data <- unlist(lapply(model_names, function(model_name, suffixes,
-                                                     model_steps){
+                                                     model_settings){
         ## Get function from string
         model_func <- get(paste0("model.", model_name))
         ## Make predictions on study_data
         con_pred <- model_func(study_data)
-        ## Define grid for model
-        grid = seq(min(con_pred), max(con_pred), by = model_steps[[model_name]])
+        ## Get grid for model
+        grid <-  seq(min(con_pred), max(con_pred),
+                     by = model_settings$model_steps[[model_name]])
+        ## Get maximise from settings
+        optimise <- model_settings$model_optimise[[model_name]]
         ## Bin preds
         binned_pred <- bin.models(con_pred,
                                   outcomes = outcome,
@@ -59,7 +62,7 @@ generate.model.predictions <- function(
                                   return_cps = return_cps,
                                   gridsearch_parallel = gridsearch_parallel,
                                   is_sample = is_sample,
-                                  maximise = maximise)
+                                  maximise = optimise)
         ## Convert to numeric preds
         levels(binned_pred) <- as.character(1:4)
         binned_pred <- as.numeric(binned_pred)
@@ -68,7 +71,7 @@ generate.model.predictions <- function(
                                    binned_pred),
                               nm = sapply(suffixes, function(suffix)
                                   paste0(model_name, suffix)))
-        return (pred_data)}, suffixes = suffixes, model_steps = model_steps),
+        return (pred_data)}, suffixes = suffixes, model_settings = model_settings),
         recursive = FALSE)
     ## Bind outcome as well as tc to pred_data
     pred_data$outcome <- outcome
