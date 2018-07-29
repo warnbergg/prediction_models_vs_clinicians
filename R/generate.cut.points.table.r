@@ -2,60 +2,61 @@
 #'
 #' This function generates the cut points table.
 #' @param cut_points List of numeric vectors. Each containing cut points for models. No default.
-#' @param range_labels Character vector. Labels to ranges cut by cut points. Defaults to c("Green", "Yellow", "Orange", "Red").
+#' @param group_labels Character vector. Labels to groups. Defaults to c("Green", "Yellow", "Orange", "Red").
 #' @param invert_names Character vector. Labels of predictions to be inverted. Defaults to c("RTS", "GAP", "KTS").
 #' @param digits Integer. Number of decimals when cell values are rounded. Defaults to 2.
-#' @param save Logical. Save to disk? Defaults to TRUE.
+#' @param save Logical. If TRUE, table is saved to disk. Defaults to TRUE.
 #' @export
 generate.cut.points.table <- function(cut_points,
-                                      range_labels = c("Green", "Yellow", "Orange", "Red"),
+                                      group_labels = c("Green", "Yellow", "Orange", "Red"),
                                       invert_names = c("RTS", "GAP", "KTS"), digits = 2,
                                       save = TRUE){
-    cut_points = results$cut_points_lst
     ## Error handling
     if (!is.list(cut_points)) stop ("Cut_points must be list.")
     ## Invert prediction listed in invert_names
     for (pred_label in invert_names){
         cut_points[[pred_label]] <- rev(cut_points[[pred_label]])
     }
-    ## Generate table
-    tbl <- as.matrix(do.call(cbind, cut_points))
-    ## Initialize list for rows
-    row_lst <- list()
-    ## Adding operators. Loop through 1 to nrow of table + 1, adding
-    ## operators besed on type of score
-    for (i in 0:nrow(tbl) + 1){
-        ## Get logical. To minimise repeating.
-        to_invert <- invert_names[i] %in% colnames(tbl)[i]
-        if (i == 1){
-            ## Flip operator for max to min scores
-            ## and tos
-            operator <- "<"
-            if (to_invert) operator <- ">"
-            ## First iter
-            row_lst[[i]] <- paste(operator, round(tbl[i,],
-                                                  digits = digits))
-        } else if (i > 1 && i < nrow(tbl) + 1){
-            ## Subsequent iters until nrow(tbl) - 1
-            row_lst[[i]] <- paste(round(tbl[i - 1,], digits = digits),
-                                  "to",
-                                  round(tbl[i,],
-                                        digits = digits))
-        } else if (i == nrow(tbl) + 1) {
-            ## Last iter
-            row_lst[[i]] <- paste(operator, round(tbl[i - 1,],
-                                                  digits = digits))
-        }
-    }
-    ## Bind levels
-    range_tbl <- data.frame(do.call(rbind, row_lst),
-                            row.names = range_labels)
-    colnames(range_tbl) <- colnames(tbl)
+    ## Generate cut points column for cut points table
+    cutpoints_mtrx <- do.call(cbind, lapply(seq_along(cut_points), function (iter){
+        ## Define length of cut points list element
+        ## plus one, to make a list of length plus one
+        len_plus_one <- length(cut_points[[iter]]) + 1
+        ## Define logical if to invert. To minimise repeating lines.
+        to_invert <- names(cut_points)[iter] %in% invert_names[iter]
+        sapply(1:len_plus_one, function (jiter){
+            ## For first cut point
+            if (jiter == 1){
+                ## Define operator based on invert cut points or not
+                operator <- "<"
+                if (to_invert) operator <- ">"
+                return_object <- paste(operator,
+                                       round(cut_points[[iter]][jiter], digits = digits))
+            ## For subsequent cut points and
+            } else if (jiter > 1 && jiter < len_plus_one){
+                return_object <- paste(round(cut_points[[iter]][jiter - 1], digits=digits),
+                                       "to",
+                                       round(cut_points[[iter]][jiter], digits = digits))
+            ## For last cut point
+            } else if (jiter == len_plus_one){
+                ## Define operator based on invert cut points or not
+                operator <- ">"
+                if (to_invert) operator <- "<"
+                return_object <- paste(operator,
+                                       round(cut_points[[iter]][jiter - 1], digits = digits))
+            }
+            return (return_object)
+        })
+    }))
+    ## Set rownames and colnames
+    cutpoints_df <- data.frame(cutpoints_mtrx,
+                               row.names = group_labels)
+    colnames(cutpoints_df) <- names(cut_points)
     ## Save to disk
     if (save) make.and.save.xtable(range_tbl,
                                    file_name = "cut_points_table.tex",
-                                   caption = "Included models and corresponding cut points optimising auc.",
+                                   caption = "Prediction models and cut points",
                                    label = "cut_points")
 
-    return (range_tbl)
+    return (cutpoints_df)
 }
