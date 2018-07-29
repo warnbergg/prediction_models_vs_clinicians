@@ -80,20 +80,17 @@ pretty_model_names <- c("RTS",
                         "Gerdin et al.")
 ## Initialize cut_points_lst
 results$cut_points_lst <- list()
-str(results)
 ## Generate model predictions
 predictions <- generate.model.predictions(study_data,
                                           n_cores = 4,
                                           write_to_disk = TRUE,
                                           gridsearch_parallel = TRUE,
                                           clean_start = TRUE,
-                                          return_cps = TRUE,
-                                          maximise = FALSE)
+                                          return_cps = TRUE)
 ## Rename cut_points according to model_names
 names(results$cut_points_lst) <- pretty_model_names
 ## Save cut points table
 cut_points_table <- generate.cut.points.table(cut_points = results$cut_points_lst)
-
 ## Generate boostrap samples
 samples <- SupaLarna::generate.bootstrap.samples(study_data,
                                                  bs_samples = 3)
