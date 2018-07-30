@@ -78,9 +78,29 @@ pretty_model_names <- c("RTS",
                         "GAP",
                         "KTS",
                         "Gerdin et al.")
+## Define suffixes to be added to model names
+suffixes <- c("_CUT", "_CON")
+## Define clinicians labels for regular and pretty names
+clinicians_names <- c("tc", "Clinicians")
+## Create names lst
+lst_w_names <- setNames(list(model_names, pretty_model_names),
+                        nm = c("names", "pretty_names"))
+## Paste suffixes to names, and bind triage category
+names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
+                    function (model_lst, names, i){
+                        ## Paste suffixes to both pretty and non-pretty model
+                        ## names
+                        lst <- lapply(suffixes, function(suffix){
+                            paste0(model_lst[[i]], suffix)
+                        })
+                        ## Unlist to vector and bind tc to models
+                        new_names <- c(unlist(lst), clinicians_names[i])
+
+                        return (new_names)
+                    }, model_lst = lst_w_names, names = names(lst_w_names))
 ## Initialize cut_points_lst
 results$cut_points_lst <- list()
-## Generate model predictions
+## Generate model predictions; one for cut points table and one for analysis
 predictions <- generate.model.predictions(study_data,
                                           n_cores = 4,
                                           write_to_disk = TRUE,
@@ -103,26 +123,6 @@ bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(
                                         log = TRUE,
                                         boot = TRUE,
                                         write_to_disk = TRUE)
-## Define suffixes to be added to models
-suffixes <- c("_CUT", "_CON")
-## Define clinicians labels for regular and pretty names
-clinicians_names <- c("tc", "Clinicians")
-## Create names list for loop
-lst_w_names <- setNames(list(model_names, pretty_model_names),
-                        nm = c("names", "pretty_names"))
-## Paste suffixes to names, and bind triage category
-names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
-                    function (model_lst, names, i){
-                        ## Paste suffixes to both pretty and non-pretty model
-                        ## names
-                        lst <- lapply(suffixes, function(suffix){
-                            paste0(model_lst[[i]], suffix)
-                        })
-                        ## Unlist to vector and bind tc to models
-                        new_names <- c(unlist(lst), clinicians_names[i])
-
-                        return (new_names)
-                    }, model_lst = lst_w_names, names = names(lst_w_names))
 ## List for ci for each model
 AUC_ci <- list(models = names_lst$names,
                ci_type = "ci",
@@ -146,7 +146,7 @@ model_model_pairs <- setNames(c(model_model_pairs, lapply(model_model_pairs,
                               nm = names_lst$names)
 AUC_diff_cat_con <- list(models = model_model_pairs,
                          ci_type = "diff",
-analysis_type = "AUC",
+                         analysis_type = "AUC",
                          un_list = FALSE)
 ## List for reclassification
 ## List together
@@ -158,7 +158,7 @@ AUC_together <- setNames(list(AUC_ci, AUC_diff, AUC_diff_cat_con),
 analysis_lst <- list()
 ## Generate confidence intervals for diff types
 analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
-    cis <- lapply(AUC_lst$models, function(model_or_pair){
+    cis <- lapply(AUC_lst$models, function (model_or_pair) {
         SupaLarna::generate.confidence.intervals.v2(
                        predictions,
                        model_names = model_or_pair,
