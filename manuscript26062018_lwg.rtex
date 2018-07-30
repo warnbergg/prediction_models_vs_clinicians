@@ -309,18 +309,19 @@ original articles categorised patients in
 three risk groups - low,
 moderate, and high - yet none included a fourth
 risk group. Here, the rationale were to adjust model categorisation according to
-existing triage systems (\nt{see SATS etc.}) in order to
+existing triage systems \cite{SATS}. in order to
 simplify potential future implemention in clinical practice.
 
 Arugably as important performance measures and illustrations as those
 included,
 such as precision-recall tradeoffs, were not
 generated. The aim were to follow published recommendations from clinicial
-prediction model development framework \cite{Steyerberg2014}. Still calibration and clinical usefulness analyses were
+prediction model development framework as far as appropriate
+\cite{Steyerberg2014}. Still calibration and clinical usefulness analyses were
 omitted. If used the former would have been simlified:
 Observed and predicted mortality in model score deciles, and a 0
 to 1 limited x-axis, would be substituted for calibration in each risk
-group and a dichtomized x-axis. Here, risk of 30-day mortality would
+group and a dichtomised x-axis. Here, risk of 30-day mortality would
 be assumed to increase with upwards movement in categories. The latter analysis,
 clinical usefulness,
 relies on categorising patients in low and
@@ -331,18 +332,19 @@ The main rationale for including GAP, KTS, RTS, and the Gerdin et
 al. model were that no validation study to date have
 compared the models triage performance to that of
 clinicians. However, considering a clinical usefulness aspect, other
-models may be seen as more appropriate to validate. 
-One being that few of this study's algorithms are presented
+models may be seen as more appropriate to include. A couple of reasons
+explain why. One being that few of this study's algorithms are presented
 with intuitive charts or other form of visual aid. Instead, most models
 are represented by plain score calculators. Visual
 presentation have been recommended as a prioritised focus area in
-score development and validation in order to similify practical use. 
+score development and validation in order to similify practical
+use. \cite{Steyerberg2014}
 
 A large number of patients, namely
 \rinline{gsub("\"", "",
-  results$flowchart_lst$Value[["Exclusion_node_3"]])} of them, were omitted upon
-case completion. As the sample size is quite small even pre-completion, we
-considered missing data imputation.
+  results$flowchart_lst$Value[["Exclusion_node_3"]])} of them, were
+omitted upon data completion. As the sample size is quite small even
+pre-completion, missing data imputation were considered. 
 
 
 \nt{Performance metric grid search and cut points (cat-con comparison) consideration.}
