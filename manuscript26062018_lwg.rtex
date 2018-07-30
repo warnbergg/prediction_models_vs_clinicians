@@ -325,27 +325,26 @@ group and a dichtomised x-axis. Here, risk of 30-day mortality would
 be assumed to increase with upwards movement in categories. The latter analysis,
 clinical usefulness,
 relies on categorising patients in low and
-high risk groups, hence were not directly applicable to the models multi-categorisation
+high risk groups, hence were not directly applicable to the models
+multi cut-off
 design.
 
 The main rationale for including GAP, KTS, RTS, and the Gerdin et
 al. model were that no validation study to date have
 compared the models triage performance to that of
 clinicians. However, considering a clinical usefulness aspect, other
-models may be seen as more appropriate to include. A couple of reasons
-explain why. One being that few of this study's algorithms are presented
-with intuitive charts or other form of visual aid. Instead, most models
-are represented by plain score calculators. Visual
-presentation have been recommended as a prioritised focus area in
-score development and validation in order to similify practical
-use. \cite{Steyerberg2014}
+models may be seen as more appropriate to include. One argument being
+that few of this study's algorithms are presented with intuitive
+charts or other form of visual aid. Instead, most models are
+represented by plain score calculators. Visual presentation have been
+recommended as a prioritised focus area in score development and
+validation in order to similify practical use. \cite{Steyerberg2014}
 
 A large number of patients, namely
 \rinline{gsub("\"", "",
   results$flowchart_lst$Value[["Exclusion_node_3"]])} of them, were
-omitted upon data completion. As the sample size is quite small even
+omitted upon case completion. As the sample size is quite small
 pre-completion, missing data imputation were considered. 
-
 
 \nt{Performance metric grid search and cut points (cat-con comparison) consideration.}
 
