@@ -34,9 +34,9 @@ model.RTS <- function(
                                )
     ## Apply RTS coefficients to variables and sum rows to generate predictions.
     ## Then, invert.
-    predictions <- 1/rowSums(mapply('*',
-                                    binned_variables,
-                                    RTS_coefficients))
+    predictions <- rowSums(mapply('*',
+                                  binned_variables,
+                                  RTS_coefficients))
 
     return (predictions)
 }

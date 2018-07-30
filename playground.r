@@ -82,7 +82,6 @@ pretty_model_names <- c("RTS",
 results$cut_points_lst <- list()
 ## Generate model predictions
 predictions <- generate.model.predictions(study_data,
-                                          model_names,
                                           n_cores = 4,
                                           write_to_disk = TRUE,
                                           gridsearch_parallel = TRUE,
