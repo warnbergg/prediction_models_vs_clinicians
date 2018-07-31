@@ -34,7 +34,7 @@ generate.model.predictions <- function(
     model_settings <- list(model_steps = setNames(as.list(c(0.5, 1, 1, 0.01)),
                                                   nm = model_names),
                            model_optimise = setNames(as.list(c(FALSE, FALSE, FALSE, TRUE)),
-                                                     nm = model_names))
+                                                     nm =  model_names))
     ## Define dir_name for write_to_disk
     dir_name <- "predictions"
     if (clean_start) {
@@ -49,9 +49,11 @@ generate.model.predictions <- function(
         model_func <- get(paste0("model.", model_name))
         ## Make predictions on study_data
         con_pred <- model_func(study_data)
+        ## Define steps
+        step <- model_settings$model_steps[[model_name]]
         ## Get grid for model
         grid <-  seq(min(con_pred), max(con_pred),
-                     by = model_settings$model_steps[[model_name]])
+                     by = step)
         ## Get maximise from settings
         optimise <- model_settings$model_optimise[[model_name]]
         ## Bin preds

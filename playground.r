@@ -100,7 +100,7 @@ names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
                     }, model_lst = lst_w_names, names = names(lst_w_names))
 ## Initialize cut_points_lst
 results$cut_points_lst <- list()
-## Generate model predictions; one for cut points table and one for analysis
+## Generate model predictions
 predictions <- generate.model.predictions(study_data,
                                           n_cores = 4,
                                           write_to_disk = TRUE,
@@ -109,7 +109,7 @@ predictions <- generate.model.predictions(study_data,
                                           return_cps = TRUE)
 ## Rename cut_points according to model_names
 names(results$cut_points_lst) <- pretty_model_names
-## Save cut points table
+## Generate cut_points table and save to disk
 cut_points_table <- generate.cut.points.table(cut_points = results$cut_points_lst)
 ## Generate boostrap samples
 samples <- SupaLarna::generate.bootstrap.samples(study_data,
@@ -134,16 +134,19 @@ AUC_diff <- list(models = setNames(lapply(names_lst$names, function(model_name) 
                  ci_type = "diff",
                  analysis_type = "AUC",
                  un_list = FALSE)
+
 ## List for cat con model comparison
-model_model_pairs <- lapply(model_names,
-                            function(model_name){
-                                grep(model_name,
-                                     names_lst$names,
-                                     value = TRUE)})
-model_model_pairs <- setNames(c(model_model_pairs, lapply(model_model_pairs,
-                                                          function(pair) rev(pair)),
+model_model_pairs <- lapply(model_names, function(model_name){
+    pair <- grep(model_name,
+                 names_lst$names,
+                 value = TRUE)
+    return (pair)
+})
+model_model_pairs <- setNames(c(model_model_pairs,
+                                lapply(model_model_pairs, rev),
                                 list(rep("tc", 2))),
                               nm = names_lst$names)
+## Listify
 AUC_diff_cat_con <- list(models = model_model_pairs,
                          ci_type = "diff",
                          analysis_type = "AUC",
@@ -152,13 +155,14 @@ AUC_diff_cat_con <- list(models = model_model_pairs,
 ## List together
 AUC_together <- setNames(list(AUC_ci, AUC_diff, AUC_diff_cat_con),
                          nm = c("AUC and corresponding CI (95 \\%)",
-                                "95 \\% CI on model-model AUC difference",
-                                "95 \\% CI on model-clinician AUC difference"))
+                                "95 \\% CI on model-clinician AUC difference",
+                                "95 \\% CI on model-model AUC difference"))
 ## Intialize analysis list
 analysis_lst <- list()
 ## Generate confidence intervals for diff types
 analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
-    cis <- lapply(AUC_lst$models, function (model_or_pair) {
+    cis <- lapply(AUC_lst$models, function (model_or_pair,
+                                            models_to_invert) {
         SupaLarna::generate.confidence.intervals.v2(
                        predictions,
                        model_names = model_or_pair,
@@ -167,8 +171,9 @@ analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
                        diffci_or_ci = AUC_lst$ci_type,
                        outcome_name = "outcome",
                        digits = 3,
-                       measure = "auc")
-    })
+                       measure = "auc",
+                       models_to_invert = models_to_invert)
+    }, models_to_invert = names_lst$names[!grepl("gerdin|tc", names_lst$names)])
     ## To prevent list of lists
     if (AUC_lst$un_list == TRUE) cis <- unlist(cis, recursive = FALSE)
     return (cis)
@@ -183,7 +188,8 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals.v2(
                                                 samples = bootstrap_predictions,
                                                 diffci_or_ci = "ci",
                                                 outcome_name = "outcome",
-                                                digits = 3)
+                                                digits = 3,
+                                                models_to_invert = names_lst$names[!grepl("tc|_CON", names_lst$names)])
 ## Append analysis list to results
 results$Analysis <- analysis_lst
 ## Initialize estimate tables
@@ -229,14 +235,16 @@ results$estimate_tables <- table_lst
 saveRDS(results, file = "results.rds")
 ## Save plots to disk
 ## ROC-curves
-SupaLarna::create.ROCR.plots.v2(study_sample = predictions,
-                                outcome_name = "outcome",
-                                split_var = "CON",
-                                train_test = FALSE,
-                                ROC_or_precrec = "ROC",
-                                device = "pdf",
-                                models = names_lst$names,
-                                pretty_names = names_lst$pretty_names,
-                                subscript = TRUE)
+SupaLarna::create.ROCR.plots.v2(
+               study_sample = predictions,
+               outcome_name = "outcome",
+               split_var = "CON",
+               train_test = FALSE,
+               ROC_or_precrec = "ROC",
+               device = "pdf",
+               models = names_lst$names,
+               pretty_names = names_lst$pretty_names,
+               subscript = TRUE,
+               models_to_invert = names_lst$names[!grepl("gerdin|tc", names_lst$names)])
 ## Compile flowchart latex document
 knitr::knit2pdf("flowchart_tikz.rtex")
