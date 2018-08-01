@@ -121,8 +121,7 @@ moving from green to red in the corresponding colour spectrum, with
 green and red respectively coded to the least and most urgent
 patients.
 
-Four prediction models (Table 1) were evaluated and compared to clinicians in
-triage performance. The models included age, systolic blood pressure, heart
+Four prediction models (Table \ref{table:cut_points}) were evaluated and compared to clinicians in triage performance. The models included age, systolic blood pressure, heart
 rate, Glasgow coma scale, AVPU, respiratory rate, and number of serious
 injuries. \cite{Kondo2011, Gerdin2014, Kobusingye2000, ChampionHRSaccoWJCopesWSGannDSGennarelliTA1989} All vital signs were recorded
 by the project officers, after receiving training by project management, and
@@ -132,15 +131,13 @@ models. The outcome variable was mortality within 30 days, henceforth referred
 to as 30-day mortality.
 
 % *** Statistical methods
-
 \subsection{Statistical Methods} 
 The triage ability of prediction models was first analysed by categorising
 crude score output into four risk groups, similar to the
-prioritisation conducted by the clinicians. Models nor clinicians were
-informed of each others prioritisation. Cut-off hyperparameters
+prioritisation conducted by the clinicians. Cut-offs
 were optimised using the Area Under the Reciever Operating
 Characteristics Curves (AUROCC) as performance metric in a grid
-search (See subsection Discrimination). In this analyses the models are denoted RTS\textsubscript{CAT},
+search. In this analyses the models are denoted RTS\textsubscript{CAT},
 Gerdin et al.\textsubscript{CAT}, GAP\textsubscript{CAT}, and
 KTS\textsubscript{CAT}. Then, the performance of prediction models was analysed
 by treating the output as continuous, with no attempt at
@@ -148,7 +145,11 @@ standardisation. In
 this analyses, models are denoted RTS\textsubscript{CON}, Gerdin et
 al.\textsubscript{CON}, GAP\textsubscript{CON}, and
 KTS\textsubscript{CON}. Here, the primary purpose were to conduct a
-model-model comparison in order to evaluate the chosen score cut-offs.
+model\textsubscript{CAT} to model\textsubscript{CON} comparison -
+henceforth referred to as a model-model analysis - in
+order to evaluate the chosen score cut points. Models nor clinicians
+were informed of the others prioritisation in any of the the two
+analyses.
 
 \input{cut_points_table.tex}
   
@@ -162,30 +163,15 @@ analysis were conducted in the R statistical environment. \cite{RDevelopmentCore
 Triage performance were evaluated in terms of discrimination and
 reclassification. Discrimination refer to the ability to differentiate between
 patients with high and low risk of the outcome of interest.
-\cite{Fawcett2006}. Model discrimination may be illustrated as point True Positive Rate (TPR) and False Positive
-Rate (FPR) tradeoffs accross all possible thresholds of a models 
-score. The corresponding graph is a Receiver Operating
-Characteristics (ROC) curve. Discriminative performance may be quantified by calculating the Area Under the
+\cite{Fawcett2006}. Model discrimination may be illustrated as Receiver Operating
+Characteristics (ROC) curves, and discriminative performance may be quantified by calculating the Area Under the
 ROC-curves (AUROCC). An AUROCC of 0.5 indicate a discriminative
 ability no better than chance, and an AUC of 1.0 indicate perfect
 discrimination. Both continous and binned scores were assessed in
 order to evaluate the grid searched cut-offs.
 
-% *** Calibration
-%\subsubsection{Calibration}
-%Calibration refer to the relationship between predicted and observed probability
-%of mortality \cite{Knaus1991}, and is generally assessed visually by plotting
-%the relationship alongside a 45-degree line originating in origo representing
-%perfect calibration. However, this assessment method requires the complete model
-%equation to compute predicted probabilities. Because some of the original
-%studies did not report the complete model equation we were unable to compute the
-%predicted probability of 30-day mortality \cite{Kobusingye2000,
-%  ChampionHRSaccoWJCopesWSGannDSGennarelliTA1989, Kobusingye2000}. Instead, we
-%assumed that the risk of mortality was linearly associated with risk group
-%assignment, i.e. that the more severe group the higher the mortality. Thus,
-%calibration was illustrated as the observed probability of 30-day mortality
-%across risk groups.
-% *** Reclassification 
+% *** Reclassification
+
 \subsubsection{Net reclassification improvement}
 Net Reclassification Improvement (NRI) may be defined as a measure of the difference in
 classification of two models
@@ -194,7 +180,7 @@ equals the sum of proportions of events moving upwards and downwards in categori
 minus the sum of proportions of non-events moving upwards and downwards
 in categories.
 In addition to the NRI, event and non-event summed proportions are
-assessed individually, denoted NRI+ and NRI-. NRI, NRI+, and NRI-
+assessed individually, respectively denoted NRI+ and NRI-. NRI, NRI+, and NRI-
 values all range from -1 to 1, with positive values indicating the grouping
 conducted by the model to be more superior than that performed by the
 clinicians, and negative values indicating vice versa.
@@ -238,29 +224,15 @@ in Table
 respectively generated AUROCCs of \rinline{paste(cut.lst.auc, sep =
   ",")}. Clinicians generates an AUROCC of \rinline{clin.auc}.
 
+\nt{model-model review}
+
 Reclassification estimates and corresponding confidence intervals for
 binned model scores are reported in Table
 \ref{table:reclassification}. \rinline{paste(colnames(reclass.tbl),
   sep = ",")} respectively generated an NRI of
-\rinline{paste(reclass.tbl["NRI",], sep = ",")}, event
-reclassification of \rinline{paste(reclass.tbl["NRI+",], sep = ",")}
-and non-event reclassification of \rinline{paste(reclass.tbl["NRI-",],
+\rinline{paste(reclass.tbl["NRI",], sep = ",")}, NRI+ of \rinline{paste(reclass.tbl["NRI+",], sep = ",")}
+and NRI- of \rinline{paste(reclass.tbl["NRI-",],
   sep = ",")}.
-
-%GAP\textsubscript{CON}, Gerdin et al.\textsubscript{CON}, and
-%RTS\textsubscript{CON} had similar AUROCC as clinicians' triage, with AUROCCs of
-%\rinline{tOfEstimatess[3,1]},
-%\rinline{tOfEstimatess[3,2]}, and \rinline{tOfEstimatess[3,4]}, respectively. KTS\textsubscri%pt{CON} discriminated the least
-%accurate with an AUROCC of \rinpline{tOfEstimatess[3,3]}.
-
-%All patients triaged green by clinicians survived, whereas all other models had
-%non-survivors among the green patients (Figure 2). Furthermore, clinicians
-%performed the most consistent in their predictions, illustrated by the
-%relatively straight purple graph. GAP\textsubscript{CAT} predicted higher risk
-%of mortality in relation to increasing risk group, however fairly inconsistently
-%as illustrated by the crooked yellow graph. Gerdin et al.\textsubscript{CAT} and KTS\textsubscript{CAT} did not categorise
-%any patients as red, and no patients in the orange and red risk groups of
-%RTS\textsubscript{CAT} survived.
 
 \input{table_of_sample_characteristics.tex}
 \input{auc_estimates_table.tex}
@@ -272,22 +244,6 @@ and non-event reclassification of \rinline{paste(reclass.tbl["NRI-",],
     binned scores.}
   \includegraphics[scale = 0.8]{roc_plot.pdf}
 \end{figure}
-
-%Regarding reclassification, the risk-classifiction of non-surviving
-%patients conducted by models were less accurate
-%than that peformed by clinicians (Table 3). Compared to clinicians,
-%GAP, the Gerdin et al. model, KTS and RTS respectively reclassified patients
-%corresponding to net proportions of \rinline{tOfEstimatess[5,1]},
-%\rinline{tOfEstimatess[5,2]}, \rinline{tOfEstimatess[5,3]}, and
-%\rinline{tOfEstimatess[5,4]}. Categorisation of suriving patients, however, significantly
-%improved when performed by models. According to former model order,
-%the net reclassified proportions were
-%\rinline{tOfEstimatess[6,1]}, \rinline{tOfEstimatess[6,2]},
-%\rinline{tOfEstimatess[6,3]}, and \rinline{tOfEstimatess[6,4]}. Net
-%proportions for non-events and events were combined to generate
-%\rinline{tOfEstimatess[7,1]}, \rinline{tOfEstimatess[7,2]},
-%\rinline{tOfEstimatess[7,3]}, and \rinline{tOfEstimatess[7,4]} in
-%NRI. (Full overview in Supplementary material)
 
 % ** Discussion
 \newpage
@@ -309,7 +265,7 @@ original articles categorised patients in
 three risk groups - low,
 moderate, and high - yet none included a fourth
 risk group. Here, the rationale were to adjust model categorisation according to
-existing triage systems \cite{SATS}. in order to
+existing triage systems \cite{SATS} [?] in order to
 simplify potential future implemention in clinical practice.
 
 Arugably as important performance measures and illustrations as those
@@ -318,33 +274,26 @@ such as precision-recall tradeoffs, were not
 generated. The aim were to follow published recommendations from clinicial
 prediction model development framework as far as appropriate
 \cite{Steyerberg2014}. Still calibration and clinical usefulness analyses were
-omitted. If used the former would have been simlified:
-Observed and predicted mortality in model score deciles, and a 0
-to 1 limited x-axis, would be substituted for calibration in each risk
-group and a dichtomised x-axis. Here, risk of 30-day mortality would
-be assumed to increase with upwards movement in categories. The latter analysis,
+omitted. Observed and predicted mortality in each risk group instead
+of model score deciles, and a risk group dichtomised x-axis instead of a
+0 to 1 continous x-asis. In addition, one would have to assume 30-day mortality
+to increase with upwards movement in categories. The latter analysis,
 clinical usefulness,
 relies on categorising patients in low and
-high risk groups, hence were not directly applicable to the models
-multi cut-off
-design.
+high risk groups, hence were not directly applicable due to the models
+multiple cut-offs.
 
 The main rationale for including GAP, KTS, RTS, and the Gerdin et
 al. model were that no validation study to date have
 compared the models triage performance to that of
 clinicians. However, considering a clinical usefulness aspect, other
-models may be seen as more appropriate to include. One argument being
-that few of this study's algorithms are presented with intuitive
-charts or other form of visual aid. Instead, most models are
-represented by plain score calculators. Visual presentation have been
-recommended as a prioritised focus area in score development and
-validation in order to similify practical use. \cite{Steyerberg2014}
-
-A large number of patients, namely
-\rinline{gsub("\"", "",
-  results$flowchart_lst$Value[["Exclusion_node_3"]])} of them, were
-omitted upon case completion. As the sample size is quite small
-pre-completion, missing data imputation were considered. 
+models may be seen as more appropriate to review. One reason being
+that visual presentation have been
+recommended to be a highly prioritised focus area in score development and
+validation in order to similify practical model use
+\cite{Steyerberg2014}, and few of the algorithms included lack intuitive
+charts or other form of visual aid for clinicians. Instead, most models are
+represented by plain score calculators. 
 
 \nt{Performance metric grid search and cut points (cat-con comparison) consideration.}
 
