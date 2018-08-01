@@ -21,15 +21,9 @@ study_data[study_data == 999] <- NA
 ## transform variables to factors
 study_data <- SupaLarna::prepare.study.data(study_data,
                                             data_dictionary)
-## Define variabels to transform from factor to numeric
-factors_to_numeric <- c("egcs",
-                        "mgcs",
-                        "vgcs",
-                        "avpu")
-## Transform some factors to numeric
-study_data[, factors_to_numeric] <- lapply(study_data[, factors_to_numeric],
-                                           function(comp) as.numeric(comp))
-## Collapse gcs
+## Coerce avpu, mgcs, egcs and vgcs to numeric
+study_data <- coerce.factor.to.numeric(study_data)
+## Merge gcs components to single gcs
 study_data$gcs <- with(study_data, egcs + mgcs + vgcs)
 ## ## Set patients to dead if dead at discharge or at 24 hours
 ## and alive if coded alive and admitted to other hospital
@@ -83,7 +77,7 @@ suffixes <- c("_CUT", "_CON")
 ## Define clinicians labels for regular and pretty names
 clinicians_names <- c("tc", "Clinicians")
 ## Create names lst
-lst_w_names <- setNames(list(model_names, pretty_model_names),
+plst_w_names <- setNames(list(model_names, pretty_model_names),
                         nm = c("names", "pretty_names"))
 ## Paste suffixes to names, and bind triage category
 names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
@@ -188,7 +182,7 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals.v2(
                                                 diffci_or_ci = "ci",
                                                 outcome_name = "s30d",
                                                 digits = 3,
-                                                models_to_invert = names_lst$names[!grepl("tc|_CON", names_lst$names)])
+                                                models_to_invert = names_lst$names[!grepl("gerdin|tc|_CON", names_lst$names)])
 ## Append analysis list to results
 results$Analysis <- analysis_lst
 ## Initialize estimate tables
@@ -197,7 +191,7 @@ auc_table <- list(table_data = t(do.call(rbind,
                                                 generate.estimate.table,
                                                 pretty_names = names_lst$pretty_names))),
                   label = "auc",
-                  caption = "AUC estimates and difference of model and clinicians AUC, both with corresponding confidence interval (95 \\%)",
+                  caption = "AUROCC estimates, as well as model-model and model-clinician difference, with confidence intervals (95 \\%)",
                   file_name = "auc_estimates_table.tex",
                   san_col = function (word) {word},
                   san_row = function (word) {word})
@@ -212,7 +206,7 @@ reclassification_table <- list(table_data = generate.estimate.table(
                                                            "Pr(Down|Non-event)",
                                                            "Pr(Up|Non-event)")),
                                label = "reclassification",
-                               caption = "Estimates of reclassification and corresponding confidence intervals (95 \\%)",
+                               caption = "Reclassification estimates and corresponding confidence intervals (95 \\%)",
                                file_name = "reclassification_estimates_table.tex",
                                san_col = function (word) {word},
                                san_row = NULL)

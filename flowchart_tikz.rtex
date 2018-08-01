@@ -20,7 +20,7 @@
     text width=60mm,
     minimum height=15mm,
     draw,
-    shade,
+    fill = white,
     blur shadow={shadow blur steps=8}
   }
 }
@@ -39,11 +39,11 @@
     % Every other node should be a middle block
     \ifodd\i{
       \node[on chain,
+        fill = white,
         draw,
-        shade,
         blur shadow={shadow blur steps=8}]
       (block \i)
-      {\textbf{\valueArrayElement}\\
+      {\large{\textbf{\valueArrayElement}}\\
         \textArrayElement};
     }
     % Every other should be invisible
@@ -51,7 +51,8 @@
     \node[on chain] (mid \i) {};
     % Define exclusion nodes
     \node[rightNode, right =2cm of mid \i] (right \i)
-    {\textbf{\valueArrayElement}\\\textArrayElement};
+    {\large{\textbf{\valueArrayElement}}\\
+      \textArrayElement};
     % Draw arrows from middle to exclusion nodes
     \draw[->, shorten >=3pt, thick] (mid \i.center) -- (right \i);
     \fi
