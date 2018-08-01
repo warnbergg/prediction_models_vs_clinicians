@@ -134,7 +134,6 @@ AUC_diff <- list(models = setNames(lapply(names_lst$names, function(model_name) 
                  ci_type = "diff",
                  analysis_type = "AUC",
                  un_list = FALSE)
-
 ## List for cat con model comparison
 model_model_pairs <- lapply(model_names, function(model_name){
     pair <- grep(model_name,
@@ -169,7 +168,7 @@ analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
                        the_func = SupaLarna::model.review.with.rocr,
                        samples = bootstrap_predictions,
                        diffci_or_ci = AUC_lst$ci_type,
-                       outcome_name = "outcome",
+                       outcome_name = "s30d",
                        digits = 3,
                        measure = "auc",
                        models_to_invert = models_to_invert)
@@ -187,7 +186,7 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals.v2(
                                                 the_func = SupaLarna::model.review.reclassification,
                                                 samples = bootstrap_predictions,
                                                 diffci_or_ci = "ci",
-                                                outcome_name = "outcome",
+                                                outcome_name = "s30d",
                                                 digits = 3,
                                                 models_to_invert = names_lst$names[!grepl("tc|_CON", names_lst$names)])
 ## Append analysis list to results
@@ -237,7 +236,7 @@ saveRDS(results, file = "results.rds")
 ## ROC-curves
 SupaLarna::create.ROCR.plots.v2(
                study_sample = predictions,
-               outcome_name = "outcome",
+               outcome_name = "s30d",
                split_var = "CON",
                train_test = FALSE,
                ROC_or_precrec = "ROC",
