@@ -60,7 +60,7 @@
     - Error handling for split var and train test
 ** DONE [#B] Generalize flowchart generator (for test sample)        :todo28:
 ** DONE Fix sample inclusion                                         :todo29:
-** TODO [#B] Modify grid for models, as appropriate for steps        :todo30:
+** DONE Modify grid for models, as appropriate for steps             :todo30:
 ** TODO [#B] Change outcome name to s30d                             :todo31:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
