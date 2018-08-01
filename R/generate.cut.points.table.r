@@ -55,7 +55,7 @@ generate.cut.points.table <- function(cut_points,
     ## Save to disk
     if (save) make.and.save.xtable(cutpoints_df,
                                    file_name = "cut_points_table.tex",
-                                   caption = "Prediction models and cut points",
+                                   caption = "Prediction models and optimal cut points.",
                                    label = "cut_points")
 
     return (cutpoints_df)
