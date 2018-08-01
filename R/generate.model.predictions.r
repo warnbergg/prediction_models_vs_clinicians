@@ -76,7 +76,7 @@ generate.model.predictions <- function(
         return (pred_data)}, suffixes = suffixes, model_settings = model_settings),
         recursive = FALSE)
     ## Bind outcome as well as tc to pred_data
-    pred_data$outcome <- outcome
+    pred_data$s30d <- outcome
     pred_data$tc <- as.numeric(study_data$tc)
     ## Define timestamp
     timestamp <- Sys.time()
