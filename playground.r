@@ -241,4 +241,3 @@ SupaLarna::create.ROCR.plots.v2(
                models_to_invert = names_lst$names[!grepl("gerdin|tc", names_lst$names)])
 ## Compile flowchart latex document
 knitr::knit2pdf("flowchart_tikz.rtex")
-c
