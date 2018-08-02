@@ -49,6 +49,7 @@ exclusion_text <- c("patients did not inform consent",
 ## Generate flow vec
 flow_vec <- generate.flowchart.vec(
     results = results$n_s,
+
     node_text = node_text,
     exclusion_text = exclusion_text,
     results_lst = results)
@@ -77,7 +78,7 @@ suffixes <- c("_CUT", "_CON")
 ## Define clinicians labels for regular and pretty names
 clinicians_names <- c("tc", "Clinicians")
 ## Create names lst
-plst_w_names <- setNames(list(model_names, pretty_model_names),
+lst_w_names <- setNames(list(model_names, pretty_model_names),
                         nm = c("names", "pretty_names"))
 ## Paste suffixes to names, and bind triage category
 names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
@@ -241,3 +242,4 @@ SupaLarna::create.ROCR.plots.v2(
                models_to_invert = names_lst$names[!grepl("gerdin|tc", names_lst$names)])
 ## Compile flowchart latex document
 knitr::knit2pdf("flowchart_tikz.rtex")
+c
