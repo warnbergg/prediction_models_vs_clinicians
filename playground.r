@@ -49,7 +49,6 @@ exclusion_text <- c("patients did not inform consent",
 ## Generate flow vec
 flow_vec <- generate.flowchart.vec(
     results = results$n_s,
-
     node_text = node_text,
     exclusion_text = exclusion_text,
     results_lst = results)
