@@ -1,5 +1,5 @@
 * Todos
-** TODO [#A] Add files for functions [7/7]                            :todo1:
+** DONE [#A] Add files for functions [7/7]                            :todo1:
    - [X] Functions for modelllng [100%]
      - [X] RTS 
      - [X] GAP
