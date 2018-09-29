@@ -10,7 +10,7 @@ set.data <- function(
                      )
 {
     ## Append empty ns list to results
-    results$n_s <- list()
+    results$n_s <<- list()
     ## Coerce age to numeric
     if (!is.numeric(study_data$age)) {
         if (">89" %in% study_data$age) study_data$age[study_data$age == ">89"] <- "100"
@@ -56,7 +56,14 @@ set.data <- function(
     all <- study_data[study_data$doar <= date, ]
     ## Refactor s30d for all
     all$s30d <- factor(all$s30d)
-
-    return (list(cc_df = cc_df,
+    ## Last, split data in half for training and test set (should work for Date objects)
+    split_point <- floor(median(cc_df$doar)) # Define split point as the median of doar
+    top_split <- cc_df[cc_df$doar < split_point, ] # Top split of data, seqn > median
+    bottom_split <- cc_df[cc_df$doar < split_point, ] # Bottom split of data, seqn < median
+    # Listify
+    cc_dfs <- list(train = bottom_split,
+                   test = top_split)
+    
+    return (list(cc_dfs = cc_dfs,
                  all = all))
 }
