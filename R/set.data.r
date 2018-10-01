@@ -60,7 +60,7 @@ set.data <- function(
     split_point <- floor(median(cc_df$doar)) # Define split point as the median of doar
     top_split <- cc_df[cc_df$doar < split_point, ] # Top split of data, seqn > median
     bottom_split <- cc_df[cc_df$doar < split_point, ] # Bottom split of data, seqn < median
-    # Listify
+    # Listify training and test set
     cc_dfs <- list(train = bottom_split,
                    test = top_split)
     
