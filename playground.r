@@ -33,10 +33,10 @@ study_data <- SupaLarna::collapse.moi(study_data)
 ## Set study_data, i.e. remove patients arriving prior to one month
 ## before the dataset were created, remove patients before 2016-07-28
 ## when hospital collected tc. Also, complete dataset for analysis and
-## "all" tbl for tbl one.
+## "all" tbl for tbl one. Then split dataset for analysis into training and test set.
 cc_and_all <- set.data(study_data)
-all <- cc_and_all$all
-study_data <- cc_and_all$cc
+all <- cc_and_all$all # Extract data for table
+study_data <- cc_and_all$cc_dfs # Extract data for analysis
 ## Define flowchart main node text
 node_text <- c("patients were enrolled for this study",
                "patients did inform consent",
@@ -89,7 +89,6 @@ names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
                         })
                         ## Unlist to vector and bind tc to models
                         new_names <- c(unlist(lst), clinicians_names[i])
-
                         return (new_names)
                     }, model_lst = lst_w_names, names = names(lst_w_names))
 ## Initialize cut_points_lst
