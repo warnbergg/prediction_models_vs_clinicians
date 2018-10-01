@@ -25,7 +25,7 @@ bin.models <- function(
     ## Use max and min of predictions in as starting and
     ## end point in grid search.
     cut_points <- SupaLarna::gridsearch.breaks(
-                                 predictions,
+                                 predictions$train,
                                  grid = grid,
                                  outcomes = outcomes,
                                  parallel = gridsearch_parallel,
@@ -38,11 +38,12 @@ bin.models <- function(
                 "Yellow",
                 "Orange",
                 "Red")
-    ## Use cut_points to bin predictions
-    binned_predictions <- cut(predictions,
-                              breaks = c(0,cut_points, Inf),
-                              labels = labels,
-                              include.lowest = TRUE)
-
+    ## Use cut_points to bin test and trained predictions
+    binned_predictions <- lapply(setNames(nm = predictions), function(preds)
+        cut(preds,
+            breaks = c(0,cut_points, Inf),
+            labels = labels,
+            include.lowest = TRUE))
+    ## Return the binned predictions
     return (binned_predictions)
 }

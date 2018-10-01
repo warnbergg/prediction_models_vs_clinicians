@@ -25,11 +25,12 @@ generate.model.predictions <- function(
                                        )
 {
     ## Extract outcome from study_data
-    outcome <- study_data$s30d
+    outcomes <- list(train = study_data$train$s30d,
+                     test = study_data$test$s30d)
     ## Define model_names
     model_names <- c("RTS", "GAP", "KTS", "gerdin")
     ## Define suffixes
-    suffixes <- setNames(nm = c("_CON", "_CUT"))
+    suffixes <- setNames(nm = c("_train", "_test"))
     ## Define model settings for gridsearch
     model_settings <- list(model_steps = setNames(as.list(c(0.5, 1, 1, 0.01)),
                                                   nm = model_names),
@@ -41,43 +42,48 @@ generate.model.predictions <- function(
         if (dir.exists(dir_name)) unlink(dir_name, recursive = TRUE)
         if (file.exists("logfile")) file.remove("logfile")
         if (log) write("Nothing yet...", "logfile")
-    }
+    }    
     ## Generate predictions with models
     pred_data <- unlist(lapply(model_names, function(model_name, suffixes,
                                                      model_settings){
         ## Get function from string
         model_func <- get(paste0("model.", model_name))
-        ## Make predictions on study_data
-        con_pred <- model_func(study_data)
+        ## Make predictions
+        predictions <- lapply(setNames(nm = names(study_data)), function(df_name)
+            model_func(study_data[[df_name]]))
         ## Define steps
         step <- model_settings$model_steps[[model_name]]
-        ## Get grid for model
-        grid <-  seq(min(con_pred), max(con_pred),
+        ## Define grid for the model
+        grid <-  seq(min(predictions$train), max(predictions$test),
                      by = step)
         ## Get maximise from settings
         optimise <- model_settings$model_optimise[[model_name]]
-        ## Bin preds
-        binned_pred <- bin.models(con_pred,
-                                  outcomes = outcome,
-                                  grid = grid,
-                                  n_cores = n_cores,
-                                  return_cps = return_cps,
-                                  gridsearch_parallel = gridsearch_parallel,
-                                  is_sample = is_sample,
-                                  maximise = optimise)
+        ## Gridsearch on train set, and bin predictions on test set
+        binned_preds <- bin.models(predictions = predictions,
+                                   outcomes = outcomes$train,
+                                   grid = grid,
+                                   n_cores = n_cores,
+                                   return_cps = return_cps,
+                                   gridsearch_parallel = gridsearch_parallel,
+                                   is_sample = is_sample,
+                                   maximise = optimise)
         ## Convert to numeric preds
-        levels(binned_pred) <- as.character(1:4)
-        binned_pred <- as.numeric(binned_pred)
-        ## Make pred_data
-        pred_data <- setNames(list(con_pred,
-                                   binned_pred),
+        binned_preds <- lapply(binned_preds, function(preds){
+            levels(binned_pred) <- as.character(1:4)
+            binned_pred <- as.numeric(binned_pred)
+        })
+        ## List prediction data
+        pred_data <- setNames(list(binned_preds$train,
+                                   binned_preds$test),
                               nm = sapply(suffixes, function(suffix)
                                   paste0(model_name, suffix)))
         return (pred_data)}, suffixes = suffixes, model_settings = model_settings),
         recursive = FALSE)
     ## Bind outcome as well as tc to pred_data
-    pred_data$s30d <- outcome
-    pred_data$tc <- as.numeric(study_data$tc)
+    pred_data$y_train <- outcomes$train         
+    pred_data$y_test <- outcomes$test
+    pred_data$tc_train <- study_data$train$tc
+    pred_data$tc_train <- study_data$test$tc
     ## Define timestamp
     timestamp <- Sys.time()
     file_name <- ""
