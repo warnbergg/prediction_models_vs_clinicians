@@ -24,15 +24,17 @@ generate.model.predictions <- function(
                                        is_sample = TRUE
                                        )
 {
-    ## Extract outcome from study_data
-    outcomes <- list(train = study_data$train$s30d,
-                     test = study_data$test$s30d)
+    ## Extract outcome and tc from train and test data sets
+    tc_and_outcome <- list(tc_train = study_data$train$tc,
+                           tc_test = study_data$test$tc,
+                           y_train = study_data$test$s30d,
+                           y_test = study_data$test$s30d)
     ## Define model_names
     model_names <- c("RTS", "GAP", "KTS", "gerdin")
-    ## Define suffixes
+    ## Define suffixes for later predictions
     suffixes <- setNames(nm = c("_train", "_test"))
     ## Define model settings for gridsearch
-    model_settings <- list(model_steps = setNames(as.list(c(0.5, 1, 1, 0.01)),
+    model_settings <- list(model_steps = setNames(as.list(c(0.5, 1, 1, 0.01)), # Steps for grid
                                                   nm = model_names),
                            model_optimise = setNames(as.list(c(FALSE, FALSE, FALSE, TRUE)),
                                                      nm =  model_names))
@@ -53,37 +55,34 @@ generate.model.predictions <- function(
             model_func(study_data[[df_name]]))
         ## Define steps
         step <- model_settings$model_steps[[model_name]]
-        ## Define grid for the model
+        ## Define grid with the predictions on the train set; for gridsearch
         grid <-  seq(min(predictions$train), max(predictions$test),
                      by = step)
-        ## Get maximise from settings
+        ## Get the optimise setting corresponding to the model
         optimise <- model_settings$model_optimise[[model_name]]
         ## Gridsearch on train set, and bin predictions on test set
         binned_preds <- bin.models(predictions = predictions,
-                                   outcomes = outcomes$train,
+                                   outcomes = tc_and_outcome$y_train,
                                    grid = grid,
                                    n_cores = n_cores,
                                    return_cps = return_cps,
                                    gridsearch_parallel = gridsearch_parallel,
                                    is_sample = is_sample,
                                    maximise = optimise)
-        ## Convert to numeric preds
-        binned_preds <- lapply(binned_preds, function(preds){
-            levels(binned_pred) <- as.character(1:4)
-            binned_pred <- as.numeric(binned_pred)
+        ## Convert to numeric predictions
+        binned_predictions <- lapply(binned_preds, function(preds){
+            levels(preds) <- as.character(1:4)
+            preds <- as.numeric(preds)
         })
         ## List prediction data
-        pred_data <- setNames(list(binned_preds$train,
-                                   binned_preds$test),
+        pred_data <- setNames(list(binned_predictions$train,
+                                   binned_predictions$test),
                               nm = sapply(suffixes, function(suffix)
                                   paste0(model_name, suffix)))
         return (pred_data)}, suffixes = suffixes, model_settings = model_settings),
         recursive = FALSE)
-    ## Bind outcome as well as tc to pred_data
-    pred_data$y_train <- outcomes$train         
-    pred_data$y_test <- outcomes$test
-    pred_data$tc_train <- study_data$train$tc
-    pred_data$tc_train <- study_data$test$tc
+    ## Bind outcome and tc to prediction data
+    pred_data <- c(pred_data, tc_and_outcome)
     ## Define timestamp
     timestamp <- Sys.time()
     file_name <- ""
