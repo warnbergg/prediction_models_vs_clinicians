@@ -32,14 +32,14 @@ bin.models <- function(
                                  n_cores = n_cores,
                                  sample = is_sample,
                                  maximise = maximise)
-    if (return_cps) results$cut_points_lst[[paste0(max(predictions), "_cut_points")]] <<- cut_points
+    if (return_cps) results$cut_points_lst <<- cut_points
     ## Define labels for binning
     labels <- c("Green",
                 "Yellow",
                 "Orange",
                 "Red")
     ## Use cut_points to bin test and trained predictions
-    binned_predictions <- lapply(setNames(nm = predictions), function(preds)
+    binned_predictions <- lapply(predictions, function(preds)
         cut(preds,
             breaks = c(0,cut_points, Inf),
             labels = labels,
