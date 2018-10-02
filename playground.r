@@ -143,7 +143,6 @@ AUC_diff_cat_con <- list(models = model_model_pairs,
                          ci_type = "diff",
                          analysis_type = "AUC",
                          un_list = FALSE)
-## List for reclassification
 ## List together
 AUC_together <- setNames(list(AUC_ci, AUC_diff, AUC_diff_cat_con),
                          nm = c("AUC and corresponding CI (95 \\%)",
