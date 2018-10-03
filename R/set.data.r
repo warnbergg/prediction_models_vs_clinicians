@@ -2,10 +2,12 @@
 #'
 #' This function creates a complete case dataset.
 #' @param study_data The study data frame. No default.
+#' @param return_all Logical. If TRUE, function return patients with incomplete data as well. Defaults to TRUE.
 #' @param test Logical. If TRUE, study_data is test data. Defaults to TRUE.
 #' @export
 set.data <- function(
                      study_data,
+                     return_all = TRUE,
                      test = TRUE
                      )
 {
@@ -52,18 +54,21 @@ set.data <- function(
     ## identify complete cases
     cc_df <- study_data[cc & study_data$doar <= date, ]
     results$n_s$n_when_200 <<- nrow(cc_df)
-    ## and all cases
-    all <- study_data[study_data$doar <= date, ]
-    ## Refactor s30d for all
-    all$s30d <- factor(all$s30d)
+    all <- NULL
+    if (return_all) {
+        ## Get all cases
+        all <- study_data[study_data$doar <= date, ]
+        ## Refactor s30d for all
+        all$s30d <- factor(all$s30d)   
+    }
     ## Last, split data in half for training and test set (should work for Date objects)
     split_point <- floor(median(cc_df$doar)) # Define split point as the median of doar
     top_split <- cc_df[cc_df$doar < split_point, ] # Top split of data, seqn > median
     bottom_split <- cc_df[cc_df$doar < split_point, ] # Bottom split of data, seqn < median
     # Listify training and test set
-    cc_dfs <- list(train = bottom_split,
-                   test = top_split)
+    return_object <- list(train = bottom_split,
+                          test = top_split)
+    if (!is.null(all)) return_object <- list(cc_dfs = return_object, all = all)
     
-    return (list(cc_dfs = cc_dfs,
-                 all = all))
+    return (return_object)
 }

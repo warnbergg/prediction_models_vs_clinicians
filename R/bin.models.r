@@ -38,7 +38,7 @@ bin.models <- function(
                 "Yellow",
                 "Orange",
                 "Red")
-    ## Use cut_points to bin test and trained predictions
+    ## Use cut_points to bin train and test predictions
     binned_predictions <- lapply(predictions, function(preds)
         cut(preds,
             breaks = c(0,cut_points, Inf),

@@ -24,15 +24,17 @@ generate.model.predictions <- function(
                                        is_sample = TRUE
                                        )
 {
-    ## Extract outcome and tc from train and test data sets
-    tc_and_outcome <- list(tc_train = study_data$train$tc,
-                           tc_test = study_data$test$tc,
-                           y_train = study_data$test$s30d,
-                           y_test = study_data$test$s30d)
+    ## Extract outcome for gridsearch
+    dataset_outcomes <- list(y_train =  study_data$train$s30d,
+                             y_test =  study_data$test$s30d)
+    ## Extract tc from test dataset and bind test outcome;
+    ## may be extended for test-train model comparison
+    tc_and_outcome <- list(tc = as.numeric(study_data$test$tc),
+                           s30d = study_data$test$s30d)
     ## Define model_names
     model_names <- c("RTS", "GAP", "KTS", "gerdin")
     ## Define suffixes for later predictions
-    suffixes <- setNames(nm = c("_train", "_test"))
+    suffixes <- setNames(nm = c("_CUT", "_CON"))
     ## Define model settings for gridsearch
     model_settings <- list(model_steps = setNames(as.list(c(0.5, 1, 1, 0.01)), # Steps for grid
                                                   nm = model_names),
@@ -50,9 +52,9 @@ generate.model.predictions <- function(
                                                      model_settings){
         ## Get function from string
         model_func <- get(paste0("model.", model_name))
-        ## Make predictions
-        predictions <- lapply(setNames(nm = names(study_data)), function(df_name)
-            model_func(study_data[[df_name]]))
+        ## Make predictions on test and train set
+        predictions <- lapply(setNames(nm = names(study_data)), function(train_or_test)
+            model_func(study_data[[train_or_test]]))
         ## Define steps
         step <- model_settings$model_steps[[model_name]]
         ## Define grid with the predictions on the train set; for gridsearch
@@ -62,7 +64,7 @@ generate.model.predictions <- function(
         optimise <- model_settings$model_optimise[[model_name]]
         ## Gridsearch on train set, and bin predictions on test set
         binned_preds <- bin.models(predictions = predictions,
-                                   outcomes = tc_and_outcome$y_train,
+                                   outcomes = dataset_outcomes$y_train,
                                    grid = grid,
                                    n_cores = n_cores,
                                    return_cps = return_cps,
@@ -74,9 +76,9 @@ generate.model.predictions <- function(
             levels(preds) <- as.character(1:4)
             preds <- as.numeric(preds)
         })
-        ## List prediction data
-        pred_data <- setNames(list(binned_predictions$train,
-                                   binned_predictions$test),
+        ## List prediction data, i.e. the continous predictions and binned predictions on test set
+        pred_data <- setNames(list(binned_predictions$test,
+                                   predictions$test),
                               nm = sapply(suffixes, function(suffix)
                                   paste0(model_name, suffix)))
         return (pred_data)}, suffixes = suffixes, model_settings = model_settings),
