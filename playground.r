@@ -33,10 +33,10 @@ study_data <- SupaLarna::collapse.moi(study_data)
 ## Set study_data, i.e. remove patients arriving prior to one month
 ## before the dataset were created, remove patients before 2016-07-28
 ## when hospital collected tc. Also, complete dataset for analysis and
-## "all" tbl for tbl one.
+## "all" tbl for tbl one. Then split dataset for analysis into training and test set.
 cc_and_all <- set.data(study_data)
-all <- cc_and_all$all
-study_data <- cc_and_all$cc
+all <- cc_and_all$all # Extract data for table
+prepped_sample <- cc_and_all$cc_dfs # Extract data for analysis
 ## Define flowchart main node text
 node_text <- c("patients were enrolled for this study",
                "patients did inform consent",
@@ -56,9 +56,9 @@ flow_vec <- generate.flowchart.vec(
 tables <- generate.tbl.one(all, data_dictionary)
 ## Append tables to results
 results$tables <- tables
-## Extract descriptive characteristics from raw table using study data,
+## Extract descriptive characteristics from raw table using the prepped sample
 ## append to results
-extract.additional.characteristics(study_data = study_data,
+extract.additional.characteristics(study_data = prepped_sample$train,
                                    raw_table = tables$raw,
                                    results_list = results)
 ## Generate sample characterstics table (to be inserted)
@@ -89,13 +89,12 @@ names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
                         })
                         ## Unlist to vector and bind tc to models
                         new_names <- c(unlist(lst), clinicians_names[i])
-
                         return (new_names)
                     }, model_lst = lst_w_names, names = names(lst_w_names))
 ## Initialize cut_points_lst
 results$cut_points_lst <- list()
 ## Generate model predictions
-predictions <- generate.model.predictions(study_data,
+predictions <- generate.model.predictions(prepped_sample,
                                           n_cores = 4,
                                           write_to_disk = TRUE,
                                           gridsearch_parallel = TRUE,
@@ -108,6 +107,9 @@ cut_points_table <- generate.cut.points.table(cut_points = results$cut_points_ls
 ## Generate boostrap samples
 samples <- SupaLarna::generate.bootstrap.samples(study_data,
                                                  bs_samples = 3)
+## Prepare each sample for analysis
+samples <- lapply(samples, set.data, return_all = FALSE)
+## Prepare each sample
 ## Generate predictions on bootstrap samples
 bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(
                                         samples,
@@ -144,7 +146,6 @@ AUC_diff_cat_con <- list(models = model_model_pairs,
                          ci_type = "diff",
                          analysis_type = "AUC",
                          un_list = FALSE)
-## List for reclassification
 ## List together
 AUC_together <- setNames(list(AUC_ci, AUC_diff, AUC_diff_cat_con),
                          nm = c("AUC and corresponding CI (95 \\%)",

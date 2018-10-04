@@ -61,6 +61,8 @@
 ** DONE Modify grid for models, as appropriate for steps             :todo30:
 ** DONE Change outcome name to s30d                                  :todo31:
 ** TODO [#B] Modify the coercing of ">89" in set.data                :todo32:
+** TODO [#C] Fix names of cut points to appended to results          :todo33:
+** TODO [#A] Create make.study function                              :todo34:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** DONE Low AUROCC?                                                  :issue2:
