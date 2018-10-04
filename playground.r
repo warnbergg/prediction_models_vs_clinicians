@@ -58,7 +58,7 @@ tables <- generate.tbl.one(all, data_dictionary)
 results$tables <- tables
 ## Extract descriptive characteristics from raw table using the prepped sample
 ## append to results
-extract.additional.characteristics(study_data = prepped_sample,
+extract.additional.characteristics(study_data = prepped_sample$train,
                                    raw_table = tables$raw,
                                    results_list = results)
 ## Generate sample characterstics table (to be inserted)
