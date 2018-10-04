@@ -9,8 +9,8 @@
 #' @param file_name String. File name. No default.
 #' @export
 make.and.save.xtable <- function(table_data, file_name, san_row = NULL, san_col = NULL,
-                        caption = "Table of Estimates.", label = "analysis_table",
-                        include_rownames = TRUE){
+                                 caption = "Table of Estimates.", label = "analysis_table",
+                                 include_rownames = TRUE){
     ## xtable the analysis table
     the_table <- xtable::print.xtable(xtable::xtable(table_data,
                                                      caption = paste("\\bf", caption),
