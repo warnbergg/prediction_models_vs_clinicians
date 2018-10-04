@@ -72,6 +72,8 @@ pretty_model_names <- c("RTS",
                         "GAP",
                         "KTS",
                         "Gerdin et al.")
+## Generate table1, i.e. table reporting variables included in the models.
+generate.variables.table(col_names = pretty_model_names)
 ## Define suffixes to be added to model names
 suffixes <- c("_CUT", "_CON")
 ## Define clinicians labels for regular and pretty names
