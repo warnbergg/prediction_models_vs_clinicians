@@ -21,6 +21,11 @@ bin.models <- function(
                        maximise = FALSE
                        )
 {
+    ## Define labels for later binning of predictions
+    labels <- c("Green",
+                "Yellow",
+                "Orange",
+                "Red")
     ## Grid search cutpoints for model predictions.
     ## Use max and min of predictions in as starting and
     ## end point in grid search.
@@ -32,12 +37,7 @@ bin.models <- function(
                                  n_cores = n_cores,
                                  sample = is_sample,
                                  maximise = maximise)
-    if (return_cps) results$cut_points_lst <<- cut_points
-    ## Define labels for binning
-    labels <- c("Green",
-                "Yellow",
-                "Orange",
-                "Red")
+    if (return_cps) results$cut_points_lst[[paste0(max(predictions$train), "_cps")]] <<- cut_points
     ## Use cut_points to bin train and test predictions
     binned_predictions <- lapply(predictions, function(preds)
         cut(preds,
