@@ -194,7 +194,7 @@ auc_table <- list(table_data = t(do.call(rbind,
                                                 generate.estimate.table,
                                                 pretty_names = names_lst$pretty_names))),
                   label = "auc",
-                  caption = "AUROCC estimates, as well as model-model and model-clinician difference, with confidence intervals (95 \\%)",
+                  caption = "AUROCC estimates, as well as model-model and model-clinician AUROCC difference, with corresponding CI (95 \\%). The model-model comparison reffered is the AUROCC difference of, for example, RTS\\textsubscript{cut} and RTS\\textsubscript{CON}",
                   file_name = "auc_estimates_table.tex",
                   san_col = function (word) {word},
                   san_row = function (word) {word})
