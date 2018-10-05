@@ -150,9 +150,9 @@ AUC_diff_cat_con <- list(models = model_model_pairs,
                          un_list = FALSE)
 ## List together
 AUC_together <- setNames(list(AUC_ci, AUC_diff, AUC_diff_cat_con),
-                         nm = c("AUC and corresponding CI (95 \\%)",
-                                "95 \\% CI on model-clinician AUC difference",
-                                "95 \\% CI on model-model AUC difference"))
+                         nm = c("AUROCC and corresponding CI (95 \\%)",
+                                "Model-clincian AUROCC difference (95\\% CI)",
+                                "Model-model AUROCC difference (95\\% CI)"))
 ## Intialize analysis list
 analysis_lst <- list()
 ## Generate confidence intervals for diff types
