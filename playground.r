@@ -212,7 +212,7 @@ reclassification_table <- list(table_data = generate.estimate.table(
                                    man_estimate_labels = c("NRI+",
                                                            "NRI-")),
                                label = "reclassification",
-                               caption = "Reclassification estimates and corresponding confidence intervals (95 \\%)",
+                               caption = "NRI+ and NRI- estimates with corresponding CI (95 \\%). Positive values indicate the model categorisation to be superior to that of clinician, and negative values vice versa.",
                                file_name = "reclassification_estimates_table.tex",
                                san_col = function (word) {word},
                                san_row = NULL)
