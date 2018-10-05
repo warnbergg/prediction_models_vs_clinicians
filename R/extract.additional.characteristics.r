@@ -9,11 +9,6 @@
 extract.additional.characteristics <- function(study_data, raw_table,
                                                descriptive_characterstics = c("sex", "moi"),
                                                results_list = NULL){
-    study_data = prepped_sample$train
-    raw_table = tables$raw
-    results_list = results
-    descriptive_characterstics = c("sex", "moi")
-    results_list = NULL
     ## Error handling
     if (is.null(results_list)) stop("Name of results list must be specified.")
     ## Subset important characteristics from table
