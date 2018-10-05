@@ -188,7 +188,7 @@ analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals.v2(
                                                 models_to_invert = names_lst$names[!grepl("gerdin|tc|_CON", names_lst$names)])
 ## Append analysis list to results
 results$Analysis <- analysis_lst
-## Initialize estimate tables
+## Initialize lists for table data
 auc_table <- list(table_data = t(do.call(rbind,
                                          lapply(analysis_lst$AUROCC,
                                                 generate.estimate.table,
@@ -199,15 +199,18 @@ auc_table <- list(table_data = t(do.call(rbind,
                   san_col = function (word) {word},
                   san_row = function (word) {word})
 reclassification_table <- list(table_data = generate.estimate.table(
-                                   analysis_lst$reclassification,
+                                   lapply(setNames(nm = names(analysis_lst$reclassification)),
+                                          function(model_nm){
+                                              # Extract the model reclass estimates
+                                              model_tbl <- analysis_lst$reclassification[[model_nm]]
+                                              # Keep only NRI+ and NRI-
+                                              model_tbl <- model_tbl[c("NRI+",
+                                                                       "NRI-"), ]
+                                              return (model_tbl)}
+                                          ),
                                    pretty_names = names_lst$pretty_names[grep("_CUT", names_lst$pretty_names)],
-                                   man_estimate_labels = c("NRI",
-                                                           "NRI+",
-                                                           "NRI-",
-                                                           "Pr(Up|Event)",
-                                                           "Pr(Down|Event)",
-                                                           "Pr(Down|Non-event)",
-                                                           "Pr(Up|Non-event)")),
+                                   man_estimate_labels = c("NRI+",
+                                                           "NRI-")),
                                label = "reclassification",
                                caption = "Reclassification estimates and corresponding confidence intervals (95 \\%)",
                                file_name = "reclassification_estimates_table.tex",
