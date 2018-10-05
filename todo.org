@@ -1,3 +1,7 @@
+# Prediction models vs Clinicians org
+#
+# This is the todo list for the "Can prediction models triage adult trauma patients more accurately
+# than clinicians?" project. 
 * Todos
 ** DONE [#A] Add files for functions [7/7]                            :todo1:
    - [X] Functions for modelllng [100%]
