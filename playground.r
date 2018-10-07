@@ -194,10 +194,11 @@ auc_table <- list(table_data = t(do.call(rbind,
                                                 generate.estimate.table,
                                                 pretty_names = names_lst$pretty_names))),
                   label = "auc",
-                  caption = "AUROCC estimates, as well as model-model and model-clinician AUROCC difference, with corresponding CI (95 \\%). The model-model comparison reffered is the AUROCC difference of, for example, RTS\\textsubscript{cut} and RTS\\textsubscript{CON}",
+                  caption = "AUROCC estimates, as well as model-model and model-clinician AUROCC difference, with corresponding CI (95 \\%).",
                   file_name = "auc_estimates_table.tex",
                   san_col = function (word) {word},
-                  san_row = function (word) {word})
+                  san_row = function (word) {word},
+                  table_notes = "The model-model comparison reffered is the AUROCC difference of, for example, RTS\\textsubscript{cut} and RTS\\textsubscript{CON}")
 reclassification_table <- list(table_data = generate.estimate.table(
                                    lapply(setNames(nm = names(analysis_lst$reclassification)),
                                           function(model_nm){
@@ -212,10 +213,11 @@ reclassification_table <- list(table_data = generate.estimate.table(
                                    man_estimate_labels = c("NRI+",
                                                            "NRI-")),
                                label = "reclassification",
-                               caption = "NRI+ and NRI- estimates with corresponding CI (95 \\%). Positive values indicate the model categorisation to be superior to that of clinician, and negative values vice versa.",
+                               caption = "NRI+ and NRI- estimates with corresponding CI (95 \\%)",
                                file_name = "reclassification_estimates_table.tex",
                                san_col = function (word) {word},
-                               san_row = NULL)
+                               san_row = NULL,
+                               table_notes = "Positive values indicate the model categorisation to be superior to that of clinician, and negative values vice versa.")
 ## Add tables
 table_lst <- list(auc_table = auc_table,
                   reclassification_table = reclassification_table)
@@ -226,7 +228,8 @@ for (lst in table_lst){
                                    label = label,
                                    file_name = file_name,
                                    san_col = san_col,
-                                   san_row = san_row))
+                                   san_row = san_row,
+                                   table_notes = table_notes))
 }
 ## Save estimate tables to results
 results$estimate_tables <- table_lst

@@ -7,10 +7,11 @@
 #' @param caption String. Caption for table. Defaults to "Table of estimates".
 #' @param label String. Latex label. Defaults to "analysis_table".
 #' @param file_name String. File name. No default.
+#' @param table_notes String. Note to be put under table. Not dynamic, only one note allowed. Passed to formatting.xtable. Defaults to NULL
 #' @export
 make.and.save.xtable <- function(table_data, file_name, san_row = NULL, san_col = NULL,
                                  caption = "Table of Estimates.", label = "analysis_table",
-                                 include_rownames = TRUE){
+                                 include_rownames = TRUE, table_notes = NULL){
     ## xtable the analysis table
     the_table <- xtable::print.xtable(xtable::xtable(table_data,
                                                      caption = paste("\\bf", caption),
@@ -25,7 +26,7 @@ make.and.save.xtable <- function(table_data, file_name, san_row = NULL, san_col 
                                       caption.placement = "top",
                                       print.results = FALSE)
     ## Format, i.e. add tabular and adjustbox environments
-    the_table <- formatting.xtable(the_table)
+    the_table <- formatting.xtable(the_table, table_notes = table_notes)
     ## Save table
     write(the_table, file = file_name)
     }

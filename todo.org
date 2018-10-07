@@ -1,3 +1,7 @@
+# Prediction models vs Clinicians org
+#
+# This is the todo list for the "Can prediction models triage adult trauma patients more accurately
+# than clinicians?" project. 
 * Todos
 ** DONE [#A] Add files for functions [7/7]                            :todo1:
    - [X] Functions for modelllng [100%]
@@ -62,7 +66,7 @@
 ** DONE Change outcome name to s30d                                  :todo31:
 ** TODO [#B] Modify the coercing of ">89" in set.data                :todo32:
 ** TODO [#C] Fix names of cut points to appended to results          :todo33:
-** TODO [#A] Create make.study function                              :todo34:
+** DONE Create make.study function                                   :todo34:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** DONE Low AUROCC?                                                  :issue2:
