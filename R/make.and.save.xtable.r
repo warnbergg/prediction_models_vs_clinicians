@@ -7,11 +7,13 @@
 #' @param caption String. Caption for table. Defaults to "Table of estimates".
 #' @param label String. Latex label. Defaults to "analysis_table".
 #' @param file_name String. File name. No default.
-#' @param table_notes String. Note to be put under table. Not dynamic, only one note allowed. Passed to formatting.xtable. Defaults to NULL
+#' @param table_notes String. Note to be put under table. Not dynamic, only one note allowed. Passed to formatting.xtable. Defaults to NULL.
+#' @param star_caption String. The substring of xtable to be commented under the table. Defaults to NULL.
 #' @export
 make.and.save.xtable <- function(table_data, file_name, san_row = NULL, san_col = NULL,
                                  caption = "Table of Estimates.", label = "analysis_table",
-                                 include_rownames = TRUE, table_notes = NULL){
+                                 include_rownames = TRUE, table_notes = NULL,
+                                 star_caption = NULL){
     ## xtable the analysis table
     the_table <- xtable::print.xtable(xtable::xtable(table_data,
                                                      caption = paste("\\bf", caption),
@@ -25,6 +27,10 @@ make.and.save.xtable <- function(table_data, file_name, san_row = NULL, san_col 
                                       sanitize.colnames.function = san_col,
                                       caption.placement = "top",
                                       print.results = FALSE)
+    ## Add star to the specified substring of the_table
+    if (!(is.null(star_caption) && !(is.null(table_notes)))) the_table <- gsub(star_caption,
+                                                                              paste0(star_caption, "*"),
+                                                                              the_table)
     ## Format, i.e. add tabular and adjustbox environments
     the_table <- formatting.xtable(the_table, table_notes = table_notes)
     ## Save table
