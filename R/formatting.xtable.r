@@ -10,7 +10,7 @@ formatting.xtable <- function(the_xtable,
     if (!is.null(table_notes) && !(length(table_notes) == 1)) stop("Table notes should be of length 1.")
     ## Add begin tabular and adjustbox environments
     the_xtable <- sub("\\begin{tabular}",
-                      paste0("\\resizebox{\\linewidth}{!}{ \n",
+                      paste0("\\begin{adjustbox}{max width = \\linewidth} \n",
                              "\\begin{threeparttable} \n",
                              "\\begin{tabular} \n"),
                            the_xtable,
@@ -22,9 +22,9 @@ formatting.xtable <- function(the_xtable,
     ## Add end to tabular and adjustbox environments
     the_xtable <- sub("\\end{tabular}",
                       paste0("\\addlinespace \n",
-                             table_notes,
                              "\\end{tabular} \n",
-                             "\\end{threeparttable}}\n",
+                             table_notes,
+                             "\\end{threeparttable} \n",
                              "\\end{adjustbox}"),
                            the_xtable,
                       fixed = TRUE)
