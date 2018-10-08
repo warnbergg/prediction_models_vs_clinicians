@@ -198,7 +198,8 @@ auc_table <- list(table_data = t(do.call(rbind,
                   file_name = "auc_estimates_table.tex",
                   san_col = function (word) {word},
                   san_row = function (word) {word},
-                  table_notes = "The model-model comparison reffered is the AUROCC difference of, for example, RTS\\textsubscript{cut} and RTS\\textsubscript{CON}")
+                  table_notes = "The model-model comparison reffered is the AUROCC difference of, for example, RTS\\textsubscript{cut} and RTS\\textsubscript{CON}",
+                  star_caption = "Model-model")
 reclassification_table <- list(table_data = generate.estimate.table(
                                    lapply(setNames(nm = names(analysis_lst$reclassification)),
                                           function(model_nm){
@@ -217,7 +218,8 @@ reclassification_table <- list(table_data = generate.estimate.table(
                                file_name = "reclassification_estimates_table.tex",
                                san_col = function (word) {word},
                                san_row = NULL,
-                               table_notes = "Positive values indicate the model categorisation to be superior to that of clinician, and negative values vice versa.")
+                               table_notes = "Positive values indicate the model categorisation to be superior to that of clinician, and negative values vice versa.",
+                               star_caption = NULL)
 ## Add tables
 table_lst <- list(auc_table = auc_table,
                   reclassification_table = reclassification_table)
@@ -229,7 +231,8 @@ for (lst in table_lst){
                                    file_name = file_name,
                                    san_col = san_col,
                                    san_row = san_row,
-                                   table_notes = table_notes))
+                                   table_notes = table_notes,
+                                   star_caption = star_caption))
 }
 ## Save estimate tables to results
 results$estimate_tables <- table_lst
