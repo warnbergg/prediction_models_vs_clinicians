@@ -27,10 +27,15 @@ make.and.save.xtable <- function(table_data, file_name, san_row = NULL, san_col 
                                       sanitize.colnames.function = san_col,
                                       caption.placement = "top",
                                       print.results = FALSE)
+    ## Subset table contents from xtable string
+    wo_label <- strsplit(the_table, "\\toprule\n", fixed = TRUE)
     ## Add star to the specified substring of the_table
-    if (!(is.null(star_caption) && !(is.null(table_notes)))) the_table <- gsub(star_caption,
-                                                                              paste0(star_caption, "*"),
-                                                                              the_table)
+    if (!(is.null(star_caption) && (is.null(table_notes)))) subbed <- gsub(star_caption,
+                                                                           paste0("*",
+                                                                                  star_caption),
+                                                                           wo_label[[1]][2])
+    ## Merge the split
+    the_table <- paste0(wo_label[[1]][1], subbed)
     ## Format, i.e. add tabular and adjustbox environments
     the_table <- formatting.xtable(the_table, table_notes = table_notes)
     ## Save table
