@@ -53,9 +53,9 @@ generate.cut.points.table <- function(cut_points,
                                row.names = group_labels)
     colnames(cutpoints_df) <- names(cut_points)
     ## Save to disk
-    if (save) make.and.save.xtable(cutpoints_df,
+    if (save) make.and.save.xtable(table_data = cutpoints_df,
                                    file_name = "cut_points_table.tex",
-                                   caption = "Prediction models and optimal cut points.",
+                                   caption = "Cut points found with grid search.",
                                    label = "cut_points")
 
     return (cutpoints_df)
