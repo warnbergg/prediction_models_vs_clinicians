@@ -60,6 +60,7 @@ results$tables <- tables
 ## append to results
 extract.additional.characteristics(study_data = prepped_sample$train,
                                    raw_table = tables$raw,
+                                   strata_labels = c("Survivors", "Non-Survivors"),
                                    results_list = results)
 ## Generate sample characterstics table (to be inserted)
 ## Define model_names
@@ -251,5 +252,3 @@ SupaLarna::create.ROCR.plots.v2(
                pretty_names = names_lst$pretty_names,
                subscript = TRUE,
                models_to_invert = names_lst$names[!grepl("gerdin|tc", names_lst$names)])
-## Compile flowchart latex document
-knitr::knit2pdf("flowchart_tikz.rtex")
