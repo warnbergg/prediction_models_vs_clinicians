@@ -218,8 +218,8 @@ reclassification_table <- list(table_data = generate.estimate.table(
                                file_name = "reclassification_estimates_table.tex",
                                san_col = function (word) {word},
                                san_row = NULL,
-                               table_notes = "Positive values indicate the model categorisation to be superior to that of clinician, and negative values vice versa.",
-                               star_caption = NULL)
+                               table_notes = "Positive values indicate the model categorisation to be superior to that of clinicians, and negative values vice versa.",
+                               star_caption = "NRI")
 ## Add tables
 table_lst <- list(auc_table = auc_table,
                   reclassification_table = reclassification_table)
