@@ -3,15 +3,16 @@
 #' This function extracts descriptive sample characterstistics from the raw table data using the study data.
 #' @param study_data Data frame. The study data frame. No Default.
 #' @param raw_table Data.frame. Raw table data, i.e. not formatted with xtable or other latex generating function. No default.
+#' @param strata_labels Character vector. The labels assigned to strata columns in raw table. No default.
 #' @param descriptive_characterstics Character vector. Names of decriptive characteristics. Defaults to c("sex", "moi").
 #' @param results_list String. Results list, i.e. list containing results from analysis. Defaults to NULL.
 #' @export
-extract.additional.characteristics <- function(study_data, raw_table,
+extract.additional.characteristics <- function(study_data, raw_table, strata_labels,
                                                descriptive_characterstics = c("sex", "moi"),
                                                results_list = NULL){
     ## Error handling
     if (is.null(results_list)) stop("Name of results list must be specified.")
-    ## Subset important characteristics from table
+    ## Extract characteristics from table
     desc_chars <- lapply(setNames(nm = descriptive_characterstics),
                          function(char){
                              ## Extract levels of characteristic from
@@ -37,12 +38,19 @@ extract.additional.characteristics <- function(study_data, raw_table,
                              the_max_char <- lapply(
                                  setNames(c("Level", "Overall"), nm = c("Level", "Value")), function(var){
                                      cell <- char_rows[which.max(vals_wo_parantheses), var]
-                                     if (var == "Overall") cell <- gsub(")", " \\%)", cell)
+                                     if (var == "Overall") cell <- gsub(")", " \\\\%)", cell)
                                      if (var == "Level") cell <- tolower(cell)
                                      return (cell)
                              })
                              return (the_max_char)
                          })
+    ## Extract strata stats
+    strata_stats <- lapply(setNames(nm = strata_labels), function(nm){
+        strata_stat <- raw_table[1, nm] # Extract the stat
+        strata_stat <- sub(")", " \\\\%)", strata_stat) # Add percentage
+        return (strata_stat)
+    }) 
+    desc_chars <- c(desc_chars, strata_stats) # Merge characterstics
     ## Attach to results
     results$desc_characteristics <<- desc_chars
 }
