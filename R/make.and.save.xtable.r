@@ -2,44 +2,51 @@
 #'
 #' This function inputs table data and saves to .tex file as xtable.
 #' @param table_data. Data frame. No default.
-#' @param san_row Function. Identity function for sanitize.rownames.function. Defaults to NULL.
-#' @param san_col Function. Identity function for sanitize.colnames.function. Defaults to NULL.
+#' @param file_name String. File name. No default.
 #' @param caption String. Caption for table. Defaults to "Table of estimates".
 #' @param label String. Latex label. Defaults to "analysis_table".
-#' @param file_name String. File name. No default.
-#' @param table_notes String. Note to be put under table. Not dynamic, only one note allowed. Passed to formatting.xtable. Defaults to NULL.
-#' @param star_caption String. The substring of xtable to be commented under the table. Defaults to NULL.
+#' @param star_substring Character vector. The substrings of xtable to be commented under the table. Defaults to NULL.
+#' @param table_notes String. Note to be put under table. Not dynamic, only one note allowed. If star_substring is NULL, a caption is placed under the table. Otherwise, the comment is placed as a footnote. Passed to formatting.xtable. Defaults to NULL.
 #' @export
-make.and.save.xtable <- function(table_data, file_name, san_row = NULL, san_col = NULL,
+make.and.save.xtable <- function(table_data, file_name,
                                  caption = "Table of Estimates.", label = "analysis_table",
-                                 include_rownames = TRUE, table_notes = NULL,
-                                 star_caption = NULL){
+                                 star_substring= NULL,
+                                 table_notes = NULL,
+                                 ...){
     ## xtable the analysis table
     the_table <- xtable::print.xtable(xtable::xtable(table_data,
-                                                     caption = paste("\\bf", caption),
-                                                     label = paste0("table:", label)),
+                                                     caption = caption,
+                                                     label = paste0("table:", label),
+                                                     ...),
                                       type = "latex",
                                       booktabs = TRUE,
                                       table.placement = "!ht",
-                                      include.rownames = include_rownames,
                                       include.colnames = TRUE,
-                                      sanitize.rownames.function = san_row,
-                                      sanitize.colnames.function = san_col,
                                       caption.placement = "top",
-                                      print.results = FALSE)
+                                      print.results = FALSE,
+                                      ...)
     ## Subset table contents from xtable string
-    wo_label <- strsplit(the_table, "\\toprule\n", fixed = TRUE)
-    ## Add star to the specified substring of the_table
-    if (!(is.null(star_caption) && (is.null(table_notes)))){
-        subbed <- gsub(star_caption,
-                       paste0("*",
-                              star_caption),
-                       wo_label[[1]][2])
-        ## Merge the split
-        the_table <- paste0(wo_label[[1]][1], subbed)
-    } 
-    ## Format, i.e. add tabular and adjustbox environments
-    the_table <- formatting.xtable(the_table, table_notes = table_notes)
+    split_table <- strsplit(the_table, "\\toprule\n", fixed = TRUE)
+    ## Extract body of table
+    table_body <- split_table[[1]][2]
+    star_or_caption <- ""
+    if (!is.null(table_notes)){
+        star_or_caption <- "caption" # Table footnote without asterisk
+        if (!is.null(star_substring)){
+            star_or_caption <- "star_caption" # Table footnote with asterisk
+            for (substring in star_substring){
+                table_body <- sub(substring,    
+                                  paste0(substring,
+                                         "*"),
+                                  table_body)
+            }
+            ## Merge the split
+            the_table <- paste0(split_table[[1]][1], table_body)
+        }
+    }
+    ## Format, i.e. add tabular, adjustbox, and threeparttable environments
+    the_table <- formatting.xtable(the_table, table_notes = table_notes,
+                                   star_or_caption = star_or_caption)
     ## Save table
     write(the_table, file = file_name)
-    }
+}
