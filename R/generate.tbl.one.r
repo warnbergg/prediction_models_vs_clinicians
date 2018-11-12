@@ -74,7 +74,7 @@ generate.tbl.one <- function(all, data_dictionary,
     tables$raw <- cbind(tables$raw, vec_as_matrix)
     ## Format table using xtable
     formatted_table <- xtable::print.xtable(xtable::xtable(tables$raw,
-                                                           caption = "\\bf Sample characteristics.",
+                                                           caption = "Sample characteristics.",
                                                            label = "tab:sample-characteristics"),
                                             type = "latex",
                                             booktabs = TRUE,
