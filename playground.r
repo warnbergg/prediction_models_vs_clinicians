@@ -25,7 +25,7 @@ study_data <- SupaLarna::prepare.study.data(study_data,
 study_data <- coerce.factor.to.numeric(study_data)
 ## Merge gcs components to single gcs
 study_data$gcs <- with(study_data, egcs + mgcs + vgcs)
-## ## Set patients to dead if dead at discharge or at 24 hours
+## Set patients to dead if dead at discharge or at 24 hours
 ## and alive if coded alive and admitted to other hospital
 study_data <- SupaLarna::set.to.outcome(study_data)
 ## Collapse mechanism of injury
@@ -73,8 +73,6 @@ pretty_model_names <- c("RTS",
                         "GAP",
                         "KTS",
                         "Gerdin et al.")
-## Generate table1, i.e. table reporting variables included in the models.
-generate.variables.table(col_names = pretty_model_names)
 ## Define suffixes to be added to model names
 suffixes <- c("_CUT", "_CON")
 ## Define clinicians labels for regular and pretty names
@@ -195,11 +193,12 @@ auc_table <- list(table_data = t(do.call(rbind,
                                                 generate.estimate.table,
                                                 pretty_names = names_lst$pretty_names))),
                   label = "auc",
-                  caption = "AUROCC estimates, as well as model-model and model-clinician AUROCC difference, with corresponding CI (95 \\%).",
+                  caption = "AUROCC (95 \\% CI), as well as model-model and model-clinician AUROCC difference.",
                   file_name = "auc_estimates_table.tex",
-                  san_col = function (word) {word},
-                  san_row = function (word) {word},
-                  table_notes = "The model-model comparison reffered is the AUROCC difference of, for example, RTS\\textsubscript{cut} and RTS\\textsubscript{CON}",
+                  align = c("l", "l", "l", "l"),
+                  sanitize.colnames.function = function (word) {word},
+                  sanitize.rownames.function = function (word) {word},
+                  table_notes = "The model-model comparison reffered to is the AUROCC difference of, for example, RTS\\textsubscript{cut} and RTS\\textsubscript{CON}",
                   star_caption = "Model-model")
 reclassification_table <- list(table_data = generate.estimate.table(
                                    lapply(setNames(nm = names(analysis_lst$reclassification)),
@@ -215,25 +214,27 @@ reclassification_table <- list(table_data = generate.estimate.table(
                                    man_estimate_labels = c("NRI+",
                                                            "NRI-")),
                                label = "reclassification",
-                               caption = "NRI+ and NRI- estimates with corresponding CI (95 \\%)",
+                               caption = "NRI+ and NRI- (95 \\% CI)",
                                file_name = "reclassification_estimates_table.tex",
-                               san_col = function (word) {word},
-                               san_row = NULL,
-                               table_notes = "Positive values indicate the model categorisation to be superior to that of clinicians, and negative values vice versa.",
-                               star_caption = "NRI")
+                               align = c("l", "r", "r", "r", "r"),
+                               sanitize.colnames.function = function (word) {word},
+                               sanitize.rownames.function = NULL,
+                               table_notes = "Positive values indicate that the groping conducted by the model was superior compared to clinicians, and negative values indicate vice versa.",
+                               star_caption = c("NRI\\+", "NRI-"))
 ## Add tables
 table_lst <- list(auc_table = auc_table,
                   reclassification_table = reclassification_table)
 ## Save results tables
 for (lst in table_lst){
-    with(lst, make.and.save.xtable(table_data = table_data,
-                                   caption = caption,
-                                   label = label,
-                                   file_name = file_name,
-                                   san_col = san_col,
-                                   san_row = san_row,
-                                   table_notes = table_notes,
-                                   star_caption = star_caption))
+    make.and.save.xtable(table_data = lst$table_data,
+                         caption = lst$caption,
+                         label = lst$label,
+                         file_name = lst$file_name,
+                         align = lst$align,
+                         sanitize.colnames.function = lst$sanitize.colnames.function,
+                         sanitize.rownames.function = lst$sanitize.rownames.function,
+                         table_notes = lst$table_notes,
+                         star_substring = lst$star_caption)
 }
 ## Save estimate tables to results
 results$estimate_tables <- table_lst
@@ -252,3 +253,4 @@ SupaLarna::create.ROCR.plots.v2(
                pretty_names = names_lst$pretty_names,
                subscript = TRUE,
                models_to_invert = names_lst$names[!grepl("gerdin|tc", names_lst$names)])
+
