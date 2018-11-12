@@ -6,11 +6,13 @@
 #' @param invert_names Character vector. Labels of predictions to be inverted. Defaults to c("RTS", "GAP", "KTS").
 #' @param digits Integer. Number of decimals when cell values are rounded. Defaults to 2.
 #' @param save Logical. If TRUE, table is saved to disk. Defaults to TRUE.
+#' @param table_notes String. Notes to be put under table. Passed to make.and.save.xtable. Defults to "RTS Revised Trauma Score; GAP Glasgow Coma Scale, Age, Systolic Blood Pressure; KTS Kampala Trauma Score"
 #' @export
 generate.cut.points.table <- function(cut_points,
                                       group_labels = c("Green", "Yellow", "Orange", "Red"),
                                       invert_names = c("RTS", "GAP", "KTS"), digits = 2,
-                                      save = TRUE){
+                                      save = TRUE,
+                                      table_notes= "Abbreviations: RTS Revised Trauma Score; GAP Glasgow Coma Scale, Age, Systolic Blood Pressure; KTS Kampala Trauma Score"){
     ## Error handling
     if (!is.list(cut_points)) stop ("Cut_points must be list.")
     ## Invert prediction listed in invert_names
@@ -52,11 +54,13 @@ generate.cut.points.table <- function(cut_points,
     cutpoints_df <- data.frame(cutpoints_mtrx,
                                row.names = group_labels)
     colnames(cutpoints_df) <- names(cut_points)
+    ## Set row names as first column
     ## Save to disk
     if (save) make.and.save.xtable(table_data = cutpoints_df,
                                    file_name = "cut_points_table.tex",
                                    caption = "Cut points identified with grid search.",
-                                   label = "cut_points")
-
+                                   label = "cut_points",
+                                   table_notes = table_notes,
+                                   align = rep("l", length(group_labels) + 1))
     return (cutpoints_df)
 }
