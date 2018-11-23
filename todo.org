@@ -67,6 +67,7 @@
 ** TODO [#B] Modify the coercing of ">89" in set.data                :todo32:
 ** TODO [#C] Fix names of cut points appended to results             :todo33:
 ** DONE Create make.study function                                   :todo34:
+** TODO Fix ugly solution to doar in set.data                        :todo35:
 * Issues
 ** DONE Fix SupaLarnas model.review.reclassification issue           :issue1:
 ** DONE Low AUROCC?                                                  :issue2:
