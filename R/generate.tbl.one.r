@@ -83,10 +83,10 @@ generate.tbl.one <- function(all, data_dictionary,
                                             include.colnames = TRUE,
                                             caption.placement = "top",
                                             print.results = FALSE)
-    ## Add caption
-    formatted_table <- SupaLarna::add.star.caption(formatted_table, tables$caption)
     ## Add adjustbox and tabular
-    formatted_table <- formatting.xtable(formatted_table)
+    formatted_table <- formatting.xtable(formatted_table,
+                                         star_or_caption = "caption",
+                                         table_notes = tables$caption)
     ## New tables list
     tables <- list(raw = tables$raw,
                    formatted_table)
