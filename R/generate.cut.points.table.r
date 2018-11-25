@@ -36,9 +36,9 @@ generate.cut.points.table <- function(cut_points,
                                        round(cut_points[[iter]][jiter], digits = digits))
             ## For subsequent cut points and
             } else if (jiter > 1 && jiter < len_plus_one){
-                return_object <- paste(round(cut_points[[iter]][jiter - 1], digits=digits),
+                return_object <- paste(round(cut_points[[iter]][jiter], digits=digits),
                                        "to",
-                                       round(cut_points[[iter]][jiter], digits = digits))
+                                       round(cut_points[[iter]][jiter - 1], digits = digits))
             ## For last cut point
             } else if (jiter == len_plus_one){
                 ## Define operator based on invert cut points or not
