@@ -1,24 +1,32 @@
-% latex table generated in R 3.5.1 by xtable 1.8-2 package
-% Tue Oct  9 08:56:15 2018
+% Created 2018-11-05 Mon 09:12
 \begin{table}[!ht]
-\centering
-\caption{\bf Model variables.} 
-\label{table:variables_table}
-\begin{adjustbox}{max width = \linewidth} 
-\begin{threeparttable} 
-\begin{tabular} 
-{llll}
-  \toprule
-RTS & GAP & KTS & Gerdin et al. \\ 
-  \midrule
-Systolic blood pressure & Systolic blood pressure & Systolic blood pressure & Systolic blood pressure \\ 
-  Glasgow Coma Scale & Glasgow Coma Scale & Respiratory rate & Heart rate \\ 
-  Respiratory rate & Age & Age & Glasgow Coma Scale \\ 
-   &  & Number of serious injuries &  \\ 
-   \bottomrule
-\addlinespace 
-\end{tabular} 
+  \centering
+  \caption{Model predictors with cutoffs where relevant.} 
+  \label{table:variables_table}
+  \begin{adjustbox}{max width = \linewidth}
+    \begin{threeparttable} 
+    \begin{tabular}{lllll}
+      \toprule
+      Predictor & RTS & GAP & KTS & Gerdin et al.\\
+      \midrule
+      Age in years & -\textsuperscript{*}  & < 60 & <5, 5-55, >55 & - \\
+      AVPU & - & - & 1-4 & - \\
+      GCS & 3, 4-5, 6-8, 9-12, 13-15 & 3-15 & -  & 3-15\\
+      HR & -  & -  & -  & 0-300\\
+      NSI & -  & - & No, single, multiple & - \\
+      RR & 0, 1-5, 6-9, 10-29, >29 & -  & <9, 10-29, >29 & -\\
+      SBP & 0, 1-49, 50-75, 76-89, >89 & <60, 60-120, >120 & 0, 1-49, 50-75, 76-89, >89 & 0-300\\
+      \bottomrule
+      \addlinespace 
+    \end{tabular}
+    \begin{tablenotes} \footnotesize 
+    \item {\textsuperscript{*}- indicates that a given predictor is not included in the
+    model. Abbreviations: RTS Revised Trauma Score;
+    GAP Glasgow Coma Scale, Age, and Systolic Blood Pressure;
+    KTS Kampala Trauma Score; AVPU Alert, voice, pain, or unresponsive; GCS
+    Glasgow coma scale; HR Heart rate; NSI Number of serious injuries; RR
+    Respiratory rate; SBP Systolic blood pressure}
+\end{tablenotes} 
 \end{threeparttable} 
 \end{adjustbox}
 \end{table}
-
