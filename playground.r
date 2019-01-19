@@ -5,7 +5,7 @@ for (f in files) source(f)
 ## Set parameters and initialize results list
 set.seed(246)
 data_path <- c("../data/sample.csv")
-bs_samples <- 3
+bs_samples <- 1000
 results <- list()
 ## Import data
 study_data <- read.csv(data_path, stringsAsFactors = FALSE)
@@ -230,7 +230,6 @@ reclassification_table <- list(table_data = generate.estimate.table(
                                sanitize.rownames.function = NULL,
                                table_notes = "Positive values indicate that the groping conducted by the model was superior compared to clinicians, and negative values indicate vice versa.",
                                star_caption = c("NRI\\+", "NRI-"))
-analysis_lst$reclassification
 ## Add tables
 table_lst <- list(auc_table = auc_table,
                   reclassification_table = reclassification_table)
