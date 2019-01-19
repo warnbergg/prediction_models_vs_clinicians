@@ -43,16 +43,14 @@
         draw,
         blur shadow={shadow blur steps=8}]
       (block \i)
-      {\large{\textbf{\valueArrayElement}}\\
-        \textArrayElement};
+      {\valueArrayElement \textArrayElement};
     }
     % Every other should be invisible
     \else
     \node[on chain] (mid \i) {};
     % Define exclusion nodes
     \node[rightNode, right =2cm of mid \i] (right \i)
-    {\large{\textbf{\valueArrayElement}}\\
-      \textArrayElement};
+    {\valueArrayElement \textArrayElement};
     % Draw arrows from middle to exclusion nodes
     \draw[->, shorten >=3pt, thick] (mid \i.center) -- (right \i);
     \fi

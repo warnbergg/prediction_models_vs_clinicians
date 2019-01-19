@@ -1,22 +1,18 @@
 Variable name (vn),Label (l),Abbreviated label (al),Type (t),Values (vs),Value labels (vls),Valid value range (vvr),Format (f),Include in Table 1 (incl),Created (c)
-centre,Centre,,qual,,,,,No,No
 age,Age in years,,quan,,,18-100,,Yes,No
 sex,Sex,,qual,"0,1","""0 = Female"", ""1 = Male""",,,Yes,No
 moi,Mechanism of injury,,qual,,,,,Yes,No
-tyi,Type of injury,,qual,"0,1,2","""0 = Blunt"", ""1 = Penetrating"", ""2 = Blunt and penetrating""",,,No,No
-mot,Mode of transport,,qual,"0,1,2,3","""0 = Ambulance"", ""1 = Police"", ""2 = Private vehicle"", ""3 = Arrived walking""",,,No,No
-tran,Transferred from another health facility,Transferred,qual,"0,1","""0 = No"", ""1 = Yes""",,,No,No
 sbp,Systolic blood pressure in mmHg,SBP,quan,,,0-300,,Yes,No
-dbp,Diastolic blood pressure in mmHg,DBP,quan,,,0-300,,Yes,No
 hr,Heart rate,HR,quan,,,0-300,,Yes,No
 rr,Respiratory rate in breaths per minute,RR,quan,,,0-99,,Yes,No
-egcs,Eye component of the Glasgow Coma Scale,EGCS,qual,"1,2,3,4,99","""1 = 1"", ""2 = 2"", ""3 = 3"", ""4 = 4"", ""99 = Non testable""",,,Yes,No
-vgcs,Verbal component of the Glasgow Coma Scale,VGCS,qual,"1,2,3,4,5,99","""1 = 1"", ""2 = 2"", ""3 = 3"", ""4 = 4"", ""5 = 5"", ""99 = Non testable""",,,Yes,No
-mgcs,Motor component of the Glasgow Coma Scale,MGCS,qual,"1,2,3,4,5,6,99","""1 = 1"", ""2 = 2"", ""3 = 3"", ""4 = 4"", ""5 = 5"", ""6 = 6"", ""99 = Non testable""",,,Yes,No
+egcs,Eye component of the Glasgow Coma Scale,EGCS,qual,"1,2,3,4,99","""1 = 1"", ""2 = 2"", ""3 = 3"", ""4 = 4"", ""99 = Non testable""",,,No,No
+vgcs,Verbal component of the Glasgow Coma Scale,VGCS,qual,"1,2,3,4,5,99","""1 = 1"", ""2 = 2"", ""3 = 3"", ""4 = 4"", ""5 = 5"", ""99 = Non testable""",,,No,No
+mgcs,Motor component of the Glasgow Coma Scale,MGCS,qual,"1,2,3,4,5,6,99","""1 = 1"", ""2 = 2"", ""3 = 3"", ""4 = 4"", ""5 = 5"", ""6 = 6"", ""99 = Non testable""",,,No,No
 avpu,"Alert, voice, pain, unresponsive scale",AVPU,qual,"0,1,2,3","""0 = Unresponsive"", ""1 = Pain responsive"", ""2 = Voice responsive"", ""3 = Alert""",,,Yes,No
 tc,Level of priority assigned by clinicians,,qual,"0,1,2,3","""0 = Green"", ""1 = Yellow"", ""2 = Orange"", ""3 = Red""",,,No,No
 s30d,All cause 30-day mortality,,qual,"0,1,2","""0 = No"", ""1 = Yes"", ""2 = Yes""",,,Yes,No
 ic,Informed consent,,qual,"0,1","""0 = No"", ""1 = Yes""",,,No,No
-hd,,,,,,,,,No
 nsi,Number of serious injuries,NSI,qual,"0,1,2","""0 = No serious injury"", ""1 = Single serious injury"", ""2 = Multiple serious injuries""",,,Yes,No
 seqn,,,quan,,,,,No,No
+hd,,,,,,,,,No
+gcs,Glasgow Coma Scale,GCS,quan,,,,,Yes,Yes

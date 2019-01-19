@@ -38,7 +38,7 @@ extract.additional.characteristics <- function(study_data, raw_table, strata_lab
                              the_max_char <- lapply(
                                  setNames(c("Level", "Overall"), nm = c("Level", "Value")), function(var){
                                      cell <- char_rows[which.max(vals_wo_parantheses), var]
-                                     if (var == "Overall") cell <- gsub(")", " \\\\%)", cell)
+                                     if (var == "Overall") cell <- gsub(")", "\\\\%)", cell)
                                      if (var == "Level") cell <- tolower(cell)
                                      return (cell)
                              })
@@ -47,7 +47,7 @@ extract.additional.characteristics <- function(study_data, raw_table, strata_lab
     ## Extract strata stats
     strata_stats <- lapply(setNames(nm = strata_labels), function(nm){
         strata_stat <- raw_table[1, nm] # Extract the stat
-        strata_stat <- sub(")", " \\\\%)", strata_stat) # Add percentage
+        strata_stat <- sub(")", "\\\\%)", strata_stat) # Add percentage
         return (strata_stat)
     }) 
     desc_chars <- c(desc_chars, strata_stats) # Merge characterstics

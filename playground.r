@@ -3,15 +3,14 @@
 files <- list.files("./R", pattern = ".r$", full.names = TRUE)
 for (f in files) source(f)
 ## Set parameters and initialize results list
-data_path <- c("./extdata/test_sample.csv")
-bs_samples <- 4
+set.seed(246)
+data_path <- c("../data/sample.csv")
+bs_samples <- 3
 results <- list()
-test <- TRUE
 ## Import data
 study_data <- read.csv(data_path, stringsAsFactors = FALSE)
 ## Get data dictionary
 data_dictionary <- SupaLarna::get.data.dictionary()
-if (!test) data_dictionary$seqn <- NULL
 ## Keep relevant variables
 study_data <- SupaLarna::keep.relevant.variables(study_data,
                                                  data_dictionary = data_dictionary)
@@ -33,19 +32,20 @@ study_data <- SupaLarna::collapse.moi(study_data)
 ## Set study_data, i.e. remove patients arriving prior to one month
 ## before the dataset were created, remove patients before 2016-07-28
 ## when hospital collected tc. Also, complete dataset for analysis and
-## "all" tbl for tbl one. Then split dataset for analysis into training and test set.
-cc_and_all <- set.data(study_data)
-all <- cc_and_all$all # Extract data for table
-prepped_sample <- cc_and_all$cc_dfs # Extract data for analysis
+## "all" data for tbl one.
+study_data <- exclude.patients(study_data)
+## Then split dataset for analysis into training and test set.
+## Also, output merged with strata.
+prepped_sample <- split.data(study_data)
 ## Define flowchart main node text
 node_text <- c("patients were enrolled for this study",
-               "patients did inform consent",
+               "patients did provide informed consent",
                "patients had complete data",
-               "patients total were included when study size criteria had been met")
+               "patients were included in final analyses")
 ## Define flowchart exclusion node text
-exclusion_text <- c("patients did not inform consent",
+exclusion_text <- c("patients did not provide informed consent",
                     "patients had missing information",
-                    "patients were excluded when study size criteria had been met")
+                    "patients were excluded from final analyses")
 ## Generate flow vec
 flow_vec <- generate.flowchart.vec(
     results = results$n_s,
@@ -53,14 +53,16 @@ flow_vec <- generate.flowchart.vec(
     exclusion_text = exclusion_text,
     results_lst = results)
 ## Generate table of sample characteristics and save to disk
-tables <- generate.tbl.one(all, data_dictionary)
+tables <- generate.tbl.one(prepped_sample$merged, data_dictionary, study_data$n_missing)
+# Remove the merged strata table used for sample characteristics
+prepped_sample$merged <- NULL 
 ## Append tables to results
 results$tables <- tables
 ## Extract descriptive characteristics from raw table using the prepped sample
-## append to results
+## and append to results list 
 extract.additional.characteristics(study_data = prepped_sample$train,
                                    raw_table = tables$raw,
-                                   strata_labels = c("Survivors", "Non-Survivors"),
+                                   strata_labels = c("Gridsearch", "Comparison"),
                                    results_list = results)
 ## Generate sample characterstics table (to be inserted)
 ## Define model_names
@@ -94,40 +96,47 @@ names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
                     }, model_lst = lst_w_names, names = names(lst_w_names))
 ## Initialize cut_points_lst
 results$cut_points_lst <- list()
+## Read predictions
+# predictions <- readRDS("./predictions/model_predictions_main_1546259533327.rds")
 ## Generate model predictions
 predictions <- generate.model.predictions(prepped_sample,
                                           n_cores = 4,
                                           write_to_disk = TRUE,
                                           gridsearch_parallel = TRUE,
                                           clean_start = TRUE,
-                                          return_cps = TRUE)
+                                          return_cps = TRUE,
+                                          is_sample = FALSE)
 ## Rename cut_points according to model_names
 names(results$cut_points_lst) <- pretty_model_names
+## Generate table of number of patients in each tc for each model
+generate.triage.table(predictions = predictions,
+                      pretty_model_names = c(pretty_model_names, "Clinicians"))
 ## Generate cut_points table and save to disk
 cut_points_table <- generate.cut.points.table(cut_points = results$cut_points_lst)
 ## Generate boostrap samples
 samples <- SupaLarna::generate.bootstrap.samples(study_data,
-                                                 bs_samples = 3)
+                                                 bs_samples = bs_samples)
 ## Prepare each sample for analysis
-samples <- lapply(samples, set.data, return_all = FALSE)
-## Prepare each sample
+samples <- lapply(samples, split.data, for_tbl_one = FALSE)
 ## Generate predictions on bootstrap samples
 bootstrap_predictions <- SupaLarna::generate.predictions.bssamples(
-                                        samples,
-                                        prediction_func = "generate.model.predictions",
-                                        parallel = TRUE,
-                                        n_cores = 4,
-                                        log = TRUE,
-                                        boot = TRUE,
-                                        write_to_disk = TRUE)
+    samples,
+    prediction_func = "generate.model.predictions",
+    parallel = TRUE,
+    n_cores = 4,
+    log = TRUE,
+    boot = TRUE,
+    write_to_disk = TRUE,
+    is_sample = FALSE)
 ## List for ci for each model
 AUC_ci <- list(models = names_lst$names,
                ci_type = "ci",
                analysis_type = "AUC",
                un_list = TRUE)
 ## List for model clinician comparison
-AUC_diff <- list(models = setNames(lapply(names_lst$names, function(model_name) c(model_name, "tc")),
-                                   nm = names_lst$names),
+model_clinician <- setNames(lapply(names_lst$names, function(model_name) c(model_name, "tc")),
+                            nm = names_lst$names)
+AUC_diff <- list(models = model_clinician,
                  ci_type = "diff",
                  analysis_type = "AUC",
                  un_list = FALSE)
@@ -149,7 +158,7 @@ AUC_diff_cat_con <- list(models = model_model_pairs,
                          un_list = FALSE)
 ## List together
 AUC_together <- setNames(list(AUC_ci, AUC_diff, AUC_diff_cat_con),
-                         nm = c("AUROCC and corresponding CI (95 \\%)",
+                         nm = c("AUROCC (95\\% CI)",
                                 "Model-clincian AUROCC difference (95\\% CI)",
                                 "Model-model AUROCC difference (95\\% CI)"))
 ## Intialize analysis list
@@ -175,25 +184,25 @@ analysis_lst$AUROCC <- lapply(AUC_together, function (AUC_lst){
 })
 ## Generate confidence intervals for reclassification estimates
 analysis_lst$reclassification <- SupaLarna::generate.confidence.intervals.v2(
-                                                predictions,
-                                                model_names = grep("_CUT",
-                                                                   names_lst$names,
-                                                                   value = TRUE),
-                                                the_func = SupaLarna::model.review.reclassification,
-                                                samples = bootstrap_predictions,
-                                                diffci_or_ci = "ci",
-                                                outcome_name = "s30d",
-                                                digits = 3,
-                                                models_to_invert = names_lst$names[!grepl("gerdin|tc|_CON", names_lst$names)])
+    predictions,
+    model_names = grep("_CUT",
+                       names_lst$names,
+                       value = TRUE),
+    the_func = SupaLarna::model.review.reclassification,
+    samples = bootstrap_predictions,
+    diffci_or_ci = "ci",
+    outcome_name = "s30d",
+    digits = 3,
+    models_to_invert = names_lst$names[!grepl("gerdin|tc|_CON", names_lst$names)])
 ## Append analysis list to results
 results$Analysis <- analysis_lst
 ## Initialize lists for table data
 auc_table <- list(table_data = t(do.call(rbind,
-                                         lapply(analysis_lst$AUROCC,
+                                         lapply(results$Analysis$AUROCC,
                                                 generate.estimate.table,
                                                 pretty_names = names_lst$pretty_names))),
                   label = "auc",
-                  caption = "AUROCC (95 \\% CI), as well as model-model and model-clinician AUROCC difference.",
+                  caption = "AUROCC (95\\% CI), as well as model-model and model-clinician AUROCC difference.",
                   file_name = "auc_estimates_table.tex",
                   align = c("l", "l", "l", "l"),
                   sanitize.colnames.function = function (word) {word},
@@ -201,10 +210,10 @@ auc_table <- list(table_data = t(do.call(rbind,
                   table_notes = "The model-model comparison reffered to is the AUROCC difference of, for example, RTS\\textsubscript{cut} and RTS\\textsubscript{CON}",
                   star_caption = "Model-model")
 reclassification_table <- list(table_data = generate.estimate.table(
-                                   lapply(setNames(nm = names(analysis_lst$reclassification)),
+                                   lapply(setNames(nm = names(results$Analysis$reclassification)),
                                           function(model_nm){
                                               # Extract the model reclass estimates
-                                              model_tbl <- analysis_lst$reclassification[[model_nm]]
+                                              model_tbl <- results$Analysis$reclassification[[model_nm]]
                                               # Keep only NRI+ and NRI-
                                               model_tbl <- model_tbl[c("NRI+",
                                                                        "NRI-"), ]
@@ -214,13 +223,14 @@ reclassification_table <- list(table_data = generate.estimate.table(
                                    man_estimate_labels = c("NRI+",
                                                            "NRI-")),
                                label = "reclassification",
-                               caption = "NRI+ and NRI- (95 \\% CI)",
+                               caption = "NRI+ and NRI- (95\\% CI)",
                                file_name = "reclassification_estimates_table.tex",
                                align = c("l", "r", "r", "r", "r"),
                                sanitize.colnames.function = function (word) {word},
                                sanitize.rownames.function = NULL,
                                table_notes = "Positive values indicate that the groping conducted by the model was superior compared to clinicians, and negative values indicate vice versa.",
                                star_caption = c("NRI\\+", "NRI-"))
+analysis_lst$reclassification
 ## Add tables
 table_lst <- list(auc_table = auc_table,
                   reclassification_table = reclassification_table)
@@ -253,4 +263,3 @@ SupaLarna::create.ROCR.plots.v2(
                pretty_names = names_lst$pretty_names,
                subscript = TRUE,
                models_to_invert = names_lst$names[!grepl("gerdin|tc", names_lst$names)])
-
