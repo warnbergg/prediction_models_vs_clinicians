@@ -1,4 +1,3 @@
-# Can prediction models triage adult trauma patients more accurately than clinicians? Repository
+# Can prediction models triage adult trauma patients more accurately than clinicians? 
 
-This is the code repository for the "Can predicitons models triage
-adult trauma patients more accurately than clinicians" project.
+Code repository for the "Can predicitons models triage adult trauma patients more accurately than clinicians" project.
