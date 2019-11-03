@@ -37,21 +37,9 @@ study_data <- exclude.patients(study_data)
 ## Then split dataset for analysis into training and test set.
 ## Also, output merged with strata.
 prepped_sample <- split.data(study_data)
+## Create study flowchart
+flowchart <- create.flowchart(results)
 ## Define flowchart main node text
-node_text <- c("patients were enrolled for this study",
-               "patients did provide informed consent",
-               "patients had complete data",
-               "patients were included in final analyses")
-## Define flowchart exclusion node text
-exclusion_text <- c("patients did not provide informed consent",
-                    "patients had missing information",
-                    "patients were excluded from final analyses")
-## Generate flow vec
-flow_vec <- generate.flowchart.vec(
-    results = results$n_s,
-    node_text = node_text,
-    exclusion_text = exclusion_text,
-    results_lst = results)
 ## Generate table of sample characteristics and save to disk
 tables <- generate.tbl.one(prepped_sample$merged, data_dictionary, study_data$n_missing)
 # Remove the merged strata table used for sample characteristics
@@ -97,7 +85,8 @@ names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
 ## Initialize cut_points_lst
 results$cut_points_lst <- list()
 ## Read predictions
-# predictions <- readRDS("./predictions/model_predictions_main_1546259533327.rds")
+##predictions <- readRDS("./predictions/model_predictions_main_1559657307890.rds")
+##predictions <- readRDS("../predictions/model_predictions_main_1546259533327.rds")
 ## Generate model predictions
 predictions <- generate.model.predictions(prepped_sample,
                                           n_cores = 4,
@@ -262,3 +251,18 @@ SupaLarna::create.ROCR.plots.v2(
                pretty_names = names_lst$pretty_names,
                subscript = TRUE,
                models_to_invert = names_lst$names[!grepl("gerdin|tc", names_lst$names)])
+##CreateMortalityPlot(predictions, outcome.label= "s30d",
+##                    model.labels = c(grep("CUT", names_lst$names, value = TRUE), "tc"),
+##                    pretty.names = c(pretty_model_names, "Clinicians"),
+##                    scores.to.invert)
+models.to.invert <- names_lst$names[!grepl("gerdin|tc", names_lst$names)]
+mortality.table <- CreateMortalityTable(predictions,
+                                        model.labels = c("RTS_CUT", "GAP_CUT", "KTS_CUT", "gerdin_CUT", "tc"),
+                                        pretty.names = c(pretty_model_names, "Clinicians"),
+                                        scores.to.invert = models.to.invert,
+                                        save.to.disk = TRUE, file.format = "pdf",
+                                        caption = "Number of non-survivors (%) in each triage category and model.",
+                                        format = "pandoc")
+
+
+
