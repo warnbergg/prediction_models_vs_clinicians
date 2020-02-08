@@ -68,25 +68,15 @@ suffixes <- c("_CUT", "_CON")
 ## Define clinicians labels for regular and pretty names
 clinicians_names <- c("tc", "Clinicians")
 ## Create names lst
-lst_w_names <- setNames(list(model_names, pretty_model_names),
-                        nm = c("names", "pretty_names"))
-## Paste suffixes to names, and bind triage category
-names_lst <- lapply(setNames(seq_along(lst_w_names), nm = names(lst_w_names)),
-                    function (model_lst, names, i){
-                        ## Paste suffixes to both pretty and non-pretty model
-                        ## names
-                        lst <- lapply(suffixes, function(suffix){
-                            paste0(model_lst[[i]], suffix)
-                        })
-                        ## Unlist to vector and bind tc to models
-                        new_names <- c(unlist(lst), clinicians_names[i])
-                        return (new_names)
-                    }, model_lst = lst_w_names, names = names(lst_w_names))
+lst_w_names <- setNames(list(model_names, pretty_model_names), nm = c("names", "pretty_names"))
+## Paste suffixes to names, and bind triage category 
+r_suffixes <- rep(suffixes, each = length(model_names))
+names_lst <- mapply(function(nms, c_names) c(paste0(nms, r_suffixes), c_names),
+                    nms = lst_w_names, c_names = clinicians_names, SIMPLIFY = FALSE)
 ## Initialize cut_points_lst
 results$cut_points_lst <- list()
 ## Read predictions
-##predictions <- readRDS("./predictions/model_predictions_main_1559657307890.rds")
-##predictions <- readRDS("../predictions/model_predictions_main_1546259533327.rds")
+predictions <- readRDS("./predictions/model_predictions_main_1572180361684.rds")
 ## Generate model predictions
 predictions <- generate.model.predictions(prepped_sample,
                                           n_cores = 4,
@@ -130,7 +120,7 @@ AUC_diff <- list(models = model_clinician,
                  analysis_type = "AUC",
                  un_list = FALSE)
 ## List for cat con model comparison
-model_model_pairs <- lapply(model_names, function(model_name){
+model_model_pairs <- lapply(model_names, function(model_name) {
     pair <- grep(model_name,
                  names_lst$names,
                  value = TRUE)
@@ -140,7 +130,6 @@ model_model_pairs <- setNames(c(model_model_pairs,
                                 lapply(model_model_pairs, rev),
                                 list(rep("tc", 2))),
                               nm = names_lst$names)
-## Listify
 AUC_diff_cat_con <- list(models = model_model_pairs,
                          ci_type = "diff",
                          analysis_type = "AUC",
@@ -240,22 +229,19 @@ results$estimate_tables <- table_lst
 saveRDS(results, file = "results.rds")
 ## Save plots to disk
 ## ROC-curves
+models_to_invert = names_lst$names[!grepl("gerdin|tc", names_lst$names)]
+## Change levels of pretty_names for plot legend
 SupaLarna::create.ROCR.plots.v2(
                study_sample = predictions,
                outcome_name = "s30d",
                split_var = "CON",
                train_test = FALSE,
                ROC_or_precrec = "ROC",
-               device = "pdf",
+               device = "eps",
                models = names_lst$names,
                pretty_names = names_lst$pretty_names,
                subscript = TRUE,
                models_to_invert = names_lst$names[!grepl("gerdin|tc", names_lst$names)])
-##CreateMortalityPlot(predictions, outcome.label= "s30d",
-##                    model.labels = c(grep("CUT", names_lst$names, value = TRUE), "tc"),
-##                    pretty.names = c(pretty_model_names, "Clinicians"),
-##                    scores.to.invert)
-models.to.invert <- names_lst$names[!grepl("gerdin|tc", names_lst$names)]
 mortality.table <- CreateMortalityTable(predictions,
                                         model.labels = c("RTS_CUT", "GAP_CUT", "KTS_CUT", "gerdin_CUT", "tc"),
                                         pretty.names = c(pretty_model_names, "Clinicians"),
